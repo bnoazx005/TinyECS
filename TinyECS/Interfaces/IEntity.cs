@@ -36,5 +36,11 @@
         /// </summary>
 
         uint Id { get; }
+
+        /// <summary>
+        /// The property returns a name of an entity
+        /// </summary>
+
+        string Name { get; }
     }
 }

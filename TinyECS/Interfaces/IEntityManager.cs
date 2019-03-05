@@ -15,7 +15,15 @@
         /// <param name="name">An optional parameter that specifies a name of an entity</param>
         /// <returns>A reference to an entity</returns>
 
-        IEntity Create(string name = null);
+        IEntity CreateEntity(string name = null);
+
+        /// <summary>
+        /// The method destroy an entity with a given identifier
+        /// </summary>
+        /// <param name="entityId">An entity's identifier</param>
+        /// <returns>The method returns true if the entity was successfully destroyed and false in other cases</returns>
+
+        bool DestroyEntity(uint entityId);
 
         /// <summary>
         /// The method attaches a new component to the entity
