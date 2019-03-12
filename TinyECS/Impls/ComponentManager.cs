@@ -24,16 +24,18 @@ namespace TinyECS.Impls
             mEntity2ComponentsHashTable = new Dictionary<uint, IDictionary<Type, int>>();
 
             mComponentsMatrix = new List<IList<IComponent>>();
+
+            mComponentTypesHashTable = new Dictionary<Type, int>();
         }
 
         /// <summary>
         /// The method attaches a new component to the entity
         /// </summary>
         /// <param name="entityId">Entity's identifier</param>
+        /// <param name="componentInitializer">A type's value that is used to initialize fields of a new component</param>
         /// <typeparam name="T">A type of a component that should be attached</typeparam>
-        /// <returns>A component's value</returns>
 
-        public T AddComponent<T>(uint entityId) where T : struct, IComponent
+        public void AddComponent<T>(uint entityId, T componentInitializer) where T : struct, IComponent
         {
             // check does the entity have the corresponding component already
             if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
@@ -43,10 +45,33 @@ namespace TinyECS.Impls
             }
 
             var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+            
+            Type cachedComponentType = typeof(T);
+            
+            // create a new group of components if it doesn't exist yet
+            if (!mComponentTypesHashTable.ContainsKey(cachedComponentType))
+            {
+                mComponentTypesHashTable.Add(cachedComponentType, mComponentsMatrix.Count);
+
+                mComponentsMatrix.Add(new List<IComponent>()); // add a list for the new group
+            }
+
+            int componentGroupHashValue = mComponentTypesHashTable[cachedComponentType];
+
+            var componentsGroup = mComponentsMatrix[componentGroupHashValue];
+
+            /// update internal value of the component if it already exists
+            if (entityComponentsTable.ContainsKey(cachedComponentType))
+            {
+                componentsGroup[entityComponentsTable[cachedComponentType]] = componentInitializer;
+
+                return;
+            }
 
             // create a new component
+            entityComponentsTable.Add(cachedComponentType, componentsGroup.Count);
 
-            return default(T);
+            componentsGroup.Add(componentInitializer);
         }
 
         /// <summary>
