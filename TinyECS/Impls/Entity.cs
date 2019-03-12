@@ -48,11 +48,11 @@ namespace TinyECS.Impls
         /// The method attaches a new component to the entity
         /// </summary>
         /// <typeparam name="T">A type of a component that should be attached</typeparam>
-        /// <returns>A component's value</returns>
+        /// <param name="componentInitializer">A type's value that is used to initialize fields of a new component</param>
 
-        public T AddComponent<T>() where T : struct, IComponent
+        public void AddComponent<T>(T componentInitializer = default(T)) where T : struct, IComponent
         {
-            return mEntityManager.AddComponent<T>(mId);
+            mEntityManager.AddComponent<T>(mId, componentInitializer);
         }
 
         /// <summary>
