@@ -19,6 +19,17 @@
         T AddComponent<T>(uint entityId) where T : struct, IComponent;
 
         /// <summary>
+        /// The method returns a component of a given type if it belongs to
+        /// the specified entity
+        /// </summary>
+        /// <typeparam name="T">A type of a component that should be retrieved</typeparam>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns a component of a given type if it belongs to
+        /// the specified entity</returns>
+
+        T GetComponent<T>(uint entityId) where T : struct, IComponent;
+
+        /// <summary>
         /// The method replaces existing component's value 
         /// </summary>
         /// <param name="entityId">Entity's identifier</param>

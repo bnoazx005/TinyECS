@@ -37,8 +37,10 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Impls\ComponentManager.cs" />
     <Compile Include="Impls\Entity.cs" />
     <Compile Include="Impls\EntityManager.cs" />
+    <Compile Include="Impls\Exceptions.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="Interfaces\IComponentManager.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
