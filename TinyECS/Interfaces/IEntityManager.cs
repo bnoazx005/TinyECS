@@ -29,10 +29,10 @@
         /// The method attaches a new component to the entity
         /// </summary>
         /// <param name="entityId">Entity's identifier</param>
+        /// <param name="componentInitializer">A type's value that is used to initialize fields of a new component</param>
         /// <typeparam name="T">A type of a component that should be attached</typeparam>
-        /// <returns>A component's value</returns>
 
-        T AddComponent<T>(uint entityId) where T : struct, IComponent;
+        void AddComponent<T>(uint entityId, T componentInitializer = default(T)) where T : struct, IComponent;
 
         /// <summary>
         /// The method replaces existing component's value 
