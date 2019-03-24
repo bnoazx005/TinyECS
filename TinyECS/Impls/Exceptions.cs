@@ -33,4 +33,20 @@ namespace TinyECS.Impls
         {
         }
     }
+
+
+    /// <summary>
+    /// class InvalidIdentifierException
+    /// 
+    /// The class is an exception's type which occurs when someone pass an invalid identifier
+    /// as an argument
+    /// </summary>
+
+    public class InvalidIdentifierException: Exception
+    {
+        public InvalidIdentifierException(uint id):
+            base($"The given identifier [{id}] is not valid")
+        {
+        }
+    }
 }
