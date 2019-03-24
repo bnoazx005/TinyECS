@@ -28,15 +28,7 @@
         /// the specified entity</returns>
 
         T GetComponent<T>(uint entityId) where T : struct, IComponent;
-
-        /// <summary>
-        /// The method replaces existing component's value 
-        /// </summary>
-        /// <param name="entityId">Entity's identifier</param>
-        /// <typeparam name="T">A type of a component that should be updated</typeparam>
-
-        void ReplaceComponent<T>(uint entityId) where T : struct, IComponent;
-
+        
         /// <summary>
         /// The method removes a component of a specified type
         /// </summary>

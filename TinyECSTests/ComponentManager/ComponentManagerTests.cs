@@ -70,5 +70,50 @@ namespace TinyECSTests
                 Assert.AreEqual(testComponent.mValue, expectedValue);
             });
         }
+
+        [Test]
+        public void TestRemoveComponent_RemoveComponentOfEntityThatDoesntExist_ThrowsException()
+        {
+            uint entityId = 42;
+
+            Assert.Throws<EntityDoesntExistException>(() =>
+            {
+                mComponentManager.RemoveComponent<TTestComponent>(entityId);
+            });
+        }
+
+        [Test]
+        public void TestRemoveComponent_RemoveComponentThatDoesntExist_ThrowsException()
+        {
+            uint entityId = 4;
+            
+            Assert.Throws<ComponentDoesntExistException>(() =>
+            {
+                // add test component
+                mComponentManager.AddComponent<TTestComponent>(entityId, new TTestComponent { mValue = 42 });
+
+                // but try to remove TAnotherComponent
+                mComponentManager.RemoveComponent<TAnotherComponent>(entityId);
+            });
+        }
+
+        [Test]
+        public void TestRemoveComponent_RemoveComponentThatExists_ComponentManagerStaysInConsistentState()
+        {
+            uint entityId = 5;
+
+            Assert.DoesNotThrow(() =>
+            {
+                // add test component
+                mComponentManager.AddComponent<TTestComponent>(entityId, new TTestComponent { mValue = 42 });
+
+                mComponentManager.RemoveComponent<TTestComponent>(entityId);
+            });
+
+            Assert.Throws<ComponentDoesntExistException>(() =>
+            {
+                var testComponent = mComponentManager.GetComponent<TTestComponent>(entityId);
+            });
+        }
     }
 }

@@ -109,17 +109,6 @@ namespace TinyECS.Impls
         }
 
         /// <summary>
-        /// The method replaces existing component's value 
-        /// </summary>
-        /// <param name="entityId">Entity's identifier</param>
-        /// <typeparam name="T">A type of a component that should be updated</typeparam>
-
-        public void ReplaceComponent<T>(uint entityId) where T : struct, IComponent
-        {
-
-        }
-
-        /// <summary>
         /// The method removes a component of a specified type
         /// </summary>
         /// <param name="entityId">Entity's identifier</param>
@@ -127,7 +116,23 @@ namespace TinyECS.Impls
 
         public void RemoveComponent<T>(uint entityId) where T : struct, IComponent
         {
+            /// there is no entity with the specified id
+            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            {
+                throw new EntityDoesntExistException(entityId);
+            }
 
+            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+
+            /// there is no component with specified type that belongs to the entity
+            Type cachedComponentType = typeof(T);
+
+            if (!entityComponentsTable.ContainsKey(cachedComponentType))
+            {
+                throw new ComponentDoesntExistException(cachedComponentType, entityId);
+            }
+
+            entityComponentsTable.Remove(cachedComponentType);
         }
     }
 }
