@@ -54,17 +54,7 @@ namespace TinyECS.Impls
         {
             mEntityManager.AddComponent<T>(mId, componentInitializer);
         }
-
-        /// <summary>
-        /// The method replaces existing component's value 
-        /// </summary>
-        /// <typeparam name="T">A type of a component that should be updated</typeparam>
-
-        public void ReplaceComponent<T>() where T : struct, IComponent
-        {
-            mEntityManager.ReplaceComponent<T>(mId);
-        }
-
+        
         /// <summary>
         /// The method removes a component of a specified type
         /// </summary>

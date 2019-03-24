@@ -18,13 +18,6 @@
         void AddComponent<T>(T componentInitializer = default(T)) where T : struct, IComponent;
 
         /// <summary>
-        /// The method replaces existing component's value 
-        /// </summary>
-        /// <typeparam name="T">A type of a component that should be updated</typeparam>
-
-        void ReplaceComponent<T>() where T : struct, IComponent;
-
-        /// <summary>
         /// The method removes a component of a specified type
         /// </summary>
         /// <typeparam name="T">A type of a component that should be removed</typeparam>
