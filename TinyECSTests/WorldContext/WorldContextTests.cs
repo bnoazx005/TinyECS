@@ -37,8 +37,6 @@ namespace TinyECSTests
                 Assert.AreEqual(i, mWorldContext.CreateEntity());
                 Assert.AreEqual(i, mWorldContext.GetEntityById(i).Id);
             }
-
-
         }
     }
 }

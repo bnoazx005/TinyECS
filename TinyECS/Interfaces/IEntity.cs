@@ -25,6 +25,12 @@
         void RemoveComponent<T>() where T : struct, IComponent;
 
         /// <summary>
+        /// The method removes all components that are attached to the entity
+        /// </summary>
+
+        void RemoveAllComponents();
+
+        /// <summary>
         /// The property returns an identifier of an entity
         /// </summary>
 

@@ -66,6 +66,15 @@ namespace TinyECS.Impls
         }
 
         /// <summary>
+        /// The method removes all components that are attached to the entity
+        /// </summary>
+
+        public void RemoveAllComponents()
+        {
+            mEntityManager.RemoveAllComponents(mId);
+        }
+
+        /// <summary>
         /// The property returns an identifier of an entity
         /// </summary>
 

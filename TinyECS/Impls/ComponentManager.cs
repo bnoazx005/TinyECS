@@ -125,14 +125,38 @@ namespace TinyECS.Impls
             var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
 
             /// there is no component with specified type that belongs to the entity
-            Type cachedComponentType = typeof(T);
+            _removeComponent(entityComponentsTable, typeof(T), entityId);
+        }
 
-            if (!entityComponentsTable.ContainsKey(cachedComponentType))
+        /// <summary>
+        /// The method removes all components that are attached to the entity with the specified identifier
+        /// <param name="entityId">Entity's identifier</param>
+        /// </summary>
+
+        public void RemoveAllComponents(uint entityId)
+        {
+            /// there is no entity with the specified id
+            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
             {
-                throw new ComponentDoesntExistException(cachedComponentType, entityId);
+                throw new EntityDoesntExistException(entityId);
             }
 
-            entityComponentsTable.Remove(cachedComponentType);
+            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+            
+            while (entityComponentsTable.Count > 0)
+            {
+                _removeComponent(entityComponentsTable, entityComponentsTable.Keys.GetEnumerator().Current, entityId);
+            }
+        }
+
+        protected void _removeComponent(IDictionary<Type, int> entityComponentsTable, Type componentType, uint entityId)
+        {            
+            if (!entityComponentsTable.ContainsKey(componentType))
+            {
+                throw new ComponentDoesntExistException(componentType, entityId);
+            }
+
+            entityComponentsTable.Remove(componentType);
         }
     }
 }

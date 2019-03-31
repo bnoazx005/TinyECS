@@ -36,5 +36,12 @@
         /// <typeparam name="T">A type of a component that should be removed</typeparam>
 
         void RemoveComponent<T>(uint entityId) where T : struct, IComponent;
+
+        /// <summary>
+        /// The method removes all components that are attached to the entity with the specified identifier
+        /// <param name="entityId">Entity's identifier</param>
+        /// </summary>
+
+        void RemoveAllComponents(uint entityId);
     }
 }
