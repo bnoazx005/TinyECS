@@ -60,5 +60,25 @@ namespace TinyECSTests
             Assert.NotNull(newEntity);
             Assert.AreEqual(newEntity.Id, 3);
         }
+
+        [Test]
+        public void TestGetEntityById_PassInvalidEntityId_ThrowsException()
+        {
+            Assert.Throws<EntityDoesntExistException>(() =>
+            {
+                mEntityManager.GetEntityById(0);
+            });
+        }
+
+        [Test]
+        public void TestGetEntityById_PassCorrectExistingEntityId_ReturnsReferenceToIt()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                IEntity newEntity = mEntityManager.CreateEntity();
+
+                Assert.AreSame(newEntity, mEntityManager.GetEntityById(newEntity.Id));
+            });
+        }
     }
 }

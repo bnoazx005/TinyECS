@@ -123,5 +123,21 @@ namespace TinyECS.Impls
         {
             mComponentManager.RemoveComponent<T>(entityId);
         }
+
+        /// <summary>
+        /// The method returns a reference to an entity by its integral identifier
+        /// </summary>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns a reference to an entity by its integral identifier</returns>
+
+        public IEntity GetEntityById(uint entityId)
+        {
+            if (entityId >= mEntitiesList.Count)
+            {
+                throw new EntityDoesntExistException(entityId);
+            }
+
+            return mEntitiesList[(int)entityId];
+        }
     }
 }

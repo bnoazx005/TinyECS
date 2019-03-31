@@ -41,5 +41,13 @@
         /// <typeparam name="T">A type of a component that should be removed</typeparam>
 
         void RemoveComponent<T>(uint entityId) where T : struct, IComponent;
+
+        /// <summary>
+        /// The method returns a reference to an entity by its integral identifier
+        /// </summary>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns a reference to an entity by its integral identifier</returns>
+
+        IEntity GetEntityById(uint entityId);
     }
 }
