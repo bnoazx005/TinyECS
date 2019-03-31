@@ -42,12 +42,14 @@
     <Compile Include="Impls\EntityManager.cs" />
     <Compile Include="Impls\Exceptions.cs" />
     <Compile Include="Impls\SystemManager.cs" />
+    <Compile Include="Impls\WorldContext.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="Interfaces\IComponentManager.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IEntityManager.cs" />
     <Compile Include="Interfaces\ISystem.cs" />
     <Compile Include="Interfaces\ISystemManager.cs" />
+    <Compile Include="Interfaces\IWorldContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
