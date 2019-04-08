@@ -1,4 +1,6 @@
-﻿namespace TinyECS.Interfaces
+﻿using System;
+
+namespace TinyECS.Interfaces
 {
     /// <summary>
     /// interface IComponentManager
@@ -9,6 +11,14 @@
 
     public interface IComponentManager
     {
+        /// <summary>
+        /// The method is used to register the given entity within the internal data structure, but
+        /// withou actual allocating memory for components
+        /// </summary>
+        /// <param name="entityId">Entity's identifier</param>
+
+        void RegisterEntity(uint entityId);
+
         /// <summary>
         /// The method attaches a new component to the entity
         /// </summary>
@@ -43,5 +53,23 @@
         /// </summary>
 
         void RemoveAllComponents(uint entityId);
+
+        /// <summary>
+        /// The method checks up whether a given entity has specified component or not
+        /// </summary>
+        /// <typeparam name="T">A type of a component</typeparam>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
+
+        bool HasComponent<T>(uint entityId) where T : struct, IComponent;
+
+        /// <summary>
+        /// The method checks up whether a given entity has specified component or not
+        /// </summary>
+        /// <param name="componentType">A type of a component</param>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
+
+        bool HasComponent(uint entityId, Type componentType);
     }
 }

@@ -14,6 +14,8 @@ namespace TinyECS.Impls
 
     public class EntityManager: IEntityManager
     {
+        protected delegate bool FilterPredicate(uint entityId, params Type[] componentTypes);
+
         protected IComponentManager   mComponentManager;
 
         protected IList<IEntity>      mEntitiesList;
@@ -73,6 +75,9 @@ namespace TinyECS.Impls
             {
                 newEntityInstance = new Entity(this, entityId, name ?? string.Format(mDefaultEntityPatternName, entityId));
             }
+
+            // register the entity within the components manager
+            mComponentManager.RegisterEntity(entityId);
 
             mEntitiesList.Add(newEntityInstance);
 
@@ -148,6 +153,67 @@ namespace TinyECS.Impls
             }
 
             return mEntitiesList[(int)entityId];
+        }
+
+        /// <summary>
+        /// The method returns an array of entities that have all specified components attached to them
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>The method returns an array of entities that have all specified components attached to them</returns>
+
+        public List<uint> GetEntitiesWithAll(params Type[] components)
+        {
+            return _getFilteredEntities((entityId, componentsTypes) =>
+            {
+                foreach (var currComponentType in componentsTypes)
+                {
+                    if (!mComponentManager.HasComponent(entityId, currComponentType))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }, components);
+        }
+
+        /// <summary>
+        /// The method returns an array of entities that have any of specified components 
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>The method returns an array of entities that have any of specified components</returns>
+
+        public List<uint> GetEntitiesWithAny(params Type[] components)
+        {
+            return _getFilteredEntities((entityId, componentsTypes) =>
+            {
+                foreach (var currComponentType in componentsTypes)
+                {
+                    if (mComponentManager.HasComponent(entityId, currComponentType))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }, components);
+        }
+
+        protected List<uint> _getFilteredEntities(FilterPredicate predicate, params Type[] components)
+        {
+            // TODO: should be cached somehow to decrease allocations count
+            List<uint> filteredEntities = new List<uint>();
+
+            for (uint currEntityId = 0; currEntityId < mEntitiesList.Count; ++currEntityId)
+            {               
+                // add an entity only if it passed all tests
+                if (predicate(currEntityId, components))
+                {
+                    filteredEntities.Add(currEntityId);
+                }
+            }
+
+            return filteredEntities;
         }
     }
 }

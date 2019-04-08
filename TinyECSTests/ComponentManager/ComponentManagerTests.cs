@@ -115,5 +115,42 @@ namespace TinyECSTests
                 var testComponent = mComponentManager.GetComponent<TTestComponent>(entityId);
             });
         }
+
+        [Test]
+        public void TestHasComponent_InvokeTheMethodOnEntityThatDoesntExist_ThrowsException()
+        {
+            Assert.Throws<EntityDoesntExistException>(() =>
+            {
+                mComponentManager.HasComponent<TTestComponent>(0);
+            });
+        }
+
+        [Test]
+        public void TestHasComponent_InvokeForEntityWithExistingComponent_ReturnsTrue()
+        {
+            uint entityId = 0;
+
+            Assert.DoesNotThrow(() =>
+            {
+                // create a component
+                mComponentManager.AddComponent<TTestComponent>(entityId);
+
+                Assert.True(mComponentManager.HasComponent<TTestComponent>(entityId));
+            });
+        }
+
+        [Test]
+        public void TestHasComponent_InvokeForEntityWithoutComponent_ReturnsFalse()
+        {
+            uint entityId = 0;
+
+            Assert.DoesNotThrow(() =>
+            {
+                // create a component but not one which will be checked
+                mComponentManager.AddComponent<TAnotherComponent>(entityId);
+
+                Assert.IsFalse(mComponentManager.HasComponent<TTestComponent>(entityId));
+            });
+        }
     }
 }

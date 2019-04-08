@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TinyECS.Interfaces;
 
 
@@ -35,6 +36,28 @@ namespace TinyECS.Impls
         public IEntity GetEntityById(uint entityId)
         {
             return mEntityManager.GetEntityById(entityId);
+        }
+
+        /// <summary>
+        /// The method returns an array of entities that have all specified components attached to them
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>The method returns an array of entities that have all specified components attached to them</returns>
+
+        public List<uint> GetEntitiesWithAll(params Type[] components)
+        {
+            return mEntityManager.GetEntitiesWithAll(components);
+        }
+
+        /// <summary>
+        /// The method returns an array of entities that have any of specified components 
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>The method returns an array of entities that have any of specified components</returns>
+
+        public List<uint> GetEntitiesWithAny(params Type[] components)
+        {
+            return mEntityManager.GetEntitiesWithAny(components);
         }
     }
 }

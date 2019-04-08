@@ -1,4 +1,8 @@
-﻿namespace TinyECS.Interfaces
+﻿using System;
+using System.Collections.Generic;
+
+
+namespace TinyECS.Interfaces
 {
     /// <summary>
     /// class IWorldContext
@@ -24,5 +28,21 @@
         /// <returns>A reference to IEntity's implementation</returns>
 
         IEntity GetEntityById(uint entityId);
+
+        /// <summary>
+        /// The method returns an array of entities that have all specified components attached to them
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>The method returns an array of entities that have all specified components attached to them</returns>
+
+        List<uint> GetEntitiesWithAll(params Type[] components);
+
+        /// <summary>
+        /// The method returns an array of entities that have any of specified components 
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>The method returns an array of entities that have any of specified components</returns>
+
+        List<uint> GetEntitiesWithAny(params Type[] components);
     }
 }

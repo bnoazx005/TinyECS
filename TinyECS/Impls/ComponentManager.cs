@@ -29,6 +29,24 @@ namespace TinyECS.Impls
         }
 
         /// <summary>
+        /// The method is used to register the given entity within the internal data structure, but
+        /// withou actual allocating memory for components
+        /// </summary>
+        /// <param name="entityId">Entity's identifier</param>
+
+        public void RegisterEntity(uint entityId)
+        {
+            // check does the entity have the corresponding component already
+            if (mEntity2ComponentsHashTable.ContainsKey(entityId))
+            {
+                return;
+            }
+
+            // there is no an entity with corresponding id in the table
+            mEntity2ComponentsHashTable.Add(entityId, new Dictionary<Type, int>());
+        }
+
+        /// <summary>
         /// The method attaches a new component to the entity
         /// </summary>
         /// <param name="entityId">Entity's identifier</param>
@@ -147,6 +165,38 @@ namespace TinyECS.Impls
             {
                 _removeComponent(entityComponentsTable, entityComponentsTable.Keys.GetEnumerator().Current, entityId);
             }
+        }
+
+        /// <summary>
+        /// The method checks up whether a given entity has specified component or not
+        /// </summary>
+        /// <typeparam name="T">A type of a component</typeparam>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
+
+        public bool HasComponent<T>(uint entityId) where T : struct, IComponent
+        {
+            return HasComponent(entityId, typeof(T));
+        }
+
+        /// <summary>
+        /// The method checks up whether a given entity has specified component or not
+        /// </summary>
+        /// <param name="componentType">A type of a component</param>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
+
+        public bool HasComponent(uint entityId, Type componentType)
+        {
+            /// there is no entity with the specified id
+            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            {
+                throw new EntityDoesntExistException(entityId);
+            }
+
+            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+
+            return entityComponentsTable.ContainsKey(componentType);
         }
 
         protected void _removeComponent(IDictionary<Type, int> entityComponentsTable, Type componentType, uint entityId)
