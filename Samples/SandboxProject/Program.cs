@@ -11,7 +11,10 @@ namespace SandboxProject
         {
             IWorldContext worldContext = new WorldContext(new EntityManager(new ComponentManager()));
             
-            ISystemManager systemManager = new SystemManager();
+            ISystemManager systemManager = new SystemManager(worldContext);
+
+            systemManager.Init();
+            systemManager.Update(0.0f);
 
             Console.ReadKey();
         }

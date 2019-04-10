@@ -13,62 +13,54 @@ namespace TinyECS.Impls
 
     public class SystemManager: ISystemManager
     {
-        protected List<ISystem>   mActiveSystems;
+        protected IWorldContext         mWorldContext;
 
-        protected List<ISystem>   mDeactivatedSystems;
+        protected List<ISystem>         mActiveSystems;
 
-        protected LinkedList<int> mFreeEntries;
+        protected List<IInitSystem>     mActiveInitSystems;
 
-        public SystemManager()
+        protected List<IUpdateSystem>   mActiveUpdateSystems;
+
+        protected List<ISystem>         mDeactivatedSystems;
+
+        protected LinkedList<int>       mFreeEntries;
+
+        public SystemManager(IWorldContext worldContext)
         {
-            mActiveSystems      = new List<ISystem>();
-            mDeactivatedSystems = new List<ISystem>();
+            mWorldContext = worldContext ?? throw new ArgumentNullException("worldContext");
+
+            mActiveSystems       = new List<ISystem>();
+            mActiveInitSystems   = new List<IInitSystem>();
+            mActiveUpdateSystems = new List<IUpdateSystem>();
+            mDeactivatedSystems  = new List<ISystem>();
 
             mFreeEntries = new LinkedList<int>();
         }
-
+        
         /// <summary>
-        /// The method registers the given system within the manager
+        /// The method register specialized system type which is IInitSystem. The systems of this type
+        /// is executed only once at start of an application. Please DON'T use this method use Register
+        /// method instead.
         /// </summary>
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint RegisterSystem(ISystem system)
+        public uint RegisterInitSystem(IInitSystem system)
         {
-            if (system == null)
-            {
-                throw new ArgumentNullException("system", "An input argument 'system' cannot equal to null");
-            }
+            return _registerSystem(system, mActiveInitSystems);
+        }
 
-            int registeredSystemId = 0;
+        /// <summary>
+        /// The method register specialized system type which is IUpdateSystem. The systems of this type
+        /// is executed every frame when the initialization's step is passed. Please DON'T use this method use Register
+        /// method instead.
+        /// </summary>
+        /// <param name="system">A reference to ISystem implementation</param>
+        /// <returns>An identifier of a system within the manager</returns>
 
-            // if the system's already registered just return its identifier
-            if ((registeredSystemId = mActiveSystems.FindIndex(t => t == system)) >= 0)
-            {
-                return (uint)registeredSystemId;
-            }
-            else if ((registeredSystemId = mDeactivatedSystems.FindIndex(t => t == system)) >= 0)
-            {
-                return (uint)registeredSystemId;
-            }
-
-            /// if there is free entries in the current array use it
-            if (mFreeEntries.Count >= 1)
-            {
-                registeredSystemId = mFreeEntries.First.Value;
-
-                mFreeEntries.RemoveFirst();
-
-                mActiveSystems[registeredSystemId] = system;
-            }
-            else
-            {
-                registeredSystemId = mActiveSystems.Count;
-
-                mActiveSystems.Add(system);
-            }
-
-            return (uint)registeredSystemId;
+        public uint RegisterUpdateSystem(IUpdateSystem system)
+        {
+            return _registerSystem(system, mActiveUpdateSystems);
         }
 
         /// <summary>
@@ -172,6 +164,31 @@ namespace TinyECS.Impls
             return (uint)registeredSystemId;
         }
 
+        /// <summary>
+        /// The method initializes all active systems that implements IInitSystem interface
+        /// </summary>
+
+        public void Init()
+        {
+            foreach (var currInitSystem in mActiveInitSystems)
+            {
+                currInitSystem?.Init();
+            }
+        }
+
+        /// <summary>
+        /// The method executes all active systems. The method should be invoked within a main loop of a game
+        /// </summary>
+        /// <param name="dt">The value in milliseconds which tells how much time elapsed from the previous frame</param>
+
+        public void Update(float dt)
+        {
+            foreach (var currUpdateSystem in mActiveUpdateSystems)
+            {
+                currUpdateSystem?.Update(dt);
+            }
+        }
+        
         protected ISystem _getSystemById(IList<ISystem> sourceArray, uint id)
         {
             ISystem system = null;
@@ -182,6 +199,51 @@ namespace TinyECS.Impls
             }
 
             return system;
+        }
+
+        public uint _registerSystem<T>(T system, List<T> specializedSystemsArray) 
+            where T: class, ISystem
+        {
+            if (system == null)
+            {
+                throw new ArgumentNullException("system", "An input argument 'system' cannot equal to null");
+            }
+
+            int registeredSystemId = 0;
+
+            // if the system's already registered just return its identifier
+            if ((registeredSystemId = mActiveSystems.FindIndex(t => t == system)) >= 0)
+            {
+                return (uint)registeredSystemId;
+            }
+            else if ((registeredSystemId = mDeactivatedSystems.FindIndex(t => t == system)) >= 0)
+            {
+                return (uint)registeredSystemId;
+            }
+
+            /// if there is free entries in the current array use it
+            if (mFreeEntries.Count >= 1)
+            {
+                registeredSystemId = mFreeEntries.First.Value;
+
+                mFreeEntries.RemoveFirst();
+
+                mActiveSystems[registeredSystemId] = system;
+            }
+            else
+            {
+                registeredSystemId = mActiveSystems.Count;
+
+                mActiveSystems.Add(system);
+            }
+
+            int specializedSystemId = specializedSystemsArray.Count;
+
+            specializedSystemsArray.Add(system);
+
+            // NOTE: entity's identifier constists of two parts. The high 2 bytes equals to index within specialized array
+            // and low 2 bytes are an index within common array
+            return (uint)((specializedSystemId << 16) | registeredSystemId);
         }
     }
 }
