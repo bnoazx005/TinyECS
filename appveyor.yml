@@ -9,3 +9,9 @@ branches:
     - test-build
 
 clone_depth: 1
+
+before_build:
+  - nuget restore
+
+test_script:
+  - nunit3-console  --result=results.xml;format=AppVeyor
