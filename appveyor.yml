@@ -2,6 +2,12 @@ image: Visual Studio 2017
 
 version: 0.0.{build}
 
+platform:
+  - x86
+  - x64
+
+configuration: Release
+
 branches:
   # whitelist
   only:
@@ -13,5 +19,8 @@ clone_depth: 1
 before_build:
   - nuget restore
 
+assemblies:
+  - **\bin\$(configuration)\TinyECSTests.dll
+
 test_script:
-  - nunit3-console  --result=results.xml;format=AppVeyor
+  - nunit3-console $(assmebly) --result=results.xml;format=AppVeyor
