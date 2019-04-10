@@ -1,5 +1,7 @@
 # Tiny ECS
 
+[https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)
+
 Tiny ECS is a easy to use Entity-Component-System framework that's designed specially for Unity3D.
 
 ## Table of contents
