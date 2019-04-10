@@ -20,7 +20,7 @@ before_build:
   - nuget restore
 
 assemblies:
-  - **\bin\$(configuration)\TinyECSTests.dll
+  - '**\bin\$(configuration)\TinyECSTests.dll'
 
 test_script:
   - nunit3-console $(assmebly) --result=results.xml;format=AppVeyor
