@@ -1,6 +1,6 @@
 image: Visual Studio 2017
 
-version: 0.0.{build}
+version: 0.1.{build}
 
 platform:
   - 'Any CPU'
@@ -22,5 +22,21 @@ test:
   assemblies:
     - '**\bin\$(configuration)\TinyECSTests.dll'
 
-#test_script:
-#  - nunit3-console $(assmebly) --result=results.xml;format=AppVeyor
+artifacts:
+    - path: TinyECS.zip
+
+after_build:
+  7z a TinyECS.zip %APPVEYOR_BUILD_FOLDER%\TinyECS\bin\$(configuration)\ %APPVEYOR_BUILD_FOLDER%\README.md %APPVEYOR_BUILD_FOLDER%\LICENSE #create zip archive with all the binaries and documentation
+
+deploy:
+  release: TinyECS-v$(appveyor_build_version)
+    description: 'Release description'
+    provider: GitHub
+    auth_token:
+      secure: 1xPR+/5vbL2PEPkG/LtjPXkZqAfB6vZWxVrUCdr6afKZ9utwUA7n6mzDv7//N2gk
+    artifact: /.*\.zip/            
+    draft: false
+    prerelease: false
+    on:
+      branch: master                 # release from master branch only
+      APPVEYOR_REPO_TAG: true        # deploy on tag push only
