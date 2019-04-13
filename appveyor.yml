@@ -30,13 +30,13 @@ after_build:
 
 deploy:
   release: TinyECS-v$(appveyor_build_version)
-    description: 'Release description'
-    provider: GitHub
-    auth_token:
-      secure: 1xPR+/5vbL2PEPkG/LtjPXkZqAfB6vZWxVrUCdr6afKZ9utwUA7n6mzDv7//N2gk
-    artifact: /.*\.zip/            
-    draft: false
-    prerelease: false
-    on:
-      branch: master                 # release from master branch only
-      APPVEYOR_REPO_TAG: true        # deploy on tag push only
+  description: 'Release description'
+  provider: GitHub
+  auth_token:
+    secure: 1xPR+/5vbL2PEPkG/LtjPXkZqAfB6vZWxVrUCdr6afKZ9utwUA7n6mzDv7//N2gk
+  artifact: /.*\.zip/            
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    APPVEYOR_REPO_TAG: true        # deploy on tag push only
