@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ComponentManager\ComponentManagerTests.cs" />
     <Compile Include="EntityManager\EntityManagerTests.cs" />
+    <Compile Include="EventManager\EventManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemManager\SystemManagerTests.cs" />
     <Compile Include="WorldContext\WorldContextTests.cs" />

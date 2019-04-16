@@ -40,6 +40,8 @@
     <Compile Include="Impls\ComponentManager.cs" />
     <Compile Include="Impls\Entity.cs" />
     <Compile Include="Impls\EntityManager.cs" />
+    <Compile Include="Impls\EventManager.cs" />
+    <Compile Include="Impls\Events.cs" />
     <Compile Include="Impls\Exceptions.cs" />
     <Compile Include="Impls\SystemManager.cs" />
     <Compile Include="Impls\PureSystemsAdapters.cs" />
@@ -48,6 +50,8 @@
     <Compile Include="Interfaces\IComponentManager.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IEntityManager.cs" />
+    <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\IEventManager.cs" />
     <Compile Include="Interfaces\ISystem.cs" />
     <Compile Include="Interfaces\ISystemManager.cs" />
     <Compile Include="Interfaces\ISystemsGroup.cs" />
