@@ -11,7 +11,7 @@ namespace TinyECS.Impls
     /// The class is a basic implementation of ISystemManager interface
     /// </summary>
 
-    public class SystemManager: ISystemManager, IEventListener<TNewComponentAddedEvent>, IEventListener<TComponentRemovedEvent>, IEventListener<TNewEntityCreatedEvent>
+    public class SystemManager: ISystemManager, IEventListener<TNewComponentAddedEvent>, IEventListener<TNewEntityCreatedEvent>
     {
         protected IWorldContext         mWorldContext;
 
@@ -23,9 +23,13 @@ namespace TinyECS.Impls
 
         protected List<IUpdateSystem>   mActiveUpdateSystems;
 
+        protected List<IReactiveSystem> mActiveReactiveSystems;
+
         protected List<ISystem>         mDeactivatedSystems;
 
         protected LinkedList<int>       mFreeEntries;
+
+        protected List<IEntity>         mReactiveSystemsBuffer;
 
         public SystemManager(IWorldContext worldContext)
         {
@@ -35,15 +39,17 @@ namespace TinyECS.Impls
 
             // listen to events of the world context to provide reactive behaviour of systems
             mEventManager.Subscribe<TNewComponentAddedEvent>(this);
-            mEventManager.Subscribe<TComponentRemovedEvent>(this);
             mEventManager.Subscribe<TNewEntityCreatedEvent>(this);
 
-            mActiveSystems       = new List<ISystem>();
-            mActiveInitSystems   = new List<IInitSystem>();
-            mActiveUpdateSystems = new List<IUpdateSystem>();
-            mDeactivatedSystems  = new List<ISystem>();
+            mActiveSystems         = new List<ISystem>();
+            mActiveInitSystems     = new List<IInitSystem>();
+            mActiveUpdateSystems   = new List<IUpdateSystem>();
+            mActiveReactiveSystems = new List<IReactiveSystem>();
+            mDeactivatedSystems    = new List<ISystem>();
 
             mFreeEntries = new LinkedList<int>();
+
+            mReactiveSystemsBuffer = new List<IEntity>();
         }
         
         /// <summary>
@@ -70,6 +76,18 @@ namespace TinyECS.Impls
         public uint RegisterUpdateSystem(IUpdateSystem system)
         {
             return _registerSystem(system, mActiveUpdateSystems);
+        }
+
+        /// <summary>
+        /// The method registers a given reactive system within the manager. Please DON'T use this method use Register
+        /// method instead.
+        /// </summary>
+        /// <param name="system">A reference to IReactiveSystem implementation</param>
+        /// <returns>An identifier of a system within the manager</returns>
+
+        public uint RegisterReactiveSystem(IReactiveSystem system)
+        {
+            return _registerSystem(system, mActiveReactiveSystems);
         }
 
         /// <summary>
@@ -192,10 +210,18 @@ namespace TinyECS.Impls
 
         public void Update(float dt)
         {
+            // TODO: execute all reactive systems
+            foreach (var currReactiveSystem in mActiveReactiveSystems)
+            {
+                currReactiveSystem?.Update(mReactiveSystemsBuffer.FindAll(currReactiveSystem.Filter), dt);
+            }
+
             foreach (var currUpdateSystem in mActiveUpdateSystems)
             {
                 currUpdateSystem?.Update(dt);
             }
+            
+            mReactiveSystemsBuffer.Clear();
         }
         
         protected ISystem _getSystemById(IList<ISystem> sourceArray, uint id)
@@ -257,17 +283,26 @@ namespace TinyECS.Impls
 
         public void OnEvent(TNewComponentAddedEvent eventData)
         {
-            Console.WriteLine("OnEvent(TNewComponentAddedEvent)");
-        }
-
-        public void OnEvent(TComponentRemovedEvent eventData)
-        {
-            Console.WriteLine("OnEvent(TComponentRemovedEvent)");
+            _addEntityToReactiveSystemsBuffer(eventData.mOwnerId);
         }
 
         public void OnEvent(TNewEntityCreatedEvent eventData)
         {
-            Console.WriteLine("OnEvent(TNewEntityCreatedEvent)");
+            _addEntityToReactiveSystemsBuffer(eventData.mEntityId);
+        }
+
+        protected void _addEntityToReactiveSystemsBuffer(uint entityId)
+        {
+            IEntity entity = mWorldContext.GetEntityById(entityId);
+
+            if (entity == null)
+            {
+                return;
+            }
+
+            //TODO: Maybe we should check up for duplicates of the entity later
+
+            mReactiveSystemsBuffer.Add(entity);
         }
     }
 }

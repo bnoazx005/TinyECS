@@ -97,7 +97,8 @@ namespace TinyECS.Impls
 
             mEventManager.Notify<TNewComponentAddedEvent>(new TNewComponentAddedEvent()
             {
-
+                mOwnerId       = entityId,
+                mComponentType = cachedComponentType
             });
         }
 
@@ -156,7 +157,8 @@ namespace TinyECS.Impls
 
             mEventManager.Notify<TComponentRemovedEvent>(new TComponentRemovedEvent()
             {
-
+                mOwnerId       = entityId,
+                mComponentType = typeof(T)
             });
         }
 

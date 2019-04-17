@@ -87,7 +87,7 @@ namespace TinyECS.Impls
 
             mEventManager.Notify<TNewEntityCreatedEvent>(new TNewEntityCreatedEvent()
             {
-
+                mEntityId = entityId
             });
 
             return newEntityInstance;

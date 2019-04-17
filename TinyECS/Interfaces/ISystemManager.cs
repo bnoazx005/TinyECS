@@ -10,7 +10,7 @@
     public interface ISystemManager
     {
         /// <summary>
-        /// The method register specialized system type which is IInitSystem. The systems of this type
+        /// The method registers specialized system type which is IInitSystem. The systems of this type
         /// is executed only once at start of an application. Please DON'T use this method use Register
         /// method instead.
         /// </summary>
@@ -20,7 +20,7 @@
         uint RegisterInitSystem(IInitSystem system);
 
         /// <summary>
-        /// The method register specialized system type which is IUpdateSystem. The systems of this type
+        /// The method registers specialized system type which is IUpdateSystem. The systems of this type
         /// is executed every frame when the initialization's step is passed. Please DON'T use this method use Register
         /// method instead.
         /// </summary>
@@ -28,6 +28,15 @@
         /// <returns>An identifier of a system within the manager</returns>
 
         uint RegisterUpdateSystem(IUpdateSystem system);
+
+        /// <summary>
+        /// The method registers a given reactive system within the manager. Please DON'T use this method use Register
+        /// method instead.
+        /// </summary>
+        /// <param name="system">A reference to IReactiveSystem implementation</param>
+        /// <returns>An identifier of a system within the manager</returns>
+
+        uint RegisterReactiveSystem(IReactiveSystem system);
 
         /// <summary>
         /// The method excludes a system with the given systemId from the manager if it exists
