@@ -210,10 +210,19 @@ namespace TinyECS.Impls
 
         public void Update(float dt)
         {
+            List<IEntity> filteredEntities = null;
+
             // TODO: execute all reactive systems
             foreach (var currReactiveSystem in mActiveReactiveSystems)
             {
-                currReactiveSystem?.Update(mReactiveSystemsBuffer.FindAll(currReactiveSystem.Filter), dt);
+                filteredEntities = mReactiveSystemsBuffer.FindAll(currReactiveSystem.Filter);
+
+                if (filteredEntities.Count < 1)
+                {
+                    continue;
+                }
+
+                currReactiveSystem?.Update(filteredEntities, dt);
             }
 
             foreach (var currUpdateSystem in mActiveUpdateSystems)

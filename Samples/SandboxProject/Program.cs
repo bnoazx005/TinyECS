@@ -33,6 +33,12 @@ namespace SandboxProject
                 Console.WriteLine("call Update(float)");
             }));
 
+            systemManager.RegisterReactiveSystem(new PureReactiveSystemAdapter(worldContext, entity => true, (world, entities, dt) =>
+            {
+                // worldContext's variable is available here
+                Console.WriteLine("call Update(entities, float)");
+            }));
+
             systemManager.Init();
 
             for (int i = 0; i < 10; ++i)
