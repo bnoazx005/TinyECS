@@ -46,14 +46,7 @@ namespace TinyECS.Impls
             {
                 throw new ArgumentNullException("eventListener");
             }
-
-            int possibleListenerId = mListeners.FindIndex(entry => entry.mListener == eventListener);
-
-            if (possibleListenerId >= 0)
-            {
-                return (uint)possibleListenerId;
-            }
-
+            
             int firstFreeEntryIndex = mFreeEntriesRegistry.Count > 0 ? mFreeEntriesRegistry.Pop() : mListeners.Count;
 
             if (firstFreeEntryIndex >= mListeners.Count)

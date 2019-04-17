@@ -18,6 +18,8 @@ namespace TinyECS.Impls
 
         protected IComponentManager   mComponentManager;
 
+        protected IEventManager       mEventManager;
+
         protected IList<IEntity>      mEntitiesList;
 
         protected LinkedList<IEntity> mDestroyedEntitiesList;
@@ -36,6 +38,8 @@ namespace TinyECS.Impls
         public EntityManager(IComponentManager componentManager)
         {
             mComponentManager = componentManager ?? throw new ArgumentNullException("componentManager");
+
+            mEventManager = mComponentManager?.EventManager;
 
             mEntitiesList = new List<IEntity>();
 
@@ -80,6 +84,11 @@ namespace TinyECS.Impls
             mComponentManager.RegisterEntity(entityId);
 
             mEntitiesList.Add(newEntityInstance);
+
+            mEventManager.Notify<TNewEntityCreatedEvent>(new TNewEntityCreatedEvent()
+            {
+
+            });
 
             return newEntityInstance;
         }
@@ -215,5 +224,11 @@ namespace TinyECS.Impls
 
             return filteredEntities;
         }
+
+        /// <summary>
+        /// The method returns a reference to IEventManager implementation
+        /// </summary>
+
+        public IEventManager EventManager => mEventManager;
     }
 }

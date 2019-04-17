@@ -11,9 +11,11 @@ namespace TinyECS.Impls
     /// The class is a basic implementation of ISystemManager interface
     /// </summary>
 
-    public class SystemManager: ISystemManager
+    public class SystemManager: ISystemManager, IEventListener<TNewComponentAddedEvent>, IEventListener<TComponentRemovedEvent>, IEventListener<TNewEntityCreatedEvent>
     {
         protected IWorldContext         mWorldContext;
+
+        protected IEventManager         mEventManager;
 
         protected List<ISystem>         mActiveSystems;
 
@@ -28,6 +30,13 @@ namespace TinyECS.Impls
         public SystemManager(IWorldContext worldContext)
         {
             mWorldContext = worldContext ?? throw new ArgumentNullException("worldContext");
+
+            mEventManager = worldContext?.EventManager;
+
+            // listen to events of the world context to provide reactive behaviour of systems
+            mEventManager.Subscribe<TNewComponentAddedEvent>(this);
+            mEventManager.Subscribe<TComponentRemovedEvent>(this);
+            mEventManager.Subscribe<TNewEntityCreatedEvent>(this);
 
             mActiveSystems       = new List<ISystem>();
             mActiveInitSystems   = new List<IInitSystem>();
@@ -244,6 +253,21 @@ namespace TinyECS.Impls
             // NOTE: entity's identifier constists of two parts. The high 2 bytes equals to index within specialized array
             // and low 2 bytes are an index within common array
             return (uint)((specializedSystemId << 16) | registeredSystemId);
+        }
+
+        public void OnEvent(TNewComponentAddedEvent eventData)
+        {
+            Console.WriteLine("OnEvent(TNewComponentAddedEvent)");
+        }
+
+        public void OnEvent(TComponentRemovedEvent eventData)
+        {
+            Console.WriteLine("OnEvent(TComponentRemovedEvent)");
+        }
+
+        public void OnEvent(TNewEntityCreatedEvent eventData)
+        {
+            Console.WriteLine("OnEvent(TNewEntityCreatedEvent)");
         }
     }
 }

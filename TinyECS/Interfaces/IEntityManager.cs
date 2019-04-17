@@ -76,5 +76,11 @@ namespace TinyECS.Interfaces
         /// <returns>The method returns an array of entities that have any of specified components</returns>
 
         List<uint> GetEntitiesWithAny(params Type[] components);
+
+        /// <summary>
+        /// The method returns a reference to IEventManager implementation
+        /// </summary>
+
+        IEventManager EventManager { get; }
     }
 }

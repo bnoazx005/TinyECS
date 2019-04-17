@@ -59,5 +59,11 @@ namespace TinyECS.Impls
         {
             return mEntityManager.GetEntitiesWithAny(components);
         }
+
+        /// <summary>
+        /// The method returns a reference to IEventManager implementation
+        /// </summary>
+
+        public IEventManager EventManager => mEntityManager?.EventManager;
     }
 }

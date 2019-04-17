@@ -71,5 +71,11 @@ namespace TinyECS.Interfaces
         /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
 
         bool HasComponent(uint entityId, Type componentType);
+
+        /// <summary>
+        /// The method returns a reference to IEventManager implementation
+        /// </summary>
+
+        IEventManager EventManager { get; }
     }
 }

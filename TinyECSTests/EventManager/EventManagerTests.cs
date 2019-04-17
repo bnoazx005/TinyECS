@@ -3,6 +3,7 @@ using TinyECS.Interfaces;
 using TinyECS.Impls;
 using System;
 using NSubstitute;
+using System.Collections.Generic;
 
 namespace TinyECSTests
 {
@@ -46,17 +47,24 @@ namespace TinyECSTests
         }
 
         [Test]
-        public void TestSubscribe_MultipleSubscriptionsDoesNothing_ReturnsListenerIdentifier()
+        public void TestSubscribe_MultipleSubscriptionsCreatesNewListener_ReturnsListenerIdentifier()
         {
             Assert.DoesNotThrow(() =>
             {
+                HashSet<uint> createdListenersIds = new HashSet<uint>();
+
                 IEventListener eventListener = Substitute.For<IEventListener>();
 
-                uint registeredListenerId = mEventManager.Subscribe<TSimpleEvent>(eventListener);
+                uint registeredListenerId = 0;
 
                 for (int i = 0; i < 4; ++i)
                 {
-                    Assert.AreEqual(registeredListenerId, mEventManager.Subscribe<TSimpleEvent>(eventListener));
+                    registeredListenerId = mEventManager.Subscribe<TSimpleEvent>(eventListener);
+
+                    // all registered listeners have unique identifiers
+                    Assert.IsFalse(createdListenersIds.Contains(registeredListenerId));
+
+                    createdListenersIds.Add(registeredListenerId);
                 }
             });
         }

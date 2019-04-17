@@ -13,14 +13,18 @@ namespace TinyECS.Impls
 
     public class ComponentManager: IComponentManager
     {
+        protected IEventManager                             mEventManager;
+
         protected IDictionary<uint, IDictionary<Type, int>> mEntity2ComponentsHashTable;
 
         protected IDictionary<Type, int>                    mComponentTypesHashTable;
 
         protected IList<IList<IComponent>>                  mComponentsMatrix;
 
-        public ComponentManager()
+        public ComponentManager(IEventManager eventManager)
         {
+            mEventManager = eventManager ?? throw new ArgumentNullException("eventManager");
+
             mEntity2ComponentsHashTable = new Dictionary<uint, IDictionary<Type, int>>();
 
             mComponentsMatrix = new List<IList<IComponent>>();
@@ -90,6 +94,11 @@ namespace TinyECS.Impls
             entityComponentsTable.Add(cachedComponentType, componentsGroup.Count);
 
             componentsGroup.Add(componentInitializer);
+
+            mEventManager.Notify<TNewComponentAddedEvent>(new TNewComponentAddedEvent()
+            {
+
+            });
         }
 
         /// <summary>
@@ -144,6 +153,11 @@ namespace TinyECS.Impls
 
             /// there is no component with specified type that belongs to the entity
             _removeComponent(entityComponentsTable, typeof(T), entityId);
+
+            mEventManager.Notify<TComponentRemovedEvent>(new TComponentRemovedEvent()
+            {
+
+            });
         }
 
         /// <summary>
@@ -208,5 +222,11 @@ namespace TinyECS.Impls
 
             entityComponentsTable.Remove(componentType);
         }
+
+        /// <summary>
+        /// The method returns a reference to IEventManager implementation
+        /// </summary>
+
+        public IEventManager EventManager => mEventManager;
     }
 }

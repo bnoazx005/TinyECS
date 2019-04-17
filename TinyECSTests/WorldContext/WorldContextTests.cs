@@ -32,7 +32,7 @@ namespace TinyECSTests
         [SetUp]
         public void Init()
         {
-            mEntityManager = new EntityManager(new ComponentManager());
+            mEntityManager = new EntityManager(new ComponentManager(new EventManager()));
 
             mWorldContext = new WorldContext(mEntityManager);
         }

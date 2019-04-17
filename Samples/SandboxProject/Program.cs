@@ -7,9 +7,13 @@ namespace SandboxProject
 {
     public class Program
     {
+        public struct TestComponent: IComponent
+        {
+        }
+
         public static void Main(string[] args)
         {
-            IWorldContext worldContext = new WorldContext(new EntityManager(new ComponentManager()));
+            IWorldContext worldContext = new WorldContext(new EntityManager(new ComponentManager(new EventManager())));
             
             ISystemManager systemManager = new SystemManager(worldContext);
 
@@ -17,6 +21,10 @@ namespace SandboxProject
             {
                 // worldContext's variable is available here
                 Console.WriteLine("call Init()");
+
+                var e = worldContext.GetEntityById(worldContext.CreateEntity());
+
+                e.AddComponent<TestComponent>();
             }));
 
             systemManager.RegisterUpdateSystem(new PureUpdateSystemAdapter(worldContext, (world, dt) =>

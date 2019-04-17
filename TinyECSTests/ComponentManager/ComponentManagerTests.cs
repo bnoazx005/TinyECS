@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NSubstitute;
+using NUnit.Framework;
 using TinyECS.Impls;
 using TinyECS.Interfaces;
 
@@ -22,7 +23,7 @@ namespace TinyECSTests
         [SetUp]
         public void Init()
         {
-            mComponentManager = new ComponentManager();
+            mComponentManager = new ComponentManager(Substitute.For<IEventManager>());
         }
 
         [Test]
