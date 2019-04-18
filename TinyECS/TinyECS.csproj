@@ -47,6 +47,7 @@
     <Compile Include="Impls\SystemManager.cs" />
     <Compile Include="Impls\PureSystemsAdapters.cs" />
     <Compile Include="Impls\WorldContext.cs" />
+    <Compile Include="Impls\WorldContextFactory.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="Interfaces\IComponentManager.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Interfaces\ISystemManager.cs" />
     <Compile Include="Interfaces\ISystemsGroup.cs" />
     <Compile Include="Interfaces\IWorldContext.cs" />
+    <Compile Include="Interfaces\IWorldContextFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

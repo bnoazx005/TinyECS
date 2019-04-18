@@ -13,7 +13,7 @@ namespace SandboxProject
 
         public static void Main(string[] args)
         {
-            IWorldContext worldContext = new WorldContext(new EntityManager(new ComponentManager(new EventManager())));
+            IWorldContext worldContext = new WorldContextFactory().CreateNewWorldInstance();
             
             ISystemManager systemManager = new SystemManager(worldContext);
 
