@@ -28,6 +28,8 @@ artifacts:
 after_build:
   7z a TinyECS.zip %APPVEYOR_BUILD_FOLDER%\TinyECS\bin\%CONFIGURATION%\*.dll %APPVEYOR_BUILD_FOLDER%\README.md %APPVEYOR_BUILD_FOLDER%\LICENSE #create zip archive with all the binaries and documentation
 
+skip_tags: true
+
 deploy:
   release: TinyECS-v$(appveyor_build_version)
   description: ''
