@@ -75,6 +75,43 @@ namespace TinyECS.Impls
         }
 
         /// <summary>
+        /// The method returns a component of a given type if it belongs to
+        /// the specified entity
+        /// </summary>
+        /// <typeparam name="T">A type of a component that should be retrieved</typeparam>
+        /// <returns>The method returns a component of a given type if it belongs to
+        /// the specified entity</returns>
+
+        public T GetComponent<T>() 
+            where T : struct, IComponent
+        {
+            return mEntityManager.GetComponent<T>(mId);
+        }
+
+        /// <summary>
+        /// The method checks up whether a given entity has specified component or not
+        /// </summary>
+        /// <typeparam name="T">A type of a component</typeparam>
+        /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
+
+        public bool HasComponent<T>() 
+            where T : struct, IComponent
+        {
+            return mEntityManager.HasComponent<T>(mId);
+        }
+
+        /// <summary>
+        /// The method checks up whether a given entity has specified component or not
+        /// </summary>
+        /// <param name="componentType">A type of a component</param>
+        /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
+
+        public bool HasComponent(Type componentType)
+        {
+            return mEntityManager.HasComponent(mId, componentType);
+        }
+
+        /// <summary>
         /// The property returns an identifier of an entity
         /// </summary>
 
