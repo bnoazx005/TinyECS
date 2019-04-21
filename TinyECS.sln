@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{208A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandboxProject", "Samples\SandboxProject\SandboxProject.csproj", "{C2F4C946-E6A2-4ED6-BEB8-AC6EB56D411F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorial01_HelloWorld", "Samples\Tutorial01_HelloWorld\Tutorial01_HelloWorld.csproj", "{C64863C9-CDC4-41AF-AB9E-1320A320625B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{C2F4C946-E6A2-4ED6-BEB8-AC6EB56D411F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2F4C946-E6A2-4ED6-BEB8-AC6EB56D411F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2F4C946-E6A2-4ED6-BEB8-AC6EB56D411F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C64863C9-CDC4-41AF-AB9E-1320A320625B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C64863C9-CDC4-41AF-AB9E-1320A320625B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C64863C9-CDC4-41AF-AB9E-1320A320625B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C64863C9-CDC4-41AF-AB9E-1320A320625B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C2F4C946-E6A2-4ED6-BEB8-AC6EB56D411F} = {208A6D50-AA5A-48E0-B21C-A64A6983020B}
+		{C64863C9-CDC4-41AF-AB9E-1320A320625B} = {208A6D50-AA5A-48E0-B21C-A64A6983020B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DBEB9C11-5243-4290-88C6-A6D9420A56E1}
