@@ -24,11 +24,13 @@ namespace Tutorial01_HelloWorld
                 Console.WriteLine("PureInitSystem: Hello, World!");
             }));
 
-            systemManager.RegisterReactiveSystem(new PureReactiveSystemAdapter(worldContext, entity => true, (world, entities, dt) =>
-            {
-                // worldContext's variable is available here
-                Console.WriteLine("PureReactiveSystem: Hello, World!");
-            }));
+            systemManager.RegisterReactiveSystem(new PureReactiveSystemAdapter(worldContext, 
+                    entity => entity.HasComponent<THelloWorldComponent>(), 
+                    (world, entities, dt) =>
+                    {
+                        // worldContext's variable is available here
+                        Console.WriteLine("PureReactiveSystem: Hello, World!");
+                    }));
 
             systemManager.Init();
 

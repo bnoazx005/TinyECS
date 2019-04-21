@@ -22,7 +22,7 @@ public class ReactivePrintHelloWorldSystem : BaseReactiveSystem
 {
     public override bool Filter(IEntity entity)
     {
-        return true;
+        return entity.HasComponent<THelloWorldComponent>();
     }
 
     public override void Update(List<IEntity> entities, float deltaTime)
