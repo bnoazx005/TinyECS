@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandboxProject", "Samples\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorial01_HelloWorld", "Samples\Tutorial01_HelloWorld\Tutorial01_HelloWorld.csproj", "{C64863C9-CDC4-41AF-AB9E-1320A320625B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyECSUnityIntegration", "TinyECSUnityIntegration\TinyECSUnityIntegration.csproj", "{7FF156DA-3333-49B6-B082-FF86B458724E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{C64863C9-CDC4-41AF-AB9E-1320A320625B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C64863C9-CDC4-41AF-AB9E-1320A320625B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C64863C9-CDC4-41AF-AB9E-1320A320625B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF156DA-3333-49B6-B082-FF86B458724E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF156DA-3333-49B6-B082-FF86B458724E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF156DA-3333-49B6-B082-FF86B458724E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF156DA-3333-49B6-B082-FF86B458724E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
