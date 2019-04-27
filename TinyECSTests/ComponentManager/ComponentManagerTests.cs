@@ -36,6 +36,25 @@ namespace TinyECSTests
         }
 
         [Test]
+        public void TestAddComponent_CreateNewComponentAndUpdateItsValueLater_UpdateExistingComponent()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                mComponentManager.AddComponent(0, new TTestComponent { mValue = 1 });
+
+                var retrievedComponent = mComponentManager.GetComponent<TTestComponent>(0);
+
+                Assert.AreEqual(retrievedComponent.mValue, 1);
+
+                mComponentManager.AddComponent(0, new TTestComponent { mValue = 2 });
+
+                retrievedComponent = mComponentManager.GetComponent<TTestComponent>(0);
+
+                Assert.AreEqual(retrievedComponent.mValue, 2);
+            });
+        }
+
+        [Test]
         public void TestGetComponent_GetComponentThatDoesntExist_ThrowsException()
         {
             mComponentManager.AddComponent<TTestComponent>(0);
