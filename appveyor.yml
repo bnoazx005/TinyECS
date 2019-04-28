@@ -26,7 +26,8 @@ artifacts:
     - path: TinyECS.zip
 
 after_build:
-  7z a TinyECS.zip %APPVEYOR_BUILD_FOLDER%\TinyECS\bin\%CONFIGURATION%\*.dll %APPVEYOR_BUILD_FOLDER%\README.md %APPVEYOR_BUILD_FOLDER%\LICENSE #create zip archive with all the binaries and documentation
+  #create zip archive with all the binaries and documentation
+  7z a TinyECS.zip %APPVEYOR_BUILD_FOLDER%\TinyECS\bin\%CONFIGURATION%\*.dll %APPVEYOR_BUILD_FOLDER%\README.md %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\TinyECSUnityIntegration\bin\%CONFIGURATION%\TinyECSUnityIntegration.dll
 
 skip_tags: true
 
