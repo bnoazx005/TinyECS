@@ -48,6 +48,7 @@
     <Compile Include="Impls\BaseStaticView.cs" />
     <Compile Include="Impls\BaseView.cs" />
     <Compile Include="Impls\DependencyInjector.cs" />
+    <Compile Include="Impls\RegisterViewSystem.cs" />
     <Compile Include="Impls\WorldContextsManager.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

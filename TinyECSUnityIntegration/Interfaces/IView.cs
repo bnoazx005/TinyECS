@@ -14,6 +14,13 @@ namespace TinyECSUnityIntegration.Interfaces
     public interface IView
     {
         /// <summary>
+        /// The method prepares the view for initialization step
+        /// </summary>
+        /// <param name="worldContext">A reference to IWorldContext implementation</param>
+
+        void PreInit(IWorldContext worldContext);
+
+        /// <summary>
         /// The method links current view's instance with a given entity's identifier
         /// </summary>
         /// <param name="entityId">An integral identifier which represents some existing entity</param>

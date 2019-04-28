@@ -6,6 +6,19 @@ using UnityEngine;
 namespace TinyECSUnityIntegration.Impls
 {
     /// <summary>
+    /// struct TOnViewWaitForInitEventComponent
+    /// 
+    /// The structure describes a parameters of an event which is generated with BaseView
+    /// when some instance of it has awaken and need to be registered
+    /// </summary>
+
+    public struct TOnViewWaitForInitEventComponent: IComponent
+    {
+        public BaseView mView;
+    }
+
+
+    /// <summary>
     /// class BaseView
     /// 
     /// The class is a base implementation of views for all that will be used to interact with a ECS model
@@ -18,6 +31,21 @@ namespace TinyECSUnityIntegration.Impls
         private IEventManager   mEventManager;
 
         protected uint          mLinkedEntityId;
+
+        /// <summary>
+        /// The method prepares the view for initialization step
+        /// </summary>
+        /// <param name="worldContext">A reference to IWorldContext implementation</param>
+
+        public void PreInit(IWorldContext worldContext)
+        {
+            WorldContext = worldContext;
+
+            // create a new event which is an entity with attached component to inform system to register this view in the world's context
+            IEntity registerViewRequestEntity = worldContext.GetEntityById(worldContext.CreateEntity());
+
+            registerViewRequestEntity.AddComponent(new TOnViewWaitForInitEventComponent { mView = this });
+        }
 
         /// <summary>
         /// The method links current view's instance with a given entity's identifier

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TinyECS.Interfaces;
+using UnityEngine;
 
 
 namespace TinyECSUnityIntegration.Impls
@@ -23,9 +24,9 @@ namespace TinyECSUnityIntegration.Impls
             {
                 return;
             }
-            
-            _parentView.WorldContext = _worldContextsManager?.WorldContext;
 
+            _parentView.PreInit(_worldContextsManager?.WorldContext);
+            
             mIsInitialized = _parentView.WorldContext != null;
         }
 
