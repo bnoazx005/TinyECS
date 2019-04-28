@@ -19,6 +19,18 @@ namespace TinyECSUnityIntegration.Impls
 
 
     /// <summary>
+    /// struct TViewComponent
+    /// 
+    /// The structure contains a reference to a view which is linked to the entity
+    /// </summary>
+
+    public struct TViewComponent: IComponent
+    {
+        public BaseView mView;
+    }
+
+
+    /// <summary>
     /// class BaseView
     /// 
     /// The class is a base implementation of views for all that will be used to interact with a ECS model

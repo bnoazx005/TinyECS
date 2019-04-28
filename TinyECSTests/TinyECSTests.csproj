@@ -59,9 +59,14 @@
     <Compile Include="EventManager\EventManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemManager\SystemManagerTests.cs" />
+    <Compile Include="TinyECSUnityIntegrationTests\RegisterViewSystemTests.cs" />
     <Compile Include="WorldContext\WorldContextTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TinyECSUnityIntegration\TinyECSUnityIntegration.csproj">
+      <Project>{7FF156DA-3333-49B6-B082-FF86B458724E}</Project>
+      <Name>TinyECSUnityIntegration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TinyECS\TinyECS.csproj">
       <Project>{5f068059-fcfc-4a07-8430-c58431b39795}</Project>
       <Name>TinyECS</Name>
@@ -70,6 +75,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
