@@ -15,7 +15,7 @@ namespace TinyECSTests
         public void Init()
         {
             var componentManagerMock = Substitute.For<IComponentManager>();
-            
+                        
             mEntityManager = new EntityManager(componentManagerMock);
         }
 
@@ -60,7 +60,7 @@ namespace TinyECSTests
             Assert.NotNull(newEntity);
             Assert.AreEqual(newEntity.Id, 3);
         }
-
+        
         [Test]
         public void TestGetEntityById_PassInvalidEntityId_ThrowsException()
         {

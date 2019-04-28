@@ -28,6 +28,17 @@ namespace TinyECS.Impls
         }
 
         /// <summary>
+        /// The method destroy an entity with a given identifier
+        /// </summary>
+        /// <param name="entityId">An entity's identifier</param>
+        /// <returns>The method returns true if the entity was successfully destroyed and false in other cases</returns>
+
+        public bool DestroyEntity(uint entityId)
+        {
+            return mEntityManager.DestroyEntity(entityId);
+        }
+
+        /// <summary>
         /// The method returns a reference to an entity by its identifier
         /// </summary>
         /// <param name="entityId">An entity's identifier</param>

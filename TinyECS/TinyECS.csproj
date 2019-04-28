@@ -38,9 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impls\BaseReactiveSystem.cs" />
+    <Compile Include="Impls\BuiltinComponents.cs" />
+    <Compile Include="Impls\BuiltinSystems.cs" />
     <Compile Include="Impls\ComponentManager.cs" />
     <Compile Include="Impls\Entity.cs" />
     <Compile Include="Impls\EntityManager.cs" />
+    <Compile Include="Impls\EntityManagerExtensions.cs" />
     <Compile Include="Impls\EventManager.cs" />
     <Compile Include="Impls\Events.cs" />
     <Compile Include="Impls\Exceptions.cs" />
