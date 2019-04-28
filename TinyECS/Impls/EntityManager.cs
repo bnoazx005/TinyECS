@@ -101,7 +101,7 @@ namespace TinyECS.Impls
 
         public bool DestroyEntity(uint entityId)
         {
-            if (entityId >= mEntitiesList.Count)
+            if (entityId >= mEntitiesList.Count || mEntitiesList[(int)entityId] == null)
             {
                 return false;
             }
@@ -196,12 +196,14 @@ namespace TinyECS.Impls
 
         public IEntity GetEntityById(uint entityId)
         {
-            if (entityId >= mEntitiesList.Count)
+            IEntity currEntity = null;
+
+            if (entityId >= mEntitiesList.Count || (currEntity = mEntitiesList[(int)entityId]) ==null)
             {
                 throw new EntityDoesntExistException(entityId);
             }
 
-            return mEntitiesList[(int)entityId];
+            return currEntity;
         }
 
         /// <summary>
@@ -256,7 +258,7 @@ namespace TinyECS.Impls
             for (uint currEntityId = 0; currEntityId < mEntitiesList.Count; ++currEntityId)
             {               
                 // add an entity only if it passed all tests
-                if (predicate(currEntityId, components))
+                if (mEntitiesList[(int)currEntityId] != null && predicate(currEntityId, components))
                 {
                     filteredEntities.Add(currEntityId);
                 }
