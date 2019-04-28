@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Impls\BaseDynamicView.cs" />
     <Compile Include="Impls\BaseStaticView.cs" />
     <Compile Include="Impls\BaseView.cs" />
     <Compile Include="Impls\DependencyInjector.cs" />
