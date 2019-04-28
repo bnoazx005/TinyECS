@@ -80,5 +80,24 @@ namespace TinyECSTests
                 Assert.AreSame(newEntity, mEntityManager.GetEntityById(newEntity.Id));
             });
         }
+
+        [Test]
+        public void TestDestroyEntity_TryToDestroyUnexistedEntity_ReturnsFalse()
+        {
+            Assert.IsFalse(mEntityManager.DestroyEntity(0));
+        }
+
+        [Test]
+        public void TestDestroyEntity_DestroyExistingEntity_ReturnsTrueAndDestroyEntity()
+        {
+            var entity = mEntityManager.CreateEntity();
+
+            Assert.IsTrue(mEntityManager.DestroyEntity(entity.Id));
+
+            Assert.Throws<EntityDoesntExistException>(() =>
+            {
+                Assert.IsNull(mEntityManager.GetEntityById(entity.Id));
+            });
+        }
     }
 }
