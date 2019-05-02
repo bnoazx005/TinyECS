@@ -129,20 +129,40 @@ namespace TinyECSTests
         {
             Assert.DoesNotThrow(() =>
             {
-                int counter            = 0;
                 int expectedCallsCount = 5;
 
-                // subscribe to TSimpleEvent event
-                IEventListener<TSimpleEvent> eventListener = Substitute.For<IEventListener<TSimpleEvent>>();
+                const int numOfListeners = 4;
 
-                eventListener.When(e => e.OnEvent(new TSimpleEvent())).Do(e => ++counter);
+                int[] counters = new int[numOfListeners];
 
-                uint registeredListenerId = mEventManager.Subscribe<TSimpleEvent>(eventListener);
+                IEventListener<TSimpleEvent>[] listeners = new IEventListener<TSimpleEvent>[numOfListeners];
+
+                IEventListener<TSimpleEvent> currListener = null;
+
+                for (int i = 0; i < numOfListeners; ++i)
+                {
+                    // subscribe to TSimpleEvent event
+                    currListener = Substitute.For<IEventListener<TSimpleEvent>>();
+
+                    int currIndex = i;
+
+                    currListener.When(e => e.OnEvent(new TSimpleEvent())).Do(e => ++counters[currIndex]);
+
+                    uint registeredListenerId = mEventManager.Subscribe<TSimpleEvent>(currListener);
+
+                    listeners[i] = currListener;
+                }
+
                 
                 for (int i = 0; i < expectedCallsCount; ++i)
-                mEventManager.Notify<TSimpleEvent>(new TSimpleEvent());
+                {
+                    mEventManager.Notify<TSimpleEvent>(new TSimpleEvent());
+                }
 
-                Assert.AreEqual(expectedCallsCount, counter);
+                for (int i = 0; i < numOfListeners; ++i)
+                {
+                    Assert.AreEqual(expectedCallsCount, counters[i]);
+                }
             });
         }
     }
