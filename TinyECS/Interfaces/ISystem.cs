@@ -12,12 +12,6 @@ namespace TinyECS.Interfaces
 
     public interface ISystem
     {
-        /// <summary>
-        /// The method register the system within the given system manager based on the type
-        /// </summary>
-        /// <param name="systemManager">A reference to ISystemManager implementation</param>
-
-        void RegisterItself(ISystemManager systemManager);
     }
 
 

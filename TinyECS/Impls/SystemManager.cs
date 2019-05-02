@@ -50,7 +50,7 @@ namespace TinyECS.Impls
 
             mReactiveSystemsBuffer = new List<IEntity>();
         }
-        
+
         /// <summary>
         /// The method register specialized system type which is IInitSystem. The systems of this type
         /// is executed only once at start of an application. Please DON'T use this method use Register
@@ -132,26 +132,7 @@ namespace TinyECS.Impls
 
             mDeactivatedSystems.RemoveAt((int)systemId);
 
-            int registeredSystemId = 0;
-
-            /// if there is free entries in the current array use it
-            if (mFreeEntries.Count >= 1)
-            {
-                registeredSystemId = mFreeEntries.First.Value;
-
-                mFreeEntries.RemoveFirst();
-
-                mActiveSystems[registeredSystemId] = system;
-
-            }
-            else
-            {
-                registeredSystemId = mActiveSystems.Count;
-
-                mActiveSystems.Add(system);
-            }
-
-            return (uint)registeredSystemId;
+            return _pushSystemToActiveSystems(system);
         }
 
         /// <summary>
@@ -264,21 +245,7 @@ namespace TinyECS.Impls
                 return (uint)registeredSystemId;
             }
 
-            /// if there is free entries in the current array use it
-            if (mFreeEntries.Count >= 1)
-            {
-                registeredSystemId = mFreeEntries.First.Value;
-
-                mFreeEntries.RemoveFirst();
-
-                mActiveSystems[registeredSystemId] = system;
-            }
-            else
-            {
-                registeredSystemId = mActiveSystems.Count;
-
-                mActiveSystems.Add(system);
-            }
+            registeredSystemId = (int)_pushSystemToActiveSystems(system);
 
             int specializedSystemId = specializedSystemsArray.Count;
 
@@ -306,6 +273,29 @@ namespace TinyECS.Impls
             //TODO: Maybe we should check up for duplicates of the entity later
 
             mReactiveSystemsBuffer.Add(entity);
+        }
+
+        protected uint _pushSystemToActiveSystems(ISystem system)
+        {
+            int registeredSystemId = 0;
+
+            /// if there are free entries in the current array use it
+            if (mFreeEntries.Count >= 1)
+            {
+                registeredSystemId = mFreeEntries.First.Value;
+
+                mFreeEntries.RemoveFirst();
+
+                mActiveSystems[registeredSystemId] = system;
+            }
+            else
+            {
+                registeredSystemId = mActiveSystems.Count;
+
+                mActiveSystems.Add(system);
+            }
+
+            return (uint)registeredSystemId;
         }
     }
 }
