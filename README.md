@@ -9,7 +9,8 @@ Tiny ECS is a easy to use Entity-Component-System framework that's designed spec
 1. [Features](#features)
 2. [Requirements](#requirements)    
 3. [Installation](#installation)
-4. [Contact](#contact)
+4. [Documentation](#documentation)
+5. [Contact](#contact)
 
 ***
 
@@ -34,6 +35,12 @@ Tiny ECS is a easy to use Entity-Component-System framework that's designed spec
 To start to use the library just copy its *.dll and *.pdb files somewhere into **Assets/** directory of your Unity3D's project. 
 
 **NOTE.** Also don't forget to specify path to UnityEngine.dll file before the building of the library.
+
+***
+
+### Documentation<a name="documentation"></a>
+
+The project's documentation can be found [here](https://github.com/bnoazx005/TinyECS/wiki). You will find a bunch of tutorials there to understand how to use TinyECS library.
 
 ***
 
