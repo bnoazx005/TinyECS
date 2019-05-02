@@ -85,12 +85,32 @@ namespace TinyECS.Impls
         /// </summary>
         /// <typeparam name="T">A type of an event</typeparam>
         /// <param name="eventData">An event's data</param>
+        /// <param name="destListenerId">An identifier of destination listener. If the value equals to uint.MaxValue
+        /// the broadcasting will be executed</param>
 
-        public void Notify<T>(T eventData)
+        public void Notify<T>(T eventData, uint destListenerId = uint.MaxValue)
             where T : struct, IEvent
         {
             Type currEventType = typeof(T);
 
+            if (destListenerId != uint.MaxValue)
+            {
+                if (destListenerId >= mListeners.Count)
+                {
+                    throw new ArgumentOutOfRangeException("destListenerId");
+                }
+
+                var currListenerEntry = mListeners[(int)destListenerId];
+
+                if (currListenerEntry.mEventType == currEventType)
+                {
+                    (currListenerEntry.mListener as IEventListener<T>).OnEvent(eventData);
+                }
+
+                return;
+            }
+
+            // execute broadcasting
             foreach (TListenerEntry currListenerEntry in mListeners)
             {
                 if (currListenerEntry.mEventType == null ||

@@ -43,7 +43,7 @@
         /// </summary>
         /// <param name="eventListener">A reference to IEventListener implementation</param>
         /// <typeparam name="T">A type of an event</typeparam>
-        /// <returns></returns>
+        /// <returns>An identifier of a listener</returns>
 
         uint Subscribe<T>(IEventListener eventListener)
             where T : struct, IEvent;
@@ -60,8 +60,10 @@
         /// </summary>
         /// <typeparam name="T">A type of an event</typeparam>
         /// <param name="eventData">An event's data</param>
+        /// <param name="destListenerId">An identifier of destination listener. If the value equals to uint.MaxValue
+        /// the broadcasting will be executed</param>
 
-        void Notify<T>(T eventData)
+        void Notify<T>(T eventData, uint destListenerId = uint.MaxValue)
             where T: struct, IEvent;
     }
 }
