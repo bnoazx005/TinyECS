@@ -87,6 +87,8 @@ namespace TinyECS.Impls
             {
                 componentsGroup[entityComponentsTable[cachedComponentType]] = componentInitializer;
 
+                _notifyOnComponentsChanged(entityId, componentInitializer);
+
                 return;
             }
 
@@ -95,11 +97,7 @@ namespace TinyECS.Impls
 
             componentsGroup.Add(componentInitializer);
 
-            mEventManager.Notify<TNewComponentAddedEvent>(new TNewComponentAddedEvent()
-            {
-                mOwnerId       = entityId,
-                mComponentType = cachedComponentType
-            });
+            _notifyOnComponentsChanged(entityId, componentInitializer);
         }
 
         /// <summary>
@@ -223,6 +221,21 @@ namespace TinyECS.Impls
             }
 
             entityComponentsTable.Remove(componentType);
+        }
+
+        protected void _notifyOnComponentsChanged<T>(uint entityId, T value)
+        {
+            mEventManager.Notify(new TNewComponentAddedEvent()
+            {
+                mOwnerId       = entityId,
+                mComponentType = typeof(T)
+            });
+
+            mEventManager.Notify(new TComponentChangedEvent<T>()
+            {
+                mOwnerId = entityId,
+                mValue   = value
+            });
         }
 
         /// <summary>

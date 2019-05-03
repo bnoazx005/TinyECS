@@ -19,7 +19,7 @@
     /// <typeparam name="T"></typeparam>
 
     public interface IEventListener<T>: IEventListener
-        where T: struct, IEvent
+        where T: struct
     {
         /// <summary>
         /// The method should be implemented by all listeners which want to retrieve events of T type
@@ -46,7 +46,7 @@
         /// <returns>An identifier of a listener</returns>
 
         uint Subscribe<T>(IEventListener eventListener)
-            where T : struct, IEvent;
+            where T : struct;
 
         /// <summary>
         /// The method unsubscribes specified listener with a given identifier
@@ -64,6 +64,6 @@
         /// the broadcasting will be executed</param>
 
         void Notify<T>(T eventData, uint destListenerId = uint.MaxValue)
-            where T: struct, IEvent;
+            where T: struct;
     }
 }

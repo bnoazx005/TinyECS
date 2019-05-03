@@ -9,12 +9,19 @@ namespace TinyECS.Impls
         public uint mEntityId;
     }
 
-
     public struct TNewComponentAddedEvent: IEvent
     {
         public uint mOwnerId;
 
         public Type mComponentType;
+    }
+
+
+    public struct TComponentChangedEvent<T>: IEvent
+    {
+        public uint mOwnerId;
+
+        public T    mValue;
     }
 
 
