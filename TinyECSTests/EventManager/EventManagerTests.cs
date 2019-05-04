@@ -210,5 +210,19 @@ namespace TinyECSTests
                 }
             });
         }
+
+        [Test]
+        public void TestNotify_InvokeSomeEventWhenSomeListenerDoesntProvideOnEventMethod_ShouldWorkCorrectWithoutExceptions()
+        {
+            Assert.DoesNotThrow(() => 
+            {
+                // create an event listener and subcribe it to both events
+                IEventListener listener = new BrokenEventListenerMock(mEventManager);
+
+                // try to notify the listener about TAnotherEvent event has happened
+                // this method should correctly process listeners which does not provide all OnEvent's implementations
+                mEventManager.Notify(new TAnotherEvent { });                
+            });
+        }
     }
 }           

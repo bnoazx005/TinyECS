@@ -104,7 +104,7 @@ namespace TinyECS.Impls
 
                 if (currListenerEntry.mEventType == currEventType)
                 {
-                    (currListenerEntry.mListener as IEventListener<T>).OnEvent(eventData);
+                    (currListenerEntry.mListener as IEventListener<T>)?.OnEvent(eventData);
                 }
 
                 return;
@@ -120,7 +120,7 @@ namespace TinyECS.Impls
                     continue;
                 }
 
-                (currListenerEntry.mListener as IEventListener<T>).OnEvent(eventData);
+                (currListenerEntry.mListener as IEventListener<T>)?.OnEvent(eventData);
             }
         }
     }
