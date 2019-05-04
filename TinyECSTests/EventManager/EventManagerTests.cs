@@ -224,5 +224,21 @@ namespace TinyECSTests
                 mEventManager.Notify(new TAnotherEvent { });                
             });
         }
+
+        [Test]
+        public void TestNotify_NotifyPassInternalExceptionOutwards_NotifyThrowsInternalExceptionsAsItsOwn()
+        {
+            // create an event listener that throws NotImplementException within OnEvent
+            IEventListener<TSimpleEvent> listener = Substitute.For<IEventListener<TSimpleEvent>>();
+
+            listener.When(e => e.OnEvent(new TSimpleEvent())).Do(e => throw new NotImplementedException());
+
+            mEventManager.Subscribe<TSimpleEvent>(listener);
+
+            Assert.Throws<NotImplementedException>(() =>
+            {
+                mEventManager.Notify(new TSimpleEvent { });
+            });
+        }
     }
 }           

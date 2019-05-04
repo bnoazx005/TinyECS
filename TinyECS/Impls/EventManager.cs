@@ -93,6 +93,8 @@ namespace TinyECS.Impls
         {
             Type currEventType = typeof(T);
 
+            TListenerEntry currListenerEntry;
+
             if (destListenerId != uint.MaxValue)
             {
                 if (destListenerId >= mListeners.Count)
@@ -100,7 +102,7 @@ namespace TinyECS.Impls
                     throw new ArgumentOutOfRangeException("destListenerId");
                 }
 
-                var currListenerEntry = mListeners[(int)destListenerId];
+                currListenerEntry = mListeners[(int)destListenerId];
 
                 if (currListenerEntry.mEventType == currEventType)
                 {
@@ -111,8 +113,11 @@ namespace TinyECS.Impls
             }
 
             // execute broadcasting
-            foreach (TListenerEntry currListenerEntry in mListeners)
+
+            for (int i = 0; i < mListeners.Count; ++i)
             {
+                currListenerEntry = mListeners[i];
+
                 if (currListenerEntry.mEventType == null ||
                     currListenerEntry.mEventType != currEventType ||
                     currListenerEntry.mListener == null)
