@@ -20,7 +20,7 @@ before_build:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    y9Xai/mlfKfPkl5U1cpMgfbMD9pcqkiVNMa4jQLX0o0aa//5yiqHbys5Gn4Hofvj
+    secure: y9Xai/mlfKfPkl5U1cpMgfbMD9pcqkiVNMa4jQLX0o0aa//5yiqHbys5Gn4Hofvj
 
 test:
   assemblies:
