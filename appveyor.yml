@@ -32,7 +32,7 @@ artifacts:
     - path: TinyECS.zip
 
 after_test:
-  #- cmd: packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.ConsoleRunner.3.10.0\tools\nunit3-console.exe" -targetargs:"/domain:single TinyECSTests\bin\%CONFIGURATION%\TinyECSTests.dll" -output:coverage.xml
+  - cmd: packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.ConsoleRunner.3.10.0\tools\nunit3-console.exe" -targetargs:"/domain:single TinyECSTests\bin\%CONFIGURATION%\TinyECSTests.dll" -output:coverage.xml
   #- cmd: packages\coveralls.net.0.7.0\tools\csmacnz.Coveralls.exe --opencover -i coverage.xml --repoToken %COVERALLS_REPO_TOKEN% --useRelativePaths --commitId %APPVEYOR_REPO_COMMIT% --commitBranch %APPVEYOR_REPO_BRANCH% --commitAuthor %APPVEYOR_REPO_COMMIT_AUTHOR% --commitEmail %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL% --commitMessage %APPVEYOR_REPO_COMMIT_MESSAGE% --jobId %APPVEYOR_BUILD_NUMBER% --serviceName appveyor
 
 after_build:
