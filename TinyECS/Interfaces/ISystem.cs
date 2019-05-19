@@ -1,8 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace TinyECS.Interfaces
 {
+    [Flags]
+    public enum E_SYSTEM_TYPE: byte
+    {
+        ST_UNKNOWN  = 0x0,
+        ST_INIT     = 0x1,
+        ST_UPDATE   = 0x2,
+        ST_REACTIVE = 0x4
+    }
+
+
     /// <summary>
     /// interface ISystem
     /// 

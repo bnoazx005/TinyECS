@@ -39,7 +39,7 @@ namespace TinyECSTests
             {
                 uint registeredSystemId = mSystemManager.RegisterInitSystem(systemMock);
 
-                Assert.AreEqual(registeredSystemId, 0);
+                Assert.AreEqual(registeredSystemId, (byte)(E_SYSTEM_TYPE.ST_INIT) << 29);
             });
         }
 
@@ -63,7 +63,7 @@ namespace TinyECSTests
                     {
                         currSystemId = mSystemManager.RegisterInitSystem(Substitute.For<IInitSystem>());
                         
-                        Assert.AreEqual((currNumOfRegisteredInitSystems << 16) | i, currSystemId);
+                        Assert.AreEqual((currNumOfRegisteredInitSystems << 16) | i | (((byte)E_SYSTEM_TYPE.ST_INIT) << 29), currSystemId);
 
                         ++currNumOfRegisteredInitSystems;
                     }
@@ -71,7 +71,7 @@ namespace TinyECSTests
                     {
                         currSystemId = mSystemManager.RegisterUpdateSystem(Substitute.For<IUpdateSystem>());
 
-                        Assert.AreEqual((currNumOfRegisteredUpdateSystems << 16) | i, currSystemId);
+                        Assert.AreEqual((currNumOfRegisteredUpdateSystems << 16) | i | (((byte)E_SYSTEM_TYPE.ST_UPDATE) << 29), currSystemId);
 
                         ++currNumOfRegisteredUpdateSystems;
                     }
@@ -142,6 +142,22 @@ namespace TinyECSTests
                 uint newSystemId = mSystemManager.ActivateSystem(registeredSystemId);
 
                 Assert.AreNotEqual(newSystemId, deactivatedSystemId);
+            });
+        }
+
+        [Test]
+        public void TestRegisterSystem_TryRegisterMultiTaskSystem_RegisterSameReferenceAsMultiSystem()
+        {
+            var systemMock = Substitute.For<IUpdateSystem, IInitSystem>();
+
+            Assert.DoesNotThrow(() =>
+            {
+                uint initSystemId   = mSystemManager.RegisterInitSystem(systemMock as IInitSystem);
+                uint updateSystemId = mSystemManager.RegisterUpdateSystem(systemMock);
+
+                Assert.AreNotEqual(initSystemId, updateSystemId);
+                Assert.AreEqual(((byte)E_SYSTEM_TYPE.ST_INIT << 29), initSystemId);
+                Assert.AreEqual(((byte)E_SYSTEM_TYPE.ST_UPDATE << 29), updateSystemId);
             });
         }
     }

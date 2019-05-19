@@ -61,7 +61,7 @@ namespace TinyECS.Impls
 
         public uint RegisterInitSystem(IInitSystem system)
         {
-            return _registerSystem(system, mActiveInitSystems);
+            return _registerSystem(system, mActiveInitSystems, (byte)E_SYSTEM_TYPE.ST_INIT);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace TinyECS.Impls
 
         public uint RegisterUpdateSystem(IUpdateSystem system)
         {
-            return _registerSystem(system, mActiveUpdateSystems);
+            return _registerSystem(system, mActiveUpdateSystems, (byte)E_SYSTEM_TYPE.ST_UPDATE);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace TinyECS.Impls
 
         public uint RegisterReactiveSystem(IReactiveSystem system)
         {
-            return _registerSystem(system, mActiveReactiveSystems);
+            return _registerSystem(system, mActiveReactiveSystems, (byte)E_SYSTEM_TYPE.ST_REACTIVE);
         }
 
         /// <summary>
@@ -96,11 +96,13 @@ namespace TinyECS.Impls
 
         public void UnregisterSystem(uint systemId)
         {
-            ISystem system = _getSystemById(mActiveSystems, systemId);
+            uint commonSystemId = systemId & 0xFFFF; /* extract 2 low bytes*/
 
-            mActiveSystems[(int)systemId] = null;
+            ISystem system = _getSystemById(mActiveSystems, commonSystemId);
 
-            mFreeEntries.AddLast((int)systemId);
+            mActiveSystems[(int)commonSystemId] = null;
+
+            mFreeEntries.AddLast((int)commonSystemId);
         }
 
         /// <summary>
@@ -113,13 +115,15 @@ namespace TinyECS.Impls
         {
             ISystem system = null;
 
+            uint commonSystemId = systemId & 0xFFFF; /* extract 2 low bytes*/
+
             try
             {
-                system = _getSystemById(mDeactivatedSystems, systemId);
+                system = _getSystemById(mDeactivatedSystems, commonSystemId);
             }
             catch (InvalidIdentifierException)
             {
-                system = _getSystemById(mActiveSystems, systemId);
+                system = _getSystemById(mActiveSystems, commonSystemId);
 
                 /// do nothing with an already active system
                 if (system != null)
@@ -130,7 +134,7 @@ namespace TinyECS.Impls
                 throw;
             }
 
-            mDeactivatedSystems.RemoveAt((int)systemId);
+            mDeactivatedSystems.RemoveAt((int)commonSystemId);
 
             return _pushSystemToActiveSystems(system);
         }
@@ -145,13 +149,15 @@ namespace TinyECS.Impls
         {
             ISystem system = null;
 
+            uint commonSystemId = systemId & 0xFFFF;
+
             try
             {
-                system = _getSystemById(mActiveSystems, systemId);
+                system = _getSystemById(mActiveSystems, commonSystemId);
             }
             catch (InvalidIdentifierException)
             {
-                system = _getSystemById(mDeactivatedSystems, systemId);
+                system = _getSystemById(mDeactivatedSystems, commonSystemId);
 
                 /// do nothing with an already deactivated system
                 if (system != null)
@@ -162,7 +168,7 @@ namespace TinyECS.Impls
                 throw;
             }
 
-            mActiveSystems[(int)systemId] = null;
+            mActiveSystems[(int)commonSystemId] = null;
 
             int registeredSystemId = mDeactivatedSystems.Count;
 
@@ -225,7 +231,7 @@ namespace TinyECS.Impls
             return system;
         }
 
-        public uint _registerSystem<T>(T system, List<T> specializedSystemsArray) 
+        public uint _registerSystem<T>(T system, List<T> specializedSystemsArray, byte systemTypeMask = 0x0) 
             where T: class, ISystem
         {
             if (system == null)
@@ -233,27 +239,28 @@ namespace TinyECS.Impls
                 throw new ArgumentNullException("system", "An input argument 'system' cannot equal to null");
             }
 
-            int registeredSystemId = 0;
+            int registeredSystemId  = 0;
+            int specializedSystemId = 0;
 
             // if the system's already registered just return its identifier
-            if ((registeredSystemId = mActiveSystems.FindIndex(t => t == system)) >= 0)
+            if ((registeredSystemId = mActiveSystems.FindIndex(t => t == system)) >= 0 && (specializedSystemId = specializedSystemsArray.FindIndex(t => t == system)) != -1)
             {
-                return (uint)registeredSystemId;
+                return (uint)((specializedSystemId << 16) | registeredSystemId | (systemTypeMask << 29));
             }
-            else if ((registeredSystemId = mDeactivatedSystems.FindIndex(t => t == system)) >= 0)
-            {
-                return (uint)registeredSystemId;
-            }
+            //else if ((registeredSystemId = mDeactivatedSystems.FindIndex(t => t == system)) >= 0)
+            //{
+            //    return (uint)registeredSystemId;
+            //}
 
             registeredSystemId = (int)_pushSystemToActiveSystems(system);
 
-            int specializedSystemId = specializedSystemsArray.Count;
+            specializedSystemId = specializedSystemsArray.Count;
 
             specializedSystemsArray.Add(system);
 
             // NOTE: entity's identifier constists of two parts. The high 2 bytes equals to index within specialized array
             // and low 2 bytes are an index within common array
-            return (uint)((specializedSystemId << 16) | registeredSystemId);
+            return (uint)((specializedSystemId << 16) | registeredSystemId | (systemTypeMask << 29));
         }
 
         public void OnEvent(TNewComponentAddedEvent eventData)
@@ -277,7 +284,12 @@ namespace TinyECS.Impls
 
         protected uint _pushSystemToActiveSystems(ISystem system)
         {
-            int registeredSystemId = 0;
+            int registeredSystemId = mActiveSystems.FindIndex(t => t == system);
+
+            if (registeredSystemId != -1)
+            {
+                return (uint)registeredSystemId;
+            }
 
             /// if there are free entries in the current array use it
             if (mFreeEntries.Count >= 1)
@@ -296,6 +308,28 @@ namespace TinyECS.Impls
             }
 
             return (uint)registeredSystemId;
+        }
+
+        protected E_SYSTEM_TYPE _getSystemTypeMask(ISystem system)
+        {
+            E_SYSTEM_TYPE systemTypeMask = E_SYSTEM_TYPE.ST_UNKNOWN;
+
+            if (system is IInitSystem)
+            {
+                systemTypeMask |= E_SYSTEM_TYPE.ST_INIT;
+            }
+
+            if (system is IUpdateSystem)
+            {
+                systemTypeMask |= E_SYSTEM_TYPE.ST_UPDATE;
+            }
+
+            if (system is IReactiveSystem)
+            {
+                systemTypeMask |= E_SYSTEM_TYPE.ST_REACTIVE;
+            }
+
+            return systemTypeMask;
         }
     }
 }
