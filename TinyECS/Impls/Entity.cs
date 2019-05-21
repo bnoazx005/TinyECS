@@ -111,6 +111,11 @@ namespace TinyECS.Impls
             return mEntityManager.HasComponent(mId, componentType);
         }
 
+        public override string ToString()
+        {
+            return $"Entity_{mId} {(mName != null ? $"({mName})" : string.Empty)}";
+        }
+
         /// <summary>
         /// The property returns an identifier of an entity
         /// </summary>
