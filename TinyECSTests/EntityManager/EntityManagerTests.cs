@@ -99,5 +99,53 @@ namespace TinyECSTests
                 Assert.IsNull(mEntityManager.GetEntityById(entity.Id));
             });
         }
+
+        [Test]
+        public void TestNumOfActiveEntities_ThereAreNoEntitiesInWorld_ReturnsZero()
+        {
+            Assert.AreEqual(0, mEntityManager.NumOfActiveEntities);
+        }
+
+        [Test]
+        public void TestNumOfActiveEntities_ThereAreFewEntitiesExistInWorld_ReturnsNumberOfEntities()
+        {
+            uint expectedNumOfEntities = 3;
+
+            Assert.DoesNotThrow(() =>
+            {
+                for (int i = 0; i < expectedNumOfEntities; ++i)
+                {
+                    Assert.IsNotNull(mEntityManager.CreateEntity());
+
+                    Assert.AreEqual(i + 1, mEntityManager.NumOfActiveEntities);
+                }
+            });
+        }
+
+        [Test]
+        public void TestNumOfActiveEntities_ThereAreFewEntitiesExistAndFewIsRemoved_ReturnsNumberOfEntities()
+        {
+            uint expectedNumOfEntities        = 3;
+            uint expectedNumOfDeletedEntities = 2;
+
+            Assert.DoesNotThrow(() =>
+            {
+                // preallocate entities in the world's context
+                for (int i = 0; i < expectedNumOfEntities; ++i)
+                {
+                    Assert.IsNotNull(mEntityManager.CreateEntity());
+
+                    Assert.AreEqual(i + 1, mEntityManager.NumOfActiveEntities);
+                }
+
+                // delete some entities
+                for (uint i = 0; i < expectedNumOfDeletedEntities; ++i)
+                {
+                    mEntityManager.DestroyEntity(i);
+                }
+
+                Assert.AreEqual(expectedNumOfEntities - expectedNumOfDeletedEntities, mEntityManager.NumOfActiveEntities);
+            });
+        }
     }
 }

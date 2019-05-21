@@ -30,6 +30,8 @@ namespace TinyECS.Impls
 
         protected static string       mDefaultEntityPatternName = "Entity{0}";
 
+        protected uint                mNumOfActiveEntities;
+
         /// <summary>
         /// The main constructor of the class
         /// </summary>
@@ -48,6 +50,8 @@ namespace TinyECS.Impls
             mDestroyedEntitiesList = new LinkedList<IEntity>();
 
             mEntitiesIdCounter = 0;
+
+            mNumOfActiveEntities = 0;
         }
 
         protected EntityManager()
@@ -90,6 +94,8 @@ namespace TinyECS.Impls
                 mEntityId = entityId
             });
 
+            ++mNumOfActiveEntities;
+
             return newEntityInstance;
         }
 
@@ -111,6 +117,8 @@ namespace TinyECS.Impls
             mEntitiesList[(int)entityId] = null;
 
             mNextFreeEntityId.Enqueue(entityId);
+
+            --mNumOfActiveEntities;
 
             return true;
         }
@@ -272,5 +280,11 @@ namespace TinyECS.Impls
         /// </summary>
 
         public IEventManager EventManager => mEventManager;
+
+        /// <summary>
+        /// The property returns a number of active entities at the moment
+        /// </summary>
+
+        public uint NumOfActiveEntities => mNumOfActiveEntities;
     }
 }

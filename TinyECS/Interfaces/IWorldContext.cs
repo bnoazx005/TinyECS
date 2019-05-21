@@ -58,5 +58,11 @@ namespace TinyECS.Interfaces
         /// </summary>
 
         IEventManager EventManager { get; }
+
+        /// <summary>
+        /// The property returns a number of active entities at the moment
+        /// </summary>
+
+        uint NumOfActiveEntities { get; }
     }
 }
