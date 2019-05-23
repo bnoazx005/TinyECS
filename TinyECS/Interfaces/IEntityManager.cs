@@ -117,5 +117,12 @@ namespace TinyECS.Interfaces
         /// </summary>
 
         uint NumOfActiveEntities { get; }
+
+        /// <summary>
+        /// The property returns a total number of reusable entities which are currently placed within
+        /// entities pool, but can be retrieved for usage
+        /// </summary>
+
+        uint NumOfReusableEntities { get; }
     }
 }

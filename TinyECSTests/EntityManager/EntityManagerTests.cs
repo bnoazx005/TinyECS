@@ -2,7 +2,7 @@
 using TinyECS.Interfaces;
 using TinyECS.Impls;
 using NSubstitute;
-
+using System;
 
 namespace TinyECSTests
 {
@@ -145,6 +145,51 @@ namespace TinyECSTests
                 }
 
                 Assert.AreEqual(expectedNumOfEntities - expectedNumOfDeletedEntities, mEntityManager.NumOfActiveEntities);
+            });
+        }
+
+        [Test]
+        public void TestNumOfReusableEntities_InvokedOnEmptyEntityManager_ReturnsZero()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                Assert.AreEqual(0, mEntityManager.NumOfReusableEntities);
+            });
+        }
+
+        [Test]
+        public void TestNumOfReusableEntities_InvokedWhenTwoEntitiesWereCreated_ReturnsZero()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                for (int i = 0; i < 2; ++i)
+                {
+                    Assert.IsNotNull(mEntityManager.CreateEntity());
+                }
+
+                Assert.AreEqual(0, mEntityManager.NumOfReusableEntities);
+            });
+        }
+
+        [Test]
+        public void TestNumOfReusableEntities_InvokedWhenFewEntitiesWereCreatedAndFewDeleted_ReturnsLatterValue()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                uint numOfCreatedEntities   = 5;
+                uint numOfDestroyedEntities = 2;
+                
+                for (int i = 0; i < numOfCreatedEntities; ++i)
+                {
+                    Assert.IsNotNull(mEntityManager.CreateEntity());
+                }
+
+                for (uint i = 0; i < numOfDestroyedEntities; ++i)
+                {
+                    mEntityManager.DestroyEntity(i);
+                }
+
+                Assert.AreEqual(numOfDestroyedEntities, mEntityManager.NumOfReusableEntities);
             });
         }
     }
