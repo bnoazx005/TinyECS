@@ -21,6 +21,8 @@ namespace TinyECS.Impls
 
         protected IList<IList<IComponent>>                  mComponentsMatrix;
 
+        protected uint                                      mNumOfActiveComponents;
+
         public ComponentManager(IEventManager eventManager)
         {
             mEventManager = eventManager ?? throw new ArgumentNullException("eventManager");
@@ -30,6 +32,8 @@ namespace TinyECS.Impls
             mComponentsMatrix = new List<IList<IComponent>>();
 
             mComponentTypesHashTable = new Dictionary<Type, int>();
+
+            mNumOfActiveComponents = 0;
         }
 
         /// <summary>
@@ -98,6 +102,8 @@ namespace TinyECS.Impls
             componentsGroup.Add(componentInitializer);
 
             _notifyOnComponentsChanged(entityId, componentInitializer);
+
+            ++mNumOfActiveComponents;
         }
 
         /// <summary>
@@ -221,6 +227,8 @@ namespace TinyECS.Impls
             }
 
             entityComponentsTable.Remove(componentType);
+
+            --mNumOfActiveComponents;
         }
 
         protected void _notifyOnComponentsChanged<T>(uint entityId, T value)
@@ -243,5 +251,11 @@ namespace TinyECS.Impls
         /// </summary>
 
         public IEventManager EventManager => mEventManager;
+
+        /// <summary>
+        /// The property returns a number of all active components that are used by entities
+        /// </summary>
+
+        public uint NumOfActiveComponents => mNumOfActiveComponents;
     }
 }

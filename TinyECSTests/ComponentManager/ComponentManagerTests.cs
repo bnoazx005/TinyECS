@@ -172,5 +172,45 @@ namespace TinyECSTests
                 Assert.IsFalse(mComponentManager.HasComponent<TTestComponent>(entityId));
             });
         }
+
+        [Test]
+        public void TestNumOfActiveComponents_InvokedWhenFewComponentsExist_ReturnsNumberOfThem()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                uint expectedNumOfComponents = 10;
+
+                for (uint i = 0; i < expectedNumOfComponents; ++i)
+                {
+                    mComponentManager.AddComponent<TAnotherComponent>(i);
+
+                    Assert.AreEqual(i + 1, mComponentManager.NumOfActiveComponents);
+                }
+            });
+        }
+
+        [Test]
+        public void TestNumOfActiveComponents_InvokedWhenFewComponentsExistAndFewDestroyed_ReturnsNumberOfLatter()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                uint expectedNumOfComponents = 10;
+                uint numOfDeletingComponents = 3;
+
+                for (uint i = 0; i < expectedNumOfComponents; ++i)
+                {
+                    mComponentManager.AddComponent<TAnotherComponent>(i);
+
+                    Assert.AreEqual(i + 1, mComponentManager.NumOfActiveComponents);
+                }
+
+                for (uint i = 0; i < numOfDeletingComponents; ++i)
+                {
+                    mComponentManager.RemoveComponent<TAnotherComponent>(i);
+
+                    Assert.AreEqual(expectedNumOfComponents - i - 1, mComponentManager.NumOfActiveComponents);
+                }
+            });
+        }
     }
 }

@@ -77,5 +77,11 @@ namespace TinyECS.Interfaces
         /// </summary>
 
         IEventManager EventManager { get; }
+
+        /// <summary>
+        /// The property returns a number of all active components that are used by entities
+        /// </summary>
+
+        uint NumOfActiveComponents { get; }
     }
 }
