@@ -37,7 +37,7 @@ after_test:
 
 after_build:
   #create zip archive with all the binaries and documentation
-  7z a TinyECS.zip %APPVEYOR_BUILD_FOLDER%\TinyECS\bin\%CONFIGURATION%\*.dll %APPVEYOR_BUILD_FOLDER%\README.md %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\TinyECSUnityIntegration\bin\%CONFIGURATION%\TinyECSUnityIntegration.dll
+  7z a TinyECS.zip %APPVEYOR_BUILD_FOLDER%\TinyECS\bin\%CONFIGURATION%\*.dll %APPVEYOR_BUILD_FOLDER%\README.md %APPVEYOR_BUILD_FOLDER%\LICENSE  %APPVEYOR_BUILD_FOLDER%\CHANGELOG.md %APPVEYOR_BUILD_FOLDER%\TinyECSUnityIntegration\bin\%CONFIGURATION%\TinyECSUnityIntegration.dll %APPVEYOR_BUILD_FOLDER%\TinyECSUnityIntegrationEditor\bin\%CONFIGURATION%\TinyECSUnityIntegrationEditor.dll
 
 skip_tags: true
 
