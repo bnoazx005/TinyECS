@@ -51,6 +51,10 @@
       <Project>{7ff156da-3333-49b6-b082-ff86b458724e}</Project>
       <Name>TinyECSUnityIntegration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TinyECS\TinyECS.csproj">
+      <Project>{5F068059-FCFC-4A07-8430-C58431B39795}</Project>
+      <Name>TinyECS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

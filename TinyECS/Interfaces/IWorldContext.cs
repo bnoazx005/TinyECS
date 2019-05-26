@@ -5,6 +5,22 @@ using System.Collections.Generic;
 namespace TinyECS.Interfaces
 {
     /// <summary>
+    /// structure TWorldContextStats
+    /// 
+    /// The structure contains statistics about a particular world's context
+    /// </summary>
+
+    public struct TWorldContextStats
+    {
+        public uint mNumOfActiveEntities;
+
+        public uint mNumOfReservedEntities;
+
+        public uint mNumOfActiveComponents;
+    }
+
+
+    /// <summary>
     /// class IWorldContext
     /// 
     /// The interface describes a functionality of a world's context which is a main hub
@@ -60,9 +76,9 @@ namespace TinyECS.Interfaces
         IEventManager EventManager { get; }
 
         /// <summary>
-        /// The property returns a number of active entities at the moment
+        /// The property returns statistics of current world's context
         /// </summary>
 
-        uint NumOfActiveEntities { get; }
+        TWorldContextStats Statistics { get; }
     }
 }

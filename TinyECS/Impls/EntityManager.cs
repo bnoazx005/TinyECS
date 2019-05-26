@@ -293,5 +293,11 @@ namespace TinyECS.Impls
         /// </summary>
 
         public uint NumOfReusableEntities => (uint)mDestroyedEntitiesList.Count;
+
+        /// <summary>
+        /// The property returns a number of all active components that are used by entities
+        /// </summary>
+
+        public uint NumOfActiveComponents => mComponentManager?.NumOfActiveComponents ?? 0;
     }
 }

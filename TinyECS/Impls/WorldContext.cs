@@ -78,9 +78,14 @@ namespace TinyECS.Impls
         public IEventManager EventManager => mEntityManager?.EventManager;
 
         /// <summary>
-        /// The property returns a number of active entities at the moment
+        /// The property returns statistics of current world's context
         /// </summary>
 
-        public uint NumOfActiveEntities => mEntityManager?.NumOfActiveEntities ?? 0;
+        public TWorldContextStats Statistics => new TWorldContextStats
+        {
+            mNumOfActiveEntities   = mEntityManager?.NumOfActiveEntities   ?? 0,
+            mNumOfReservedEntities = mEntityManager?.NumOfReusableEntities ?? 0,
+            mNumOfActiveComponents = mEntityManager?.NumOfActiveComponents ?? 0
+        };
     }
 }
