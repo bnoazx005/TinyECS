@@ -83,9 +83,10 @@ namespace TinyECS.Impls
 
         public TWorldContextStats Statistics => new TWorldContextStats
         {
-            mNumOfActiveEntities   = mEntityManager?.NumOfActiveEntities   ?? 0,
-            mNumOfReservedEntities = mEntityManager?.NumOfReusableEntities ?? 0,
-            mNumOfActiveComponents = mEntityManager?.NumOfActiveComponents ?? 0
+            mNumOfActiveEntities             = mEntityManager?.NumOfActiveEntities             ?? 0,
+            mNumOfReservedEntities           = mEntityManager?.NumOfReusableEntities           ?? 0,
+            mNumOfActiveComponents           = mEntityManager?.NumOfActiveComponents           ?? 0,
+            mAverageNumOfComponentsPerEntity = mEntityManager?.AverageNumOfComponentsPerEntity ?? 0
         };
     }
 }

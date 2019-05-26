@@ -130,5 +130,12 @@ namespace TinyECS.Interfaces
         /// </summary>
 
         uint NumOfActiveComponents { get; }
+
+        /// <summary>
+        /// The property returns an average number of components per entity. The value shows up
+        /// an average entity's complexity, the higher the value, the worse performance 
+        /// </summary>
+
+        uint AverageNumOfComponentsPerEntity { get; }
     }
 }

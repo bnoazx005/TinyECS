@@ -17,6 +17,8 @@ namespace TinyECS.Interfaces
         public uint mNumOfReservedEntities;
 
         public uint mNumOfActiveComponents;
+
+        public uint mAverageNumOfComponentsPerEntity;
     }
 
 

@@ -212,5 +212,31 @@ namespace TinyECSTests
                 }
             });
         }
+
+        [Test]
+        public void TestAverageNumOfComponentsPerEntity_InvokedOnEmptyWorld_ReturnsZero()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                Assert.AreEqual(0, mComponentManager.AverageNumOfComponentsPerEntity);
+            });
+        }
+
+        [Test]
+        public void TestAverageNumOfComponentsPerEntity_InvokedOnEntitiesWith2Components_ReturnsTwo()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                for (uint i = 0; i < 10; ++i)
+                {
+                    mComponentManager.RegisterEntity(i);
+
+                    mComponentManager.AddComponent<TTestComponent>(i);
+                    mComponentManager.AddComponent<TAnotherComponent>(i);
+                }
+
+                Assert.AreEqual(2, mComponentManager.AverageNumOfComponentsPerEntity);
+            });
+        }
     }
 }

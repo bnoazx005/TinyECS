@@ -22,6 +22,7 @@ namespace TinyECSUnityIntegrationEditor.Inspectors
             EditorGUILayout.LabelField("Active entities:", stats.mNumOfActiveEntities.ToString());
             EditorGUILayout.LabelField("Reserved entities:", stats.mNumOfReservedEntities.ToString());
             EditorGUILayout.LabelField("Total Components Count:", stats.mNumOfActiveComponents.ToString());
+            EditorGUILayout.LabelField("Average Components Per Entity:", stats.mAverageNumOfComponentsPerEntity.ToString());
 
             EditorGUILayout.EndVertical();
         }

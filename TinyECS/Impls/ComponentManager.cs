@@ -257,5 +257,33 @@ namespace TinyECS.Impls
         /// </summary>
 
         public uint NumOfActiveComponents => mNumOfActiveComponents;
+
+        /// <summary>
+        /// The property returns an average number of components per entity. The value shows up
+        /// an average entity's complexity, the higher the value, the worse performance 
+        /// </summary>
+
+        public uint AverageNumOfComponentsPerEntity
+        {
+            get
+            {
+                uint numOfEntities               = (uint)mEntity2ComponentsHashTable.Count;
+                uint avgNumOfComponentsPerEntity = 0;
+
+                if (numOfEntities < 1)
+                {
+                    return 0;
+                }
+
+                var entitiesIter = mEntity2ComponentsHashTable.Keys.GetEnumerator();
+
+                while (entitiesIter.MoveNext())
+                {
+                    avgNumOfComponentsPerEntity += (uint)mEntity2ComponentsHashTable[entitiesIter.Current].Count;
+                }
+
+                return avgNumOfComponentsPerEntity / numOfEntities;
+            }
+        }
     }
 }
