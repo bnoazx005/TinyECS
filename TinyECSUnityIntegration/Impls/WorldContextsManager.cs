@@ -1,4 +1,5 @@
 ﻿using TinyECS.Interfaces;
+using TinyECS.Impls;
 using UnityEngine;
 
 
@@ -11,11 +12,75 @@ namespace TinyECSUnityIntegration.Impls
     /// NOTE: For now we support the only world context
     /// </summary>
 
-    public class WorldContextsManager: MonoBehaviour
+    public class WorldContextsManager: MonoBehaviour, IEventListener<TNewEntityCreatedEvent>, IEventListener<TEntityDestroyedEvent>
     {
         protected IWorldContext mWorldContext;
 
-        public IWorldContext WorldContext { get => mWorldContext; set => mWorldContext = value; }
+        protected uint          mNewEntityCreatedListenerId = uint.MaxValue;
+
+        protected uint          mEntityRemovedListenerId = uint.MaxValue;
+
+        protected Transform     mCachedTransform;
+
+        public void OnEvent(TNewEntityCreatedEvent eventData)
+        {
+            IEntity entity = mWorldContext.GetEntityById(eventData.mEntityId);
+
+            GameObject entityGO = new GameObject(entity.Name);
+
+            Transform entityGOTransform = entityGO.GetComponent<Transform>();
+
+            entityGOTransform.parent = _cachedTransform;
+        }
+
+        public void OnEvent(TEntityDestroyedEvent eventData)
+        {
+            GameObject entityGO = GameObject.Find(eventData.mEntityName);
+
+            GameObject.DestroyImmediate(entityGO);
+        }
+
+        public IWorldContext WorldContext
+        {
+            get
+            {
+                return mWorldContext;
+            }
+
+            set
+            {
+                mWorldContext = value;
+
+                var eventManager = mWorldContext.EventManager;
+
+                // unsubscribe previous listeners
+                if (mNewEntityCreatedListenerId != uint.MaxValue)
+                {
+                    eventManager.Unsubscribe(mNewEntityCreatedListenerId);
+                }
+
+                if (mEntityRemovedListenerId != uint.MaxValue)
+                {
+                    eventManager.Unsubscribe(mEntityRemovedListenerId);
+                }
+
+                mNewEntityCreatedListenerId = eventManager.Subscribe<TNewEntityCreatedEvent>(this);
+                mEntityRemovedListenerId    = eventManager.Subscribe<TEntityDestroyedEvent>(this);
+            }
+        }
+
+        protected Transform _cachedTransform
+        {
+            get
+            {
+                if (mCachedTransform == null)
+                {
+                    mCachedTransform = GetComponent<Transform>();
+                }
+
+                return mCachedTransform;
+            }
+        }
     }
 
 

@@ -111,12 +111,21 @@ namespace TinyECS.Impls
             {
                 return false;
             }
-            
-            mDestroyedEntitiesList.AddLast(mEntitiesList[(int)entityId]);
+
+            IEntity destroyedEntity = mEntitiesList[(int)entityId];
+
+
+            mDestroyedEntitiesList.AddLast(destroyedEntity);
 
             mEntitiesList[(int)entityId] = null;
 
             mNextFreeEntityId.Enqueue(entityId);
+
+            mEventManager.Notify(new TEntityDestroyedEvent()
+            {
+                mEntityId   = entityId,
+                mEntityName = destroyedEntity.Name
+            });
 
             --mNumOfActiveEntities;
 
