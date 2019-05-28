@@ -26,18 +26,38 @@ namespace TinyECSUnityIntegration.Impls
         {
             IEntity entity = mWorldContext.GetEntityById(eventData.mEntityId);
 
-            GameObject entityGO = new GameObject(entity.Name);
+#if DEBUG
+            Debug.Log($"[WorldContextsManager] A new entity ({entity.Name}) was created");
+#endif
 
-            Transform entityGOTransform = entityGO.GetComponent<Transform>();
+            GameObject entityGO = _createEntityGOView(entity, _cachedTransform);
 
-            entityGOTransform.parent = _cachedTransform;
+            // initializes the observer of the entity
+            EntityObserver entityObserver = entityGO.AddComponent<EntityObserver>();
+
+            entityObserver.Init(mWorldContext, entity.Id);
         }
 
         public void OnEvent(TEntityDestroyedEvent eventData)
         {
+#if DEBUG
+            Debug.Log($"[WorldContextsManager] Entity ({eventData.mEntityName}) was destroyed");
+#endif
+
             GameObject entityGO = GameObject.Find(eventData.mEntityName);
 
             GameObject.DestroyImmediate(entityGO);
+        }
+
+        protected GameObject _createEntityGOView(IEntity entity, Transform parent)
+        {
+            GameObject entityGO = new GameObject(entity.Name);
+
+            Transform entityGOTransform = entityGO.GetComponent<Transform>();
+
+            entityGOTransform.parent = parent;
+
+            return entityGO;
         }
 
         public IWorldContext WorldContext
