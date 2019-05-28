@@ -48,6 +48,7 @@
     <Compile Include="Impls\BaseDynamicView.cs" />
     <Compile Include="Impls\BaseStaticView.cs" />
     <Compile Include="Impls\BaseView.cs" />
+    <Compile Include="Impls\SystemManagerObserver.cs" />
     <Compile Include="Impls\DependencyInjector.cs" />
     <Compile Include="Impls\EntityObserver.cs" />
     <Compile Include="Impls\GameObjectFactory.cs" />

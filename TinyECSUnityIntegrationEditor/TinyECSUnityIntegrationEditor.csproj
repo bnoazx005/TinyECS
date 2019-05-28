@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Inspectors\EntityObserverEditor.cs" />
+    <Compile Include="Inspectors\SystemManagerObserverEditor.cs" />
     <Compile Include="Inspectors\WorldContextsManagerEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
