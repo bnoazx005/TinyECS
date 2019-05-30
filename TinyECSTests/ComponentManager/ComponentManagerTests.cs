@@ -238,5 +238,32 @@ namespace TinyECSTests
                 Assert.AreEqual(2, mComponentManager.AverageNumOfComponentsPerEntity);
             });
         }
+
+        [Test]
+        public void TestGetComponentsIterator_PassEntityIdThatDoesntExist_ThrowsException()
+        {
+            Assert.Throws<EntityDoesntExistException>(() =>
+            {
+                mComponentManager.GetComponentsIterator(0);
+            });
+        }
+
+        [Test]
+        public void TestGetComponentsIterator_PassCorrectEntityId_ReturnsIteratorReference()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                uint entityId = 0;
+
+                mComponentManager.RegisterEntity(entityId);
+
+                mComponentManager.AddComponent<TTestComponent>(entityId);
+                mComponentManager.AddComponent<TAnotherComponent>(entityId);
+
+                IComponentIterator iter = mComponentManager.GetComponentsIterator(entityId);
+
+                Assert.IsNotNull(iter);
+            });
+        }
     }
 }

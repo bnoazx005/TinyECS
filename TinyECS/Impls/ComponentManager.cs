@@ -13,13 +13,83 @@ namespace TinyECS.Impls
 
     public class ComponentManager: IComponentManager
     {
+        /// <summary>
+        /// class ComponentIterator
+        /// 
+        /// The class is an implementation of IComponentIterator interface for ComponentManager. The iterative mechanism
+        /// is based on IDictionary's base enumerator
+        /// </summary>
+
+        public class ComponentIterator: IComponentIterator
+        {
+            protected IDictionary<Type, int>               mEntityComponentsTable;
+
+            protected IDictionary<Type, int>               mComponentsHashesTable;
+
+            protected IList<IList<IComponent>>             mComponentsMatrix;
+
+            protected IEnumerator<KeyValuePair<Type, int>> mIterator;
+            
+            public ComponentIterator(IDictionary<Type, int> entityComponentsTable, IDictionary<Type, int> componentsHashesTable,
+                                     IList<IList<IComponent>> componentsMatrix)
+            {
+                mEntityComponentsTable = entityComponentsTable ?? throw new ArgumentNullException("entityComponentsTable");
+                mComponentsHashesTable = componentsHashesTable ?? throw new ArgumentNullException("componentsHashesTable");
+                mComponentsMatrix      = componentsMatrix ?? throw new ArgumentNullException("componentsMatrix");
+
+                mIterator = mEntityComponentsTable.GetEnumerator();
+            }
+
+            /// <summary>
+            /// The method returns component's value which the iterator points to
+            /// </summary>
+            /// <typeparam name="T">A specific type to which current component will be casted</typeparam>
+            /// <returns>The method returns component's value which the iterator points to</returns>
+
+            public T Get<T>() where T : struct, IComponent
+            {
+                return (T)Get();
+            }
+
+            /// <summary>
+            /// The method returns a reference to IComponent which the iterator points to
+            /// </summary>
+            /// <returns>The method returns a reference to IComponent which the iterator points to</returns>
+
+            public IComponent Get()
+            {
+                var currentComponentInfo = mIterator.Current;
+
+                Type cachedComponentType = currentComponentInfo.Key;
+
+                if (cachedComponentType == null || !mComponentsHashesTable.ContainsKey(cachedComponentType))
+                {
+                    throw new InvalidIteratorException();
+                }
+
+                int componentsGroupHash = mComponentsHashesTable[cachedComponentType];
+
+                return mComponentsMatrix[componentsGroupHash][currentComponentInfo.Value];
+            }
+
+            /// <summary>
+            /// The method moves iterator to next available component if the latter exists
+            /// </summary>
+            /// <returns>The method returns true if there is a component at next position, false in other cases</returns>
+
+            public bool MoveNext()
+            {
+                return mIterator.MoveNext();
+            }
+        }
+
         protected IEventManager                             mEventManager;
 
         protected IDictionary<uint, IDictionary<Type, int>> mEntity2ComponentsHashTable;
 
         protected IDictionary<Type, int>                    mComponentTypesHashTable;
 
-        protected IList<IList<IComponent>>                  mComponentsMatrix;
+        protected IList<IList<IComponent>>                  mComponentsMatrix; // first index is a component type's hash, second one is entity's identifier
 
         protected uint                                      mNumOfActiveComponents;
 
@@ -217,6 +287,23 @@ namespace TinyECS.Impls
             var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
 
             return entityComponentsTable.ContainsKey(componentType);
+        }
+
+        /// <summary>
+        /// The method creates a new iterator which provides an ability to enumerate all components of a given entity
+        /// </summary>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
+
+        public IComponentIterator GetComponentsIterator(uint entityId)
+        {
+            /// there is no entity with the specified id
+            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            {
+                throw new EntityDoesntExistException(entityId);
+            }
+
+            return new ComponentIterator(mEntity2ComponentsHashTable[entityId], mComponentTypesHashTable, mComponentsMatrix);
         }
 
         protected void _removeComponent(IDictionary<Type, int> entityComponentsTable, Type componentType, uint entityId)

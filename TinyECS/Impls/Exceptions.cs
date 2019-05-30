@@ -64,4 +64,19 @@ namespace TinyECS.Impls
         {
         }
     }
+
+
+    /// <summary>
+    /// class InvalidIteratorException
+    /// 
+    /// The class is an exception's type which occurs when someone tries to access to a component that doesn't exist
+    /// </summary>
+
+    public class InvalidIteratorException: Exception
+    {
+        public InvalidIteratorException() :
+            base("Iterator to a particular component is invalid")
+        {
+        }
+    }
 }
