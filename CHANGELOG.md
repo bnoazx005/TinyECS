@@ -11,6 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.2.21] - 2019-05-30
+
+### Added
+
+- A components iterator that provides easy way of enumerating over all components that some entity has
+
+- Add custom debug inspectors for WorldContextsManager, EntityObserver and SystemManagerObserver types
+
+- Implement ToString() method for Entity type
+
+### Fixed
+
+- Now you can subscribe same reference to a system in different roles. For example, as initializing system and as update system at the same time
+
 ## [0.2.0] - 2019-05-02
 
 ### Added
