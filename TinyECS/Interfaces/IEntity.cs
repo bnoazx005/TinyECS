@@ -59,6 +59,13 @@ namespace TinyECS.Interfaces
         bool HasComponent(Type componentType);
 
         /// <summary>
+        /// The method creates a new iterator which provides an ability to enumerate all components of the entity
+        /// </summary>
+        /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
+
+        IComponentIterator GetComponentsIterator();
+
+        /// <summary>
         /// The property returns an identifier of an entity
         /// </summary>
 

@@ -107,6 +107,14 @@ namespace TinyECS.Interfaces
         List<uint> GetEntitiesWithAny(params Type[] components);
 
         /// <summary>
+        /// The method creates a new iterator which provides an ability to enumerate all components of a given entity
+        /// </summary>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
+
+        IComponentIterator GetComponentsIterator(uint entityId);
+
+        /// <summary>
         /// The method returns a reference to IEventManager implementation
         /// </summary>
 

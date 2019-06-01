@@ -111,6 +111,16 @@ namespace TinyECS.Impls
             return mEntityManager.HasComponent(mId, componentType);
         }
 
+        /// <summary>
+        /// The method creates a new iterator which provides an ability to enumerate all components of the entity
+        /// </summary>
+        /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
+
+        public IComponentIterator GetComponentsIterator()
+        {
+            return mEntityManager.GetComponentsIterator(mId);
+        }
+
         public override string ToString()
         {
             return $"Entity_{mId} {(mName != null ? $"({mName})" : string.Empty)}";

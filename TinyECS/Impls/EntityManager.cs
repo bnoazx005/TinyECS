@@ -267,6 +267,17 @@ namespace TinyECS.Impls
             }, components);
         }
 
+        /// <summary>
+        /// The method creates a new iterator which provides an ability to enumerate all components of a given entity
+        /// </summary>
+        /// <param name="entityId">Entity's identifier</param>
+        /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
+
+        public IComponentIterator GetComponentsIterator(uint entityId)
+        {
+            return mComponentManager.GetComponentsIterator(entityId);
+        }
+
         protected List<uint> _getFilteredEntities(FilterPredicate predicate, params Type[] components)
         {
             // TODO: should be cached somehow to decrease allocations count
