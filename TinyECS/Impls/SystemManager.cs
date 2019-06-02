@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TinyECS.Interfaces;
 
@@ -13,6 +14,47 @@ namespace TinyECS.Impls
 
     public class SystemManager: ISystemManager, IEventListener<TNewComponentAddedEvent>
     {
+        public class SystemIterator: ISystemIterator
+        {
+            protected IEnumerator<ISystem> mSystemInternalIterator;
+
+            public SystemIterator(IEnumerator<ISystem> systemsInternalIter)
+            {
+                mSystemInternalIterator = systemsInternalIter;
+            }
+
+            /// <summary>
+            /// The method returns system's value which the iterator points to
+            /// </summary>
+            /// <typeparam name="T">A specific type to which current system will be casted</typeparam>
+            /// <returns>The method returns system's value which the iterator points to</returns>
+
+            public T Get<T>() where T : struct, ISystem
+            {
+                return (T)Get();
+            }
+
+            /// <summary>
+            /// The method returns a reference to ISystem which the iterator points to
+            /// </summary>
+            /// <returns>The method returns a reference to ISystem which the iterator points to</returns>
+
+            public ISystem Get()
+            {
+                return mSystemInternalIterator.Current;
+            }
+
+            /// <summary>
+            /// The method moves iterator to next available system if the latter exists
+            /// </summary>
+            /// <returns>The method returns true if there is a system at next position, false in other cases</returns>
+
+            public bool MoveNext()
+            {
+                return mSystemInternalIterator.MoveNext();
+            }
+        }
+
         protected IWorldContext         mWorldContext;
 
         protected IEventManager         mEventManager;
@@ -218,7 +260,17 @@ namespace TinyECS.Impls
             
             mReactiveSystemsBuffer.Clear();
         }
-        
+
+        /// <summary>
+        /// The method creates a new iterator which provides an ability to enumerate all systems of a given manager
+        /// </summary>
+        /// <returns>The method returns a reference to ISystemIterator that implements some iterative mechanism</returns>
+
+        public ISystemIterator GetSystemIterator()
+        {
+            return new SystemIterator(mActiveSystems.GetEnumerator());
+        }
+
         protected ISystem _getSystemById(IList<ISystem> sourceArray, uint id)
         {
             ISystem system = null;

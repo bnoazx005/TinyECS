@@ -73,5 +73,12 @@
         /// <param name="dt">The value in milliseconds which tells how much time elapsed from the previous frame</param>
 
         void Update(float dt);
+
+        /// <summary>
+        /// The method creates a new iterator which provides an ability to enumerate all systems of a given manager
+        /// </summary>
+        /// <returns>The method returns a reference to ISystemIterator that implements some iterative mechanism</returns>
+
+        ISystemIterator GetSystemIterator();
     }
 }

@@ -84,4 +84,36 @@ namespace TinyECS.Interfaces
 
         void Update(List<IEntity> entities, float deltaTime);
     }
+
+
+    /// <summary>
+    /// class ISystemIterator
+    /// 
+    /// The interface describes a functionality of an iterator that enumerates all systems
+    /// </summary>
+
+    public interface ISystemIterator
+    {
+        /// <summary>
+        /// The method returns system's value which the iterator points to
+        /// </summary>
+        /// <typeparam name="T">A specific type to which current system will be casted</typeparam>
+        /// <returns>The method returns system's value which the iterator points to</returns>
+
+        T Get<T>() where T : struct, ISystem;
+
+        /// <summary>
+        /// The method returns a reference to ISystem which the iterator points to
+        /// </summary>
+        /// <returns>The method returns a reference to ISystem which the iterator points to</returns>
+
+        ISystem Get();
+
+        /// <summary>
+        /// The method moves iterator to next available system if the latter exists
+        /// </summary>
+        /// <returns>The method returns true if there is a system at next position, false in other cases</returns>
+
+        bool MoveNext();
+    }
 }
