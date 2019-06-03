@@ -240,6 +240,11 @@ namespace TinyECS.Impls
         {
             List<IEntity> filteredEntities = null;
 
+            foreach (var currUpdateSystem in mActiveUpdateSystems)
+            {
+                currUpdateSystem?.Update(dt);
+            }
+
             // TODO: execute all reactive systems
             foreach (var currReactiveSystem in mActiveReactiveSystems)
             {
@@ -253,11 +258,7 @@ namespace TinyECS.Impls
                 currReactiveSystem?.Update(filteredEntities, dt);
             }
 
-            foreach (var currUpdateSystem in mActiveUpdateSystems)
-            {
-                currUpdateSystem?.Update(dt);
-            }
-            
+
             mReactiveSystemsBuffer.Clear();
         }
 
