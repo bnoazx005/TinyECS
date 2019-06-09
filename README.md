@@ -1,23 +1,29 @@
-# Tiny ECS
+![TinyECS](https://i.imgur.com/gLWNmrM.png)
 
+[![Release](https://img.shields.io/github/release/bnoazx005/TinyECS.svg)](https://github.com/bnoazx005/TinyECS/releases/latest)
 [![Build status](https://ci.appveyor.com/api/projects/status/5a0gh17yl6gsva9m?svg=true)](https://ci.appveyor.com/project/bnoazx005/tinyecs)
 [![Coverage Status](https://coveralls.io/repos/github/bnoazx005/TinyECS/badge.svg?branch=master)](https://coveralls.io/github/bnoazx005/TinyECS?branch=master)
+[![Gitter](https://badges.gitter.im/bnoazx005/TinyECS.svg)](https://gitter.im/bnoazx005/TinyECS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Tiny ECS is a easy to use Entity-Component-System framework that's designed specially for Unity3D.
 
 ## Table of contents
 
-1. [Features](#features)
-2. [Requirements](#requirements)    
-3. [Installation](#installation)
-4. [Documentation](#documentation)
-5. [Contact](#contact)
+1. ### [Features](#features)
+2. ### [Requirements](#requirements)    
+3. ### [Installation](#installation)
+4. ### [Documentation](#documentation)
+5. ### [Contact](#contact)
 
 ***
 
 ### Features<a name="features"></a>
 
 * Easy to use.
+
+* Designed especially for integration with Unity3D.
+
+* Zero dependencies.
 
 ***
 
