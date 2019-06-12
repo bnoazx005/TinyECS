@@ -11,6 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.3.0] - 2019-06-12
+
+### Added
+
+- A components iterator that provides easy way of enumerating over all components that some entity has
+
+- Add custom debug inspectors for WorldContextsManager, EntityObserver and SystemManagerObserver types
+
+- Implement ToString() method for Entity type
+
+- Add template project for Unity3D and corresponding tutorial sample, which demonstrates how to integrate TinyECS into Unity3D
+
+### Fixed
+
+- Fixed an issue "Created with GameObjectFactory entities don't have TViewComponent attached to them" #11
+
+- Fixed an issue "Reactive systems don't response on to events that are generated with IUpdateSystem implementations" #6
+
+### Changed
+
+- Now all reactive systems are executed after all IUpdateSystems
+
 ## [0.2.21] - 2019-05-30
 
 ### Added
