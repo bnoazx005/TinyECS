@@ -14,17 +14,17 @@ namespace Tutorial01_HelloWorld
             ISystemManager systemManager = new SystemManager(worldContext);
 
             // register our classes that implement systems
-            systemManager.RegisterInitSystem(new PrintHelloWorldSystem());
-            systemManager.RegisterReactiveSystem(new ReactivePrintHelloWorldSystem());
+            systemManager.RegisterSystem(new PrintHelloWorldSystem());
+            systemManager.RegisterSystem(new ReactivePrintHelloWorldSystem());
 
             // another way of doing the same things is to use adapters and lambdas instead of classes
-            systemManager.RegisterInitSystem(new PureInitSystemAdapter(worldContext, (world) =>
+            systemManager.RegisterSystem(new PureInitSystemAdapter(worldContext, (world) =>
             {
                 // worldContext's variable is available here
                 Console.WriteLine("PureInitSystem: Hello, World!");
             }));
 
-            systemManager.RegisterReactiveSystem(new PureReactiveSystemAdapter(worldContext, 
+            systemManager.RegisterSystem(new PureReactiveSystemAdapter(worldContext, 
                     entity => entity.HasComponent<THelloWorldComponent>(), 
                     (world, entities, dt) =>
                     {

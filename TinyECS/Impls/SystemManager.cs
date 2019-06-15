@@ -101,7 +101,7 @@ namespace TinyECS.Impls
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint RegisterInitSystem(IInitSystem system)
+        public uint RegisterSystem(IInitSystem system)
         {
             return _registerSystem(system, mActiveInitSystems, (byte)E_SYSTEM_TYPE.ST_INIT);
         }
@@ -114,7 +114,7 @@ namespace TinyECS.Impls
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint RegisterUpdateSystem(IUpdateSystem system)
+        public uint RegisterSystem(IUpdateSystem system)
         {
             return _registerSystem(system, mActiveUpdateSystems, (byte)E_SYSTEM_TYPE.ST_UPDATE);
         }
@@ -126,7 +126,7 @@ namespace TinyECS.Impls
         /// <param name="system">A reference to IReactiveSystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint RegisterReactiveSystem(IReactiveSystem system)
+        public uint RegisterSystem(IReactiveSystem system)
         {
             return _registerSystem(system, mActiveReactiveSystems, (byte)E_SYSTEM_TYPE.ST_REACTIVE);
         }

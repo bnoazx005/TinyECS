@@ -8,7 +8,7 @@ public class PrintHelloWorldSystem : IInitSystem
 {
     public void RegisterItself(ISystemManager systemManager)
     {
-        systemManager?.RegisterInitSystem(this);
+        systemManager?.RegisterSystem(this);
     }
 
     public void Init()

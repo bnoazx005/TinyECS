@@ -56,7 +56,7 @@ namespace TinyECS.Impls
                 throw new System.ArgumentNullException("systemManager");
             }
 
-            systemManager.RegisterInitSystem(this);
+            systemManager.RegisterSystem(this);
         }
 
         public void Init()
@@ -100,7 +100,7 @@ namespace TinyECS.Impls
                 throw new System.ArgumentNullException("systemManager");
             }
 
-            systemManager.RegisterUpdateSystem(this);
+            systemManager.RegisterSystem(this);
         }
 
         public void Update(float dt)
@@ -150,7 +150,7 @@ namespace TinyECS.Impls
                 throw new System.ArgumentNullException("systemManager");
             }
 
-            systemManager.RegisterReactiveSystem(this);
+            systemManager.RegisterSystem(this);
         }
 
         /// <summary>

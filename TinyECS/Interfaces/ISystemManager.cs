@@ -17,7 +17,7 @@
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint RegisterInitSystem(IInitSystem system);
+        uint RegisterSystem(IInitSystem system);
 
         /// <summary>
         /// The method registers specialized system type which is IUpdateSystem. The systems of this type
@@ -27,7 +27,7 @@
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint RegisterUpdateSystem(IUpdateSystem system);
+        uint RegisterSystem(IUpdateSystem system);
 
         /// <summary>
         /// The method registers a given reactive system within the manager. Please DON'T use this method use Register
@@ -36,7 +36,7 @@
         /// <param name="system">A reference to IReactiveSystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint RegisterReactiveSystem(IReactiveSystem system);
+        uint RegisterSystem(IReactiveSystem system);
 
         /// <summary>
         /// The method excludes a system with the given systemId from the manager if it exists

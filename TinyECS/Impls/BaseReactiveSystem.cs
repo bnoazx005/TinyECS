@@ -24,7 +24,7 @@ namespace TinyECS.Impls
 
         public void RegisterItself(ISystemManager systemManager)
         {
-            systemManager?.RegisterReactiveSystem(this);
+            systemManager?.RegisterSystem(this);
         }
 
         /// <summary>

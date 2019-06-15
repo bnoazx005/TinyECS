@@ -24,7 +24,7 @@ namespace TinyECSTests
 
             mRegisterViewsSystem = new RegisterViewSystem(mWorldContext);
 
-            mSystemManager.RegisterReactiveSystem(mRegisterViewsSystem);
+            mSystemManager.RegisterSystem(mRegisterViewsSystem);
 
             mSystemManager.Init();
         }

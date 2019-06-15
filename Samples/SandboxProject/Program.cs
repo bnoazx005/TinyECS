@@ -17,7 +17,7 @@ namespace SandboxProject
             
             ISystemManager systemManager = new SystemManager(worldContext);
 
-            systemManager.RegisterInitSystem(new PureInitSystemAdapter(worldContext, (world) =>
+            systemManager.RegisterSystem(new PureInitSystemAdapter(worldContext, (world) =>
             {
                 // worldContext's variable is available here
                 Console.WriteLine("call Init()");
@@ -27,13 +27,13 @@ namespace SandboxProject
                 e.AddComponent<TestComponent>();
             }));
 
-            systemManager.RegisterUpdateSystem(new PureUpdateSystemAdapter(worldContext, (world, dt) =>
+            systemManager.RegisterSystem(new PureUpdateSystemAdapter(worldContext, (world, dt) =>
             {
                 // worldContext's variable is available here
                 Console.WriteLine("call Update(float)");
             }));
 
-            systemManager.RegisterReactiveSystem(new PureReactiveSystemAdapter(worldContext, entity => true, (world, entities, dt) =>
+            systemManager.RegisterSystem(new PureReactiveSystemAdapter(worldContext, entity => true, (world, entities, dt) =>
             {
                 // worldContext's variable is available here
                 Console.WriteLine("call Update(entities, float)");

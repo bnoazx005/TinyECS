@@ -23,7 +23,7 @@ namespace TinyECSTests
         [Test]
         public void TestDisposableEntitiesCollectorSystem_ThereAreNoDisposableEntitiesAtInput_DoNothing()
         {
-            mSystemManager.RegisterUpdateSystem(new PureUpdateSystemAdapter(mWorldContext, BuiltinSystems.DisposableEntitiesCollectorSystem));
+            mSystemManager.RegisterSystem(new PureUpdateSystemAdapter(mWorldContext, BuiltinSystems.DisposableEntitiesCollectorSystem));
 
             int expectedNumOfDisposableEntities = 5;
 
