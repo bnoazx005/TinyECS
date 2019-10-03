@@ -325,12 +325,11 @@ namespace TinyECS.Impls
         {
             IEntity entity = mWorldContext.GetEntityById(entityId);
 
-            if (entity == null)
+            //NOTE: Maybe we should check up for duplicates of the entity later
+            if (entity == null || mReactiveSystemsBuffer.Contains(entity))
             {
                 return;
             }
-
-            //TODO: Maybe we should check up for duplicates of the entity later
 
             mReactiveSystemsBuffer.Add(entity);
         }
