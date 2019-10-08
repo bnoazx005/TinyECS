@@ -13,12 +13,14 @@ namespace TinyECSTests
     {
         protected ISystemManager mSystemManager;
 
+        protected IWorldContext  mWorldContext;
+
         [SetUp]
         public void Init()
         {
-            IWorldContext worldContextMock = Substitute.For<IWorldContext>();
+            mWorldContext = Substitute.For<IWorldContext>();
 
-            mSystemManager = new SystemManager(worldContextMock);
+            mSystemManager = new SystemManager(mWorldContext);
         }
         
         [Test]
@@ -158,6 +160,24 @@ namespace TinyECSTests
                 Assert.AreNotEqual(initSystemId, updateSystemId);
                 Assert.AreEqual(((byte)E_SYSTEM_TYPE.ST_INIT << 29), initSystemId);
                 Assert.AreEqual(((byte)E_SYSTEM_TYPE.ST_UPDATE << 29), updateSystemId);
+            });
+        }
+
+        [Test]
+        public void TestUpdate_CreateEntityWithTwoComponents_EntityPassedOnceInReactiveSystem()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                mSystemManager.RegisterReactiveSystem(new PureReactiveSystemAdapter(mWorldContext,
+                                                      entity => true, 
+                                                      (world, entities, dt) => { Assert.AreEqual(1, entities.Count); }));
+
+                // emulate an event when we create two components for same entity
+                var listener = mSystemManager as IEventListener<TNewComponentAddedEvent>;
+                listener.OnEvent(new TNewComponentAddedEvent { mOwnerId = 1 });
+                listener.OnEvent(new TNewComponentAddedEvent { mOwnerId = 1 });
+
+                mSystemManager.Update(0.0f);
             });
         }
     }
