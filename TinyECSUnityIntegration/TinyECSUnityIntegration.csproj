@@ -55,6 +55,7 @@
     <Compile Include="Impls\RegisterViewSystem.cs" />
     <Compile Include="Impls\WorldContextsManager.cs" />
     <Compile Include="Interfaces\IGameObjectFactory.cs" />
+    <Compile Include="Interfaces\IDependencyInjector.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

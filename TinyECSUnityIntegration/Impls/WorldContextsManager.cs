@@ -1,6 +1,7 @@
 ﻿using TinyECS.Interfaces;
 using TinyECS.Impls;
 using UnityEngine;
+using TinyECSUnityIntegration.Interfaces;
 
 
 namespace TinyECSUnityIntegration.Impls
@@ -21,6 +22,15 @@ namespace TinyECSUnityIntegration.Impls
         protected uint          mEntityRemovedListenerId = uint.MaxValue;
 
         protected Transform     mCachedTransform;
+
+        public void PrepareViews()
+        {
+            IDependencyInjector[] viewsInjectors = GameObject.FindObjectsOfType<DependencyInjector>();
+            for (int i = 0; i < viewsInjectors.Length; ++i)
+            {
+                viewsInjectors[i]?.Init();
+            }
+        }
 
         public void OnEvent(TNewEntityCreatedEvent eventData)
         {
@@ -126,6 +136,8 @@ namespace TinyECSUnityIntegration.Impls
             WorldContextsManager worldContextsManager = worldContextsManagerGO.AddComponent<WorldContextsManager>();
 
             worldContextsManager.WorldContext = worldContext;
+
+            worldContextsManager.PrepareViews();
 
             return worldContextsManager;
         }

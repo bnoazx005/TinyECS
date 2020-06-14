@@ -258,6 +258,8 @@ namespace TinyECS.Impls
                 currReactiveSystem?.Update(filteredEntities, dt);
             }
 
+            // NOTE: for now just leave this as is, because this action should be executed after every other ones
+            BuiltinSystems.DisposableEntitiesCollectorSystem(mWorldContext, dt);
 
             mReactiveSystemsBuffer.Clear();
         }

@@ -1,4 +1,5 @@
 ﻿using TinyECS.Interfaces;
+using TinyECSUnityIntegration.Interfaces;
 using UnityEngine;
 
 
@@ -10,7 +11,7 @@ namespace TinyECSUnityIntegration.Impls
     /// The class is a utility class that injects reference to IWorldContext
     /// </summary>
 
-    public class DependencyInjector: MonoBehaviour
+    public class DependencyInjector: MonoBehaviour, IDependencyInjector
     {
         protected WorldContextsManager mWorldContextsManager;
 
@@ -18,7 +19,7 @@ namespace TinyECSUnityIntegration.Impls
 
         protected bool                 mIsInitialized = false;
 
-        protected void OnEnable()
+        public void Init()
         {
             if (mIsInitialized)
             {

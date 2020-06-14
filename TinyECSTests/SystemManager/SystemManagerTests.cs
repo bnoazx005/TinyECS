@@ -19,6 +19,7 @@ namespace TinyECSTests
         public void Init()
         {
             mWorldContext = Substitute.For<IWorldContext>();
+            mWorldContext.GetEntitiesWithAll().ReturnsForAnyArgs(new List<uint> { });
 
             mSystemManager = new SystemManager(mWorldContext);
         }
@@ -168,7 +169,7 @@ namespace TinyECSTests
         {
             Assert.DoesNotThrow(() =>
             {
-                mSystemManager.RegisterReactiveSystem(new PureReactiveSystemAdapter(mWorldContext,
+                mSystemManager.RegisterSystem(new PureReactiveSystemAdapter(mWorldContext,
                                                       entity => true, 
                                                       (world, entities, dt) => { Assert.AreEqual(1, entities.Count); }));
 
