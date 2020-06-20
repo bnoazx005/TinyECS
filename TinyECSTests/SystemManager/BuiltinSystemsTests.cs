@@ -39,5 +39,23 @@ namespace TinyECSTests
 
             Assert.AreEqual(0, mWorldContext.GetEntitiesWithAll(typeof(TDisposableComponent)).Count);
         }
+
+        [Test]
+        public void TestDisposableEntitiesCollectorSystem_DisposableEntitiesAreCreatedBeforeEachUpdate_CorrectlyDeleteThem()
+        {
+            mSystemManager.RegisterSystem(new PureUpdateSystemAdapter(mWorldContext, BuiltinSystems.DisposableEntitiesCollectorSystem));
+
+            int expectedNumOfDisposableEntities = 5;
+            
+            mSystemManager.Init();
+
+            for (int i = 0; i < expectedNumOfDisposableEntities; ++i)
+            {
+                mWorldContext.CreateDisposableEntity();
+                mSystemManager.Update(0.0f);
+            }
+
+            Assert.AreEqual(0, mWorldContext.GetEntitiesWithAll(typeof(TDisposableComponent)).Count);
+        }
     }
 }

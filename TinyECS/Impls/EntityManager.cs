@@ -68,7 +68,9 @@ namespace TinyECS.Impls
         {
             uint entityId = 0;
 
-            entityId = mNextFreeEntityId.Count > 0 ? mNextFreeEntityId.Dequeue() : mEntitiesIdCounter++;
+            bool isEntityReused = mNextFreeEntityId.Count > 0;
+
+            entityId = isEntityReused ? mNextFreeEntityId.Dequeue() : mEntitiesIdCounter++;
 
             IEntity newEntityInstance = null;
 
@@ -87,7 +89,14 @@ namespace TinyECS.Impls
             // register the entity within the components manager
             mComponentManager.RegisterEntity(entityId);
 
-            mEntitiesList.Add(newEntityInstance);
+            if (isEntityReused)
+            {
+                mEntitiesList[(int)entityId] = newEntityInstance;
+            }
+            else
+            {
+                mEntitiesList.Add(newEntityInstance);
+            }
 
             mEventManager.Notify<TNewEntityCreatedEvent>(new TNewEntityCreatedEvent()
             {

@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+
+
+## [0.3.5] - 2020-06-20
+
+### Fixed
+
+- Fixed an issue #17
+
+- Increased robustness of the framework
+
 ## [0.3.0] - 2019-06-12
 
 ### Added
