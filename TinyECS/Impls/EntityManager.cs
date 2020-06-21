@@ -123,6 +123,7 @@ namespace TinyECS.Impls
 
             IEntity destroyedEntity = mEntitiesList[(int)entityId];
 
+            RemoveAllComponents(entityId);
 
             mDestroyedEntitiesList.AddLast(destroyedEntity);
 

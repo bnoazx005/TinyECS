@@ -199,5 +199,29 @@ namespace TinyECSTests
                 }
             });
         }
+
+        [Test]
+        public void TestCreateEntity_CreateEntityDeleteItAndRecreateAgain_NewCreatedEntityHasNoComponents()
+        {
+            // Test to fix issue #18 https://github.com/bnoazx005/TinyECS/issues/18
+
+            uint entityId = mWorldContext.CreateEntity();
+            IEntity entity = mWorldContext.GetEntityById(entityId);
+
+            Assert.IsNotNull(entity);
+
+            entity.AddComponent<TTestComponent>();
+            entity.AddComponent<TAnotherComponent>();
+
+            Assert.IsTrue(mWorldContext.DestroyEntity(entityId));
+
+            // recreate entity
+            entityId = mWorldContext.CreateEntity();
+            entity = mWorldContext.GetEntityById(entityId);
+
+            // recreated entity should be empty
+            Assert.IsNotNull(entity);
+            Assert.IsTrue(!entity.HasComponent<TTestComponent>() && !entity.HasComponent<TAnotherComponent>());
+        }
     }
 }

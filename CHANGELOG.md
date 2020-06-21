@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
 
+## [0.3.8] - 2020-06-21
+
+### Fixed
+
+- Fixed an issue #17 "An entity that was created using previously deteled one has its components"
 
 ## [0.3.5] - 2020-06-20
 

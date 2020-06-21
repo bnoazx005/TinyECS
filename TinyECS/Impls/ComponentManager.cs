@@ -250,10 +250,15 @@ namespace TinyECS.Impls
             }
 
             var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+
+            var entityComponentsTypes = entityComponentsTable.Keys;
             
             while (entityComponentsTable.Count > 0)
             {
-                _removeComponent(entityComponentsTable, entityComponentsTable.Keys.GetEnumerator().Current, entityId);
+                var currEnumerator = entityComponentsTypes.GetEnumerator();
+                currEnumerator.MoveNext();
+
+                _removeComponent(entityComponentsTable, currEnumerator.Current, entityId);
             }
         }
 
