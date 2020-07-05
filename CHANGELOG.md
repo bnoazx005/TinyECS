@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
 
+## [0.3.9] - 2020-07-05
+
+### Fixed
+
+- Fixed an issue #19 "Intercommunicating reactive systems don't receive all messages of the frame"
+
+### Changed
+
+- Now all **reactive** systems accept all entities that are created despite execution order
+
 ## [0.3.8] - 2020-06-21
 
 ### Fixed

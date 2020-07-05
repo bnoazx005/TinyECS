@@ -238,25 +238,12 @@ namespace TinyECS.Impls
 
         public void Update(float dt)
         {
-            List<IEntity> filteredEntities = null;
-
             foreach (var currUpdateSystem in mActiveUpdateSystems)
             {
                 currUpdateSystem?.Update(dt);
             }
 
-            // TODO: execute all reactive systems
-            foreach (var currReactiveSystem in mActiveReactiveSystems)
-            {
-                filteredEntities = mReactiveSystemsBuffer.FindAll(currReactiveSystem.Filter);
-
-                if (filteredEntities.Count < 1)
-                {
-                    continue;
-                }
-
-                currReactiveSystem?.Update(filteredEntities, dt);
-            }
+            _updateAllReactiveSystems(dt);
 
             // NOTE: for now just leave this as is, because this action should be executed after every other ones
             BuiltinSystems.DisposableEntitiesCollectorSystem(mWorldContext, dt);
@@ -384,6 +371,31 @@ namespace TinyECS.Impls
             }
 
             return systemTypeMask;
+        }
+
+        protected void _updateAllReactiveSystems(float dt)
+        {
+            List<IEntity> filteredEntities = null;
+
+            int cachedEntitiesCount = mReactiveSystemsBuffer.Count;
+
+            foreach (var currReactiveSystem in mActiveReactiveSystems)
+            {
+                filteredEntities = mReactiveSystemsBuffer.FindAll(currReactiveSystem.Filter);
+
+                if (filteredEntities.Count < 1)
+                {
+                    continue;
+                }
+
+                currReactiveSystem?.Update(filteredEntities, dt);
+
+                // NOTE: If execution of the current system has changed entities them execute all reactive systems again
+                if (cachedEntitiesCount < mReactiveSystemsBuffer.Count)
+                {
+                    _updateAllReactiveSystems(dt);
+                }
+            }
         }
     }
 }
