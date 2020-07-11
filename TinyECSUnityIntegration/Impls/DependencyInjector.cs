@@ -1,4 +1,4 @@
-﻿using TinyECS.Interfaces;
+﻿using System;
 using TinyECSUnityIntegration.Interfaces;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ namespace TinyECSUnityIntegration.Impls
     {
         protected WorldContextsManager mWorldContextsManager;
 
-        protected BaseView             mParentView;
+        protected BaseView[]           mParentViews;
 
         protected bool                 mIsInitialized = false;
 
@@ -26,9 +26,9 @@ namespace TinyECSUnityIntegration.Impls
                 return;
             }
 
-            _parentView.PreInit(_worldContextsManager?.WorldContext);
+            Array.ForEach(mParentViews, entity => entity?.PreInit(_worldContextsManager?.WorldContext));
             
-            mIsInitialized = _parentView.WorldContext != null;
+            mIsInitialized = true;
         }
 
         protected WorldContextsManager _worldContextsManager
@@ -44,16 +44,16 @@ namespace TinyECSUnityIntegration.Impls
             }
         }
 
-        protected BaseView _parentView
+        protected BaseView[] _parentViews
         {
             get
             {
-                if (mParentView == null)
+                if (mParentViews == null)
                 {
-                    mParentView = GetComponentInParent<BaseView>();
+                    mParentViews = GetComponentsInParent<BaseView>();
                 }
 
-                return mParentView;
+                return mParentViews;
             }
         }
     }

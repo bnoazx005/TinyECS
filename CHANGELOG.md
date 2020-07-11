@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.3.10] - 2020-07-11
+
+### Changed
+
+- Now **DependencyInjector** supports initialization of multiple BaseView components per single GameObject, Issue #20
 
 ## [0.3.9] - 2020-07-05
 
