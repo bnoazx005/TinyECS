@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.3.11] - 2020-07-19
+
+### Added
+
+- Add a new type which is **SystemsPackage** that allows to unite a bunch of related systems together.
+
 ## [0.3.10] - 2020-07-11
 
 ### Changed

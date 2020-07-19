@@ -49,6 +49,7 @@
     <Compile Include="Impls\Exceptions.cs" />
     <Compile Include="Impls\SystemManager.cs" />
     <Compile Include="Impls\PureSystemsAdapters.cs" />
+    <Compile Include="Impls\SystemsPackage.cs" />
     <Compile Include="Impls\WorldContext.cs" />
     <Compile Include="Impls\WorldContextFactory.cs" />
     <Compile Include="Interfaces\IComponent.cs" />

@@ -116,4 +116,18 @@ namespace TinyECS.Interfaces
 
         bool MoveNext();
     }
+
+
+    /// <summary>
+    /// interface ISystemsPackage
+    /// 
+    /// The interface describes a functionality of a package that allows to register, execute all systems as a single 
+    /// unit
+    /// </summary>
+
+    public interface ISystemsPackage
+    {
+        void Register();
+        void Unregister();
+    }
 }
