@@ -235,10 +235,32 @@ namespace TinyECSTests
 
             mEventManager.Subscribe<TSimpleEvent>(listener);
 
-            Assert.Throws<NotImplementedException>(() =>
+            Assert.Throws<AggregateException>(() =>
             {
                 mEventManager.Notify(new TSimpleEvent { });
             });
+        }
+
+        [Test]
+        public void TestNotify_OneListenerThrowsException_OtherSystemShouldWorkNormally()
+        {
+            // create an event listener that throws NotImplementException within OnEvent
+            IEventListener<TSimpleEvent> listener = Substitute.For<IEventListener<TSimpleEvent>>();
+            listener.When(e => e.OnEvent(new TSimpleEvent())).Do(e => throw new NotImplementedException());
+            
+            bool hasSecondListenerBeenExecuted = false;
+            
+            IEventListener<TSimpleEvent> correctListener = Substitute.For<IEventListener<TSimpleEvent>>();
+            correctListener.When(e => e.OnEvent(new TSimpleEvent())).Do(e => { hasSecondListenerBeenExecuted = true; });
+
+            mEventManager.Subscribe<TSimpleEvent>(listener);
+            mEventManager.Subscribe<TSimpleEvent>(correctListener);
+
+            Assert.Throws<AggregateException>(() =>
+            {
+                mEventManager.Notify(new TSimpleEvent { });
+            });
+            Assert.IsTrue(hasSecondListenerBeenExecuted);
         }
     }
 }           

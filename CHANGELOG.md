@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add a new type which is **SystemsPackage** that allows to unite a bunch of related systems together.
 
+### Fixed 
+
+- Exceptions handling within EventManager.Notify method was redesigned.
+
 ## [0.3.10] - 2020-07-11
 
 ### Changed

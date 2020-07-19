@@ -104,15 +104,23 @@ namespace TinyECS.Impls
 
                 currListenerEntry = mListeners[(int)destListenerId];
 
-                if (currListenerEntry.mEventType == currEventType)
+                try
                 {
-                    (currListenerEntry.mListener as IEventListener<T>)?.OnEvent(eventData);
+                    if (currListenerEntry.mEventType == currEventType)
+                    {
+                        (currListenerEntry.mListener as IEventListener<T>)?.OnEvent(eventData);
+                    }
                 }
+                finally
+                {
+                }
+                
 
                 return;
             }
 
             // execute broadcasting
+            List<Exception> catchedExceptions = new List<Exception>();
 
             for (int i = 0; i < mListeners.Count; ++i)
             {
@@ -125,7 +133,19 @@ namespace TinyECS.Impls
                     continue;
                 }
 
-                (currListenerEntry.mListener as IEventListener<T>)?.OnEvent(eventData);
+                try
+                {
+                    (currListenerEntry.mListener as IEventListener<T>)?.OnEvent(eventData);
+                }
+                catch(Exception exception)
+                {
+                    catchedExceptions.Add(exception);
+                }
+            }
+
+            if (catchedExceptions.Count > 0)
+            {
+                throw new AggregateException(catchedExceptions);
             }
         }
     }
