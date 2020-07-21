@@ -165,6 +165,12 @@ namespace TinyECS.Impls
 
                 return;
             }
+            
+            // NOTE: If the component implements IUniqueComponent we can't create more that one instance of it
+            if ((componentsGroup.Count > 0) && typeof(IUniqueComponent).IsAssignableFrom(cachedComponentType))
+            {
+                throw new ComponentAlreadyExistException(cachedComponentType, entityId);
+            }
 
             // create a new component
             entityComponentsTable.Add(cachedComponentType, componentsGroup.Count);
@@ -200,12 +206,19 @@ namespace TinyECS.Impls
 
             if (!entityComponentsTable.ContainsKey(cachedComponentType))
             {
-                throw new ComponentDoesntExistException(cachedComponentType, entityId);
+                // NOTE: If unique component doesn't exist, but someone tries to retrieve it create a new instance
+                if (typeof(IUniqueComponent).IsAssignableFrom(cachedComponentType))
+                {
+                    AddComponent<T>(entityId, default(T));
+                }
+                else
+                {
+                    throw new ComponentDoesntExistException(cachedComponentType, entityId);
+                }
             }
 
             int componentTypeGroupHashValue = mComponentTypesHashTable[cachedComponentType];
             int componentHashValue          = entityComponentsTable[cachedComponentType];
-
 
             return (T)mComponentsMatrix[componentTypeGroupHashValue][componentHashValue];
         }

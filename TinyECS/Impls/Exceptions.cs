@@ -20,6 +20,22 @@ namespace TinyECS.Impls
 
 
     /// <summary>
+    /// class ComponentAlreadyExistException
+    /// 
+    /// The class is an exception type which occurs when someone
+    /// tries to add unique component to another entity
+    /// </summary>
+
+    public class ComponentAlreadyExistException : Exception
+    {
+        public ComponentAlreadyExistException(Type type, uint entityId) :
+            base($"A component of [{type}] already exists on entity [{entityId}]")
+        {
+        }
+    }
+
+
+    /// <summary>
     /// class EntityDoesntExistException
     /// 
     /// The class is an exception's type which occurs when someone 

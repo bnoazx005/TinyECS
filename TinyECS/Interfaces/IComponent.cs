@@ -13,6 +13,17 @@
 
 
     /// <summary>
+    /// interface IComponent
+    /// 
+    /// All the components that should be unique among entities should implement this one
+    /// </summary>
+
+    public interface IUniqueComponent: IComponent
+    {
+    }
+
+
+    /// <summary>
     /// class IComponentIterator
     /// 
     /// The interface describes a functionality of an iterator that enumerates all components

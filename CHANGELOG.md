@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.3.12] - 2020-07-21
+
+### Added
+
+- A new concept of unique components was introduced. Now if a user implements his/her component from **IUniqueComponent**
+then the only instance of this one will exists in the world context.
+
 ## [0.3.11] - 2020-07-19
 
 ### Added

@@ -20,6 +20,10 @@ namespace TinyECSTests
         {
         }
 
+        protected struct TUniqueComponent: IUniqueComponent
+        {
+        }
+
         [SetUp]
         public void Init()
         {
@@ -263,6 +267,62 @@ namespace TinyECSTests
                 IComponentIterator iter = mComponentManager.GetComponentsIterator(entityId);
 
                 Assert.IsNotNull(iter);
+            });
+        }
+
+        [Test]
+        public void TestAddComponent_CreateUniqueComponent_CorrectlyCreatesInstance()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                uint entityId = 0;
+
+                mComponentManager.RegisterEntity(entityId);
+                mComponentManager.AddComponent<TUniqueComponent>(entityId);
+
+                Assert.IsTrue(mComponentManager.HasComponent<TUniqueComponent>(entityId));
+            });
+        }
+
+        [Test]
+        public void TestAddComponent_CreateUniqueComponentPerEachEntity_ThrowsComponentAlreadyExistExceptionOnSecondEntity()
+        {
+            Assert.Throws<ComponentAlreadyExistException>(() =>
+            {
+                for (uint i = 0; i < 2; ++i)
+                {
+                    mComponentManager.RegisterEntity(i);
+                }
+
+                for (uint i = 0; i < 2; ++i)
+                {
+                    mComponentManager.AddComponent<TUniqueComponent>(i);
+                }
+            });
+        }
+
+        [Test]
+        public void TestGetComponent_CreateUniqueComponentViaGetComponent_CreatesComponentInstanceIfItDoesntExistYet()
+        {
+            uint entityId = 0;
+
+            mComponentManager.RegisterEntity(entityId);
+            mComponentManager.RegisterEntity(1);
+
+            mComponentManager.GetComponent<TUniqueComponent>(entityId);
+
+            Assert.IsTrue(mComponentManager.HasComponent<TUniqueComponent>(entityId));
+            
+            // Creation of a new instance of a unique component throws exception
+            Assert.Throws<ComponentAlreadyExistException>(() =>
+            {
+                mComponentManager.AddComponent<TUniqueComponent>(1);
+            });
+
+            // But you can update existing instance
+            Assert.DoesNotThrow(() =>
+            {
+                mComponentManager.AddComponent<TUniqueComponent>(entityId);
             });
         }
     }
