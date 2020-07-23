@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.3.13] - 2020-07-23
+
+### Added
+
+- An extension method **CreateAndGetEntity** for **IWorldContext** was added. The main goal for that is to simplify
+entity creation.
+
 ## [0.3.12] - 2020-07-21
 
 ### Added

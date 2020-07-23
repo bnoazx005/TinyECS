@@ -141,5 +141,10 @@ namespace TinyECSUnityIntegration.Impls
 
             return worldContextsManager;
         }
+
+        public static IEntity CreateAndGetEntity(this IWorldContext worldContext, string name = null)
+        {
+            return worldContext.GetEntityById(worldContext.CreateEntity(name));
+        }
     }
 }
