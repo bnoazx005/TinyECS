@@ -11,6 +11,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.0] - 2020-07-25
+
+### Added
+
+- An extension method **CreateAndGetEntity** for **IWorldContext** was added. The main goal for that is to simplify
+entity creation.
+
+- A new concept of unique components was introduced. Now if a user implements his/her component from **IUniqueComponent**
+then the only instance of this one will exists in the world context.
+
+- Add a new type which is **SystemsPackage** that allows to unite a bunch of related systems together.
+
+### Changed
+
+- Now **DependencyInjector** supports initialization of multiple BaseView components per single GameObject, Issue #20
+
+- Now all **reactive** systems accept all entities that are created despite execution order
+
+### Fixed
+
+- Exceptions handling within EventManager.Notify method was redesigned.
+
+- Fixed an issue #19 "Intercommunicating reactive systems don't receive all messages of the frame"
+
+- Fixed an issue #17 "An entity that was created using previously deteled one has its components"
+
+- Fixed an issue #17
+
+- Increased robustness of the framework
+
+
 ## [0.3.13] - 2020-07-23
 
 ### Added
