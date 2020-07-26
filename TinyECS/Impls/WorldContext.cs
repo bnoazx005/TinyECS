@@ -72,6 +72,28 @@ namespace TinyECS.Impls
         }
 
         /// <summary>
+        /// The method returns an entity with specified component. Note that the component should be unique
+        /// </summary>
+        /// <typeparam name="T">A type of a component that should be retrieved</typeparam>
+        /// <returns> The method returns an entity with specified component. Note that the component should be unique </returns>
+
+        public IEntity GetUniqueEntity<T>()
+            where T : struct, IUniqueComponent
+        {
+            var entities = mEntityManager.GetEntitiesWithAny(typeof(T));
+
+            if (entities == null || entities.Count < 1)
+            {
+                IEntity entity = mEntityManager.CreateEntity();
+                entity.AddComponent<T>();
+
+                return entity;
+            }
+
+            return mEntityManager.GetEntityById(entities[0]);
+        }
+
+        /// <summary>
         /// The method returns a reference to IEventManager implementation
         /// </summary>
 

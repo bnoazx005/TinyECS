@@ -72,6 +72,14 @@ namespace TinyECS.Interfaces
         List<uint> GetEntitiesWithAny(params Type[] components);
 
         /// <summary>
+        /// The method returns an entity with specified component. Note that the component should be unique
+        /// </summary>
+        /// <typeparam name="T">A type of a component that should be retrieved</typeparam>
+        /// <returns> The method returns an entity with specified component. Note that the component should be unique </returns>
+
+        IEntity GetUniqueEntity<T>() where T: struct, IUniqueComponent;
+
+        /// <summary>
         /// The method returns a reference to IEventManager implementation
         /// </summary>
 

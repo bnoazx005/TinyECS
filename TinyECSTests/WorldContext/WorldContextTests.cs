@@ -25,6 +25,10 @@ namespace TinyECSTests
         {
         }
 
+        protected struct TUniqueComponent: IUniqueComponent
+        {
+        }
+
         protected IEntityManager mEntityManager;
 
         protected IWorldContext  mWorldContext;
@@ -222,6 +226,16 @@ namespace TinyECSTests
             // recreated entity should be empty
             Assert.IsNotNull(entity);
             Assert.IsTrue(!entity.HasComponent<TTestComponent>() && !entity.HasComponent<TAnotherComponent>());
+        }
+
+        [Test]
+        public void TestGetUniqueEntity_TryToGetUnexistingEntity_CreatesNewOneAndReturnsIt()
+        {
+            // Precondition: There is no entities with TUniqueComponent in the world
+            Assert.IsTrue(mWorldContext.GetEntitiesWithAny(typeof(TUniqueComponent)).Count == 0);
+
+            IEntity entity = mWorldContext.GetUniqueEntity<TUniqueComponent>();
+            Assert.IsNotNull(entity);
         }
     }
 }
