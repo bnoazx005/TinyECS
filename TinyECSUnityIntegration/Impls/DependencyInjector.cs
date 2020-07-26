@@ -26,7 +26,7 @@ namespace TinyECSUnityIntegration.Impls
                 return;
             }
 
-            Array.ForEach(mParentViews, entity => entity?.PreInit(_worldContextsManager?.WorldContext));
+            Array.ForEach(_parentViews, entity => entity?.PreInit(_worldContextsManager?.WorldContext));
             
             mIsInitialized = true;
         }

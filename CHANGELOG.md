@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.1] - 2020-07-26 (hotfix)
+
+### Fixed
+
+- Issue #22: **DependencyInjector** always throws **ArgumentNullException** on application's start
+
 ## [0.4.0] - 2020-07-25
 
 ### Added
