@@ -17,7 +17,7 @@
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint RegisterSystem(IInitSystem system);
+        SystemId RegisterSystem(IInitSystem system);
 
         /// <summary>
         /// The method registers specialized system type which is IUpdateSystem. The systems of this type
@@ -27,7 +27,7 @@
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint RegisterSystem(IUpdateSystem system);
+        SystemId RegisterSystem(IUpdateSystem system);
 
         /// <summary>
         /// The method registers a given reactive system within the manager. Please DON'T use this method use Register
@@ -36,14 +36,14 @@
         /// <param name="system">A reference to IReactiveSystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint RegisterSystem(IReactiveSystem system);
+        SystemId RegisterSystem(IReactiveSystem system);
 
         /// <summary>
         /// The method excludes a system with the given systemId from the manager if it exists
         /// </summary>
         /// <param name="systemId">An identifier of a system which was retrieved from RegisterSystem's call</param>
 
-        void UnregisterSystem(uint systemId);
+        void UnregisterSystem(SystemId systemId);
 
         /// <summary>
         /// The method activates a system with the given systemId if it registered within the manager
@@ -51,7 +51,7 @@
         /// <param name="systemId">An identifier of a system which was retrieved from RegisterSystem's call</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint ActivateSystem(uint systemId);
+        SystemId ActivateSystem(SystemId systemId);
 
         /// <summary>
         /// The method deactivates a system with the given systemId if it registered within the manager
@@ -59,7 +59,7 @@
         /// <param name="systemId">An identifier of a system which was retrieved from RegisterSystem's call</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        uint DeactivateSystem(uint systemId);
+        SystemId DeactivateSystem(SystemId systemId);
 
         /// <summary>
         /// The method initializes all active systems that implements IInitSystem interface

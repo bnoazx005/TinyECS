@@ -101,7 +101,7 @@ namespace TinyECS.Impls
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint RegisterSystem(IInitSystem system)
+        public SystemId RegisterSystem(IInitSystem system)
         {
             return _registerSystem(system, mActiveInitSystems, (byte)E_SYSTEM_TYPE.ST_INIT);
         }
@@ -114,7 +114,7 @@ namespace TinyECS.Impls
         /// <param name="system">A reference to ISystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint RegisterSystem(IUpdateSystem system)
+        public SystemId RegisterSystem(IUpdateSystem system)
         {
             return _registerSystem(system, mActiveUpdateSystems, (byte)E_SYSTEM_TYPE.ST_UPDATE);
         }
@@ -126,7 +126,7 @@ namespace TinyECS.Impls
         /// <param name="system">A reference to IReactiveSystem implementation</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint RegisterSystem(IReactiveSystem system)
+        public SystemId RegisterSystem(IReactiveSystem system)
         {
             return _registerSystem(system, mActiveReactiveSystems, (byte)E_SYSTEM_TYPE.ST_REACTIVE);
         }
@@ -136,9 +136,9 @@ namespace TinyECS.Impls
         /// </summary>
         /// <param name="systemId">An identifier of a system which was retrieved from RegisterSystem's call</param>
 
-        public void UnregisterSystem(uint systemId)
+        public void UnregisterSystem(SystemId systemId)
         {
-            uint commonSystemId = systemId & 0xFFFF; /* extract 2 low bytes*/
+            uint commonSystemId = (uint)systemId & 0xFFFF; /* extract 2 low bytes*/
 
             ISystem system = _getSystemById(mActiveSystems, commonSystemId);
 
@@ -153,11 +153,11 @@ namespace TinyECS.Impls
         /// <param name="systemId">An identifier of a system which was retrieved from RegisterSystem's call</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint ActivateSystem(uint systemId)
+        public SystemId ActivateSystem(SystemId systemId)
         {
             ISystem system = null;
 
-            uint commonSystemId = systemId & 0xFFFF; /* extract 2 low bytes*/
+            uint commonSystemId = (uint)systemId & 0xFFFF; /* extract 2 low bytes*/
 
             try
             {
@@ -187,11 +187,11 @@ namespace TinyECS.Impls
         /// <param name="systemId">An identifier of a system which was retrieved from RegisterSystem's call</param>
         /// <returns>An identifier of a system within the manager</returns>
 
-        public uint DeactivateSystem(uint systemId)
+        public SystemId DeactivateSystem(SystemId systemId)
         {
             ISystem system = null;
 
-            uint commonSystemId = systemId & 0xFFFF;
+            uint commonSystemId = (uint)systemId & 0xFFFF;
 
             try
             {
@@ -216,7 +216,7 @@ namespace TinyECS.Impls
 
             mDeactivatedSystems.Add(system);
 
-            return (uint)registeredSystemId;
+            return (SystemId)registeredSystemId;
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace TinyECS.Impls
             return system;
         }
 
-        public uint _registerSystem<T>(T system, List<T> specializedSystemsArray, byte systemTypeMask = 0x0) 
+        public SystemId _registerSystem<T>(T system, List<T> specializedSystemsArray, byte systemTypeMask = 0x0) 
             where T: class, ISystem
         {
             if (system == null)
@@ -287,7 +287,7 @@ namespace TinyECS.Impls
             // if the system's already registered just return its identifier
             if ((registeredSystemId = mActiveSystems.FindIndex(t => t == system)) >= 0 && (specializedSystemId = specializedSystemsArray.FindIndex(t => t == system)) != -1)
             {
-                return (uint)((specializedSystemId << 16) | registeredSystemId | (systemTypeMask << 29));
+                return (SystemId)((specializedSystemId << 16) | registeredSystemId | (systemTypeMask << 29));
             }
             //else if ((registeredSystemId = mDeactivatedSystems.FindIndex(t => t == system)) >= 0)
             //{
@@ -302,7 +302,7 @@ namespace TinyECS.Impls
 
             // NOTE: entity's identifier constists of two parts. The high 2 bytes equals to index within specialized array
             // and low 2 bytes are an index within common array
-            return (uint)((specializedSystemId << 16) | registeredSystemId | (systemTypeMask << 29));
+            return (SystemId)((specializedSystemId << 16) | registeredSystemId | (systemTypeMask << 29));
         }
 
         public void OnEvent(TNewComponentAddedEvent eventData)
@@ -323,13 +323,13 @@ namespace TinyECS.Impls
             mReactiveSystemsBuffer.Add(entity);
         }
 
-        protected uint _pushSystemToActiveSystems(ISystem system)
+        protected SystemId _pushSystemToActiveSystems(ISystem system)
         {
             int registeredSystemId = mActiveSystems.FindIndex(t => t == system);
 
             if (registeredSystemId != -1)
             {
-                return (uint)registeredSystemId;
+                return (SystemId)registeredSystemId;
             }
 
             /// if there are free entries in the current array use it
@@ -348,7 +348,7 @@ namespace TinyECS.Impls
                 mActiveSystems.Add(system);
             }
 
-            return (uint)registeredSystemId;
+            return (SystemId)registeredSystemId;
         }
 
         protected E_SYSTEM_TYPE _getSystemTypeMask(ISystem system)

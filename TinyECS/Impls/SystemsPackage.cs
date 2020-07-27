@@ -11,7 +11,7 @@ namespace TinyECS.Impls
 
         private List<ISystem> mSystems = null;
 
-        private List<uint> mSystemsIds = null;
+        private List<SystemId> mSystemsIds = null;
 
         private bool mIsRegistered = false;
 
@@ -28,9 +28,9 @@ namespace TinyECS.Impls
                 return;
             }
 
-            mSystemsIds = new List<uint>();
+            mSystemsIds = new List<SystemId>();
 
-            uint systemId = 0x0;
+            SystemId systemId = (SystemId)0x0;
 
             for (int i = 0; i < mSystems.Count; ++i)
             {

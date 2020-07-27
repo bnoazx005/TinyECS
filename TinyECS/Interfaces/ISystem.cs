@@ -4,6 +4,30 @@ using System.Collections.Generic;
 
 namespace TinyECS.Interfaces
 {
+    public struct SystemId
+    {
+        public static SystemId Invalid = new SystemId(uint.MaxValue);
+
+        private uint mInternalID;
+
+        public SystemId(uint value)
+        {
+            mInternalID = value;
+        }
+
+        public static explicit operator SystemId(uint id) => new SystemId(id);
+        public static explicit operator SystemId(int id)  => new SystemId((uint)id);
+        public static explicit operator uint(SystemId id) => id.mInternalID;
+        public static explicit operator int(SystemId id)  => (int)id.mInternalID;
+
+        public static bool operator ==(SystemId left, SystemId right) => left.mInternalID == right.mInternalID; 
+        public static bool operator !=(SystemId left, SystemId right) => left.mInternalID != right.mInternalID; 
+        
+        public override bool Equals(object obj) => mInternalID == ((SystemId)obj).mInternalID;
+        public override int GetHashCode() => mInternalID.GetHashCode();
+    }
+
+
     [Flags]
     public enum E_SYSTEM_TYPE: byte
     {

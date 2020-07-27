@@ -2,9 +2,25 @@
 
 namespace TinyECS.Interfaces
 {
-    public enum EntityId : uint
+    public struct EntityId
     {
-        Invalid = uint.MaxValue
+        public static EntityId Invalid = new EntityId(uint.MaxValue);
+
+        private uint mInternalID;
+
+        public EntityId(uint value)
+        {
+            mInternalID = value;
+        }
+
+        public static explicit operator EntityId(uint id) => new EntityId(id);
+        public static explicit operator uint(EntityId id) => id.mInternalID;
+
+        public static bool operator== (EntityId left, EntityId right) => left.mInternalID == right.mInternalID;
+        public static bool operator!= (EntityId left, EntityId right) => left.mInternalID != right.mInternalID;
+
+        public override bool Equals(object obj) => mInternalID == ((EntityId)obj).mInternalID;
+        public override int GetHashCode() => mInternalID.GetHashCode();
     }
 
 

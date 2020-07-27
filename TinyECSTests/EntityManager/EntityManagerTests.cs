@@ -38,7 +38,7 @@ namespace TinyECSTests
 
             IEntity newEntity = null;
 
-            for (int i = 0; i < 5; ++i)
+            for (uint i = 0; i < 5; ++i)
             {
                 newEntity = mEntityManager.CreateEntity(null);
 
@@ -66,7 +66,7 @@ namespace TinyECSTests
         {
             Assert.Throws<EntityDoesntExistException>(() =>
             {
-                mEntityManager.GetEntityById(0);
+                mEntityManager.GetEntityById((EntityId)0);
             });
         }
 
@@ -84,7 +84,7 @@ namespace TinyECSTests
         [Test]
         public void TestDestroyEntity_TryToDestroyUnexistedEntity_ReturnsFalse()
         {
-            Assert.IsFalse(mEntityManager.DestroyEntity(0));
+            Assert.IsFalse(mEntityManager.DestroyEntity((EntityId)0));
         }
 
         [Test]

@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.3] - 2020-07-27
+
+### Changed
+
+- Two new types which are **EntityId** and **SystemId** were introduced as strongly typed versions of identifiers.
+
 ## [0.4.2] - 2020-07-26
 
 ### Added

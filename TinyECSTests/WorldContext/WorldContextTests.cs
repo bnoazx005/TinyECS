@@ -68,10 +68,7 @@ namespace TinyECSTests
                 var actualEntities = mWorldContext.GetEntitiesWithAll();
 
                 Assert.AreEqual(expectedEntities.Count, actualEntities.Count);
-
-                actualEntities.Sort();
-                expectedEntities.Sort();
-
+                
                 for (int i = 0; i < expectedEntities.Count; ++i)
                 {
                     Assert.AreEqual(expectedEntities[i], actualEntities[i]);
@@ -103,10 +100,7 @@ namespace TinyECSTests
                 var actualEntities = mWorldContext.GetEntitiesWithAll(typeof(TTestComponent));
 
                 Assert.AreEqual(expectedEntities.Count, actualEntities.Count);
-
-                actualEntities.Sort();
-                expectedEntities.Sort();
-
+                
                 for (int i = 0; i < expectedEntities.Count; ++i)
                 {
                     Assert.AreEqual(expectedEntities[i], actualEntities[i]);
@@ -139,10 +133,7 @@ namespace TinyECSTests
                 var actualEntities = mWorldContext.GetEntitiesWithAll(typeof(TTestComponent), typeof(TAnotherComponent));
 
                 Assert.AreEqual(expectedEntities.Count, actualEntities.Count);
-
-                actualEntities.Sort();
-                expectedEntities.Sort();
-
+                
                 for (int i = 0; i < expectedEntities.Count; ++i)
                 {
                     Assert.AreEqual(expectedEntities[i], actualEntities[i]);
@@ -193,9 +184,6 @@ namespace TinyECSTests
                 var actualEntities = mWorldContext.GetEntitiesWithAny(typeof(TTestComponent), typeof(TAnotherComponent));
 
                 Assert.AreEqual(expectedEntities.Count, actualEntities.Count);
-
-                actualEntities.Sort();
-                expectedEntities.Sort();
 
                 for (int i = 0; i < expectedEntities.Count; ++i)
                 {

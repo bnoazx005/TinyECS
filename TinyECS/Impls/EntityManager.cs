@@ -120,7 +120,7 @@ namespace TinyECS.Impls
         {
             uint id = (uint)entityId;
 
-            if (id >= mEntitiesList.Count || mEntitiesList[(int)id] == null)
+            if (entityId == EntityId.Invalid || id >= mEntitiesList.Count || mEntitiesList[(int)id] == null)
             {
                 return false;
             }
@@ -231,7 +231,7 @@ namespace TinyECS.Impls
 
             uint id = (uint)entityId;
 
-            if (id >= mEntitiesList.Count || (currEntity = mEntitiesList[(int)id]) ==null)
+            if (id >= mEntitiesList.Count || (currEntity = mEntitiesList[(int)id]) == null)
             {
                 throw new EntityDoesntExistException(entityId);
             }

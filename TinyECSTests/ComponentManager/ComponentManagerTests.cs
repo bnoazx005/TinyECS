@@ -35,7 +35,7 @@ namespace TinyECSTests
         {
             Assert.DoesNotThrow(() =>
             {
-                mComponentManager.AddComponent<TTestComponent>(0);
+                mComponentManager.AddComponent<TTestComponent>((EntityId)0);
             });
         }
 
@@ -44,15 +44,15 @@ namespace TinyECSTests
         {
             Assert.DoesNotThrow(() =>
             {
-                mComponentManager.AddComponent(0, new TTestComponent { mValue = 1 });
+                mComponentManager.AddComponent((EntityId)0, new TTestComponent { mValue = 1 });
 
-                var retrievedComponent = mComponentManager.GetComponent<TTestComponent>(0);
+                var retrievedComponent = mComponentManager.GetComponent<TTestComponent>((EntityId)0);
 
                 Assert.AreEqual(retrievedComponent.mValue, 1);
 
-                mComponentManager.AddComponent(0, new TTestComponent { mValue = 2 });
+                mComponentManager.AddComponent((EntityId)0, new TTestComponent { mValue = 2 });
 
-                retrievedComponent = mComponentManager.GetComponent<TTestComponent>(0);
+                retrievedComponent = mComponentManager.GetComponent<TTestComponent>((EntityId)0);
 
                 Assert.AreEqual(retrievedComponent.mValue, 2);
             });
@@ -61,11 +61,11 @@ namespace TinyECSTests
         [Test]
         public void TestGetComponent_GetComponentThatDoesntExist_ThrowsException()
         {
-            mComponentManager.AddComponent<TTestComponent>(0);
+            mComponentManager.AddComponent<TTestComponent>((EntityId)0);
 
             Assert.Throws<ComponentDoesntExistException>(() =>
             {
-                var anotherComponent = mComponentManager.GetComponent<TAnotherComponent>(0);
+                var anotherComponent = mComponentManager.GetComponent<TAnotherComponent>((EntityId)0);
             });
         }
 
@@ -145,7 +145,7 @@ namespace TinyECSTests
         {
             Assert.Throws<EntityDoesntExistException>(() =>
             {
-                mComponentManager.HasComponent<TTestComponent>(0);
+                mComponentManager.HasComponent<TTestComponent>((EntityId)0);
             });
         }
 
@@ -250,7 +250,7 @@ namespace TinyECSTests
         {
             Assert.Throws<EntityDoesntExistException>(() =>
             {
-                mComponentManager.GetComponentsIterator(0);
+                mComponentManager.GetComponentsIterator((EntityId)0);
             });
         }
 
@@ -259,7 +259,7 @@ namespace TinyECSTests
         {
             Assert.DoesNotThrow(() =>
             {
-                EntityId entityId = 0;
+                EntityId entityId = (EntityId)0;
 
                 mComponentManager.RegisterEntity(entityId);
 
@@ -277,7 +277,7 @@ namespace TinyECSTests
         {
             Assert.DoesNotThrow(() =>
             {
-                EntityId entityId = 0;
+                EntityId entityId = (EntityId)0;
 
                 mComponentManager.RegisterEntity(entityId);
                 mComponentManager.AddComponent<TUniqueComponent>(entityId);

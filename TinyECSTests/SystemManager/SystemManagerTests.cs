@@ -40,9 +40,9 @@ namespace TinyECSTests
 
             Assert.DoesNotThrow(() =>
             {
-                uint registeredSystemId = mSystemManager.RegisterSystem(systemMock);
+                SystemId registeredSystemId = mSystemManager.RegisterSystem(systemMock);
 
-                Assert.AreEqual(registeredSystemId, (byte)(E_SYSTEM_TYPE.ST_INIT) << 29);
+                Assert.AreEqual((uint)registeredSystemId, (uint)(E_SYSTEM_TYPE.ST_INIT) << 29);
             });
         }
 
@@ -53,12 +53,12 @@ namespace TinyECSTests
             {
                 Random randomGenerator = new Random();
 
-                uint currSystemId = 0x0;
+                SystemId currSystemId = (SystemId)0x0;
 
                 int currNumOfRegisteredInitSystems   = 0;
                 int currNumOfRegisteredUpdateSystems = 0;
 
-                HashSet<uint> registeredSystemsIds = new HashSet<uint>();
+                HashSet<SystemId> registeredSystemsIds = new HashSet<SystemId>();
 
                 for (int i = 0; i < 10; ++i)
                 { 
@@ -66,7 +66,7 @@ namespace TinyECSTests
                     {
                         currSystemId = mSystemManager.RegisterSystem(Substitute.For<IInitSystem>());
                         
-                        Assert.AreEqual((currNumOfRegisteredInitSystems << 16) | i | (((byte)E_SYSTEM_TYPE.ST_INIT) << 29), currSystemId);
+                        Assert.AreEqual((currNumOfRegisteredInitSystems << 16) | i | (((uint)E_SYSTEM_TYPE.ST_INIT) << 29), (uint)currSystemId);
 
                         ++currNumOfRegisteredInitSystems;
                     }
@@ -74,7 +74,7 @@ namespace TinyECSTests
                     {
                         currSystemId = mSystemManager.RegisterSystem(Substitute.For<IUpdateSystem>());
 
-                        Assert.AreEqual((currNumOfRegisteredUpdateSystems << 16) | i | (((byte)E_SYSTEM_TYPE.ST_UPDATE) << 29), currSystemId);
+                        Assert.AreEqual((currNumOfRegisteredUpdateSystems << 16) | i | (((uint)E_SYSTEM_TYPE.ST_UPDATE) << 29), (uint)currSystemId);
 
                         ++currNumOfRegisteredUpdateSystems;
                     }
@@ -92,7 +92,7 @@ namespace TinyECSTests
         {
             Assert.Throws<InvalidIdentifierException>(() =>
             {
-                mSystemManager.UnregisterSystem(0);
+                mSystemManager.UnregisterSystem((SystemId)0);
             });
         }
 
@@ -103,7 +103,7 @@ namespace TinyECSTests
 
             Assert.DoesNotThrow(() =>
             {
-                uint registeredSystemId = mSystemManager.RegisterSystem(systemMock);
+                SystemId registeredSystemId = mSystemManager.RegisterSystem(systemMock);
 
                 mSystemManager.UnregisterSystem(registeredSystemId);
             });
@@ -114,7 +114,7 @@ namespace TinyECSTests
         {
             Assert.Throws<InvalidIdentifierException>(() =>
             {
-                mSystemManager.ActivateSystem(2);
+                mSystemManager.ActivateSystem((SystemId)2);
             });
         }
 
@@ -125,7 +125,7 @@ namespace TinyECSTests
 
             Assert.DoesNotThrow(() =>
             {
-                uint registeredSystemId = mSystemManager.RegisterSystem(systemMock);
+                SystemId registeredSystemId = mSystemManager.RegisterSystem(systemMock);
 
                 // system's identifier should remain the same
                 Assert.AreEqual(registeredSystemId, mSystemManager.ActivateSystem(registeredSystemId));
@@ -139,10 +139,10 @@ namespace TinyECSTests
 
             Assert.DoesNotThrow(() =>
             {
-                uint registeredSystemId = mSystemManager.RegisterSystem(systemMock);
+                SystemId registeredSystemId = mSystemManager.RegisterSystem(systemMock);
 
-                uint deactivatedSystemId = mSystemManager.DeactivateSystem(registeredSystemId);
-                uint newSystemId = mSystemManager.ActivateSystem(registeredSystemId);
+                SystemId deactivatedSystemId = mSystemManager.DeactivateSystem(registeredSystemId);
+                SystemId newSystemId = mSystemManager.ActivateSystem(registeredSystemId);
 
                 Assert.AreNotEqual(newSystemId, deactivatedSystemId);
             });
@@ -155,12 +155,12 @@ namespace TinyECSTests
 
             Assert.DoesNotThrow(() =>
             {
-                uint initSystemId   = mSystemManager.RegisterSystem(systemMock as IInitSystem);
-                uint updateSystemId = mSystemManager.RegisterSystem(systemMock);
+                SystemId initSystemId   = mSystemManager.RegisterSystem(systemMock as IInitSystem);
+                SystemId updateSystemId = mSystemManager.RegisterSystem(systemMock);
 
                 Assert.AreNotEqual(initSystemId, updateSystemId);
-                Assert.AreEqual(((byte)E_SYSTEM_TYPE.ST_INIT << 29), initSystemId);
-                Assert.AreEqual(((byte)E_SYSTEM_TYPE.ST_UPDATE << 29), updateSystemId);
+                Assert.AreEqual(((uint)E_SYSTEM_TYPE.ST_INIT << 29), (uint)initSystemId);
+                Assert.AreEqual(((uint)E_SYSTEM_TYPE.ST_UPDATE << 29), (uint)updateSystemId);
             });
         }
 
