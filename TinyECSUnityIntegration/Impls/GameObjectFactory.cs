@@ -37,7 +37,7 @@ namespace TinyECSUnityIntegration.Impls
 
             IView viewComponent = gameObjectInstance.GetComponent<IView>() ?? throw new NullReferenceException();
 
-            uint linkedEntityId = mWorldContext.CreateEntity(/*gameObjectInstance.name*/);
+            EntityId linkedEntityId = mWorldContext.CreateEntity(/*gameObjectInstance.name*/);
 
             IEntity linkedEntity = mWorldContext.GetEntityById(linkedEntityId);
 

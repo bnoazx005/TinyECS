@@ -19,7 +19,7 @@ namespace TinyECSTests
         public void Init()
         {
             mWorldContext = Substitute.For<IWorldContext>();
-            mWorldContext.GetEntitiesWithAll().ReturnsForAnyArgs(new List<uint> { });
+            mWorldContext.GetEntitiesWithAll().ReturnsForAnyArgs(new List<EntityId> { });
 
             mSystemManager = new SystemManager(mWorldContext);
         }
@@ -175,8 +175,11 @@ namespace TinyECSTests
 
                 // emulate an event when we create two components for same entity
                 var listener = mSystemManager as IEventListener<TNewComponentAddedEvent>;
-                listener.OnEvent(new TNewComponentAddedEvent { mOwnerId = 1 });
-                listener.OnEvent(new TNewComponentAddedEvent { mOwnerId = 1 });
+
+                EntityId id = (EntityId)1;
+
+                listener.OnEvent(new TNewComponentAddedEvent { mOwnerId = id });
+                listener.OnEvent(new TNewComponentAddedEvent { mOwnerId = id });
 
                 mSystemManager.Update(0.0f);
             });

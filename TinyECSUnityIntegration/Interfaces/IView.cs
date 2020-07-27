@@ -25,7 +25,7 @@ namespace TinyECSUnityIntegration.Interfaces
         /// </summary>
         /// <param name="entityId">An integral identifier which represents some existing entity</param>
 
-        void Link(uint entityId);
+        void Link(EntityId entityId);
 
         /// <summary>
         /// The method is used to provide a single place where all subscriptions are made
@@ -33,7 +33,7 @@ namespace TinyECSUnityIntegration.Interfaces
         /// <param name="eventManager">A reference to IEventManager implementation</param>
         /// <param name="entityId">Entity's identifier</param>
 
-        void RegisterSubscriptions(IEventManager eventManager, uint entityId);
+        void RegisterSubscriptions(IEventManager eventManager, EntityId entityId);
 
         /// <summary>
         /// The property returns a reference to IWorldContext which contains the entity that's linked
@@ -46,6 +46,6 @@ namespace TinyECSUnityIntegration.Interfaces
         /// The property returns an identifier of the linked entity
         /// </summary>
 
-        uint LinkedEntityId { get; }
+        EntityId LinkedEntityId { get; }
     }
 }

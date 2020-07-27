@@ -20,7 +20,7 @@ namespace TinyECS.Impls
         /// <param name="name">A name of an entity (optional)</param>
         /// <returns>The method returns an identifier of created entity</returns>
 
-        public static uint CreateDisposableEntity(this IEntityManager entityManager, string name = null)
+        public static EntityId CreateDisposableEntity(this IEntityManager entityManager, string name = null)
         {
             IEntity entity = entityManager.CreateEntity(name);
 
@@ -38,7 +38,7 @@ namespace TinyECS.Impls
         /// <param name="name">A name of an entity (optional)</param>
         /// <returns>The method returns an identifier of created entity</returns>
 
-        public static uint CreateDisposableEntity(this IWorldContext worldContext, string name = null)
+        public static EntityId CreateDisposableEntity(this IWorldContext worldContext, string name = null)
         {
             IEntity entity = worldContext.GetEntityById(worldContext.CreateEntity(name));
 

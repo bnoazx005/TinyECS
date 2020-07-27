@@ -40,7 +40,7 @@ namespace Tutorial01_HelloWorld
             {
                 if (Console.ReadLine() != string.Empty)
                 {
-                    uint entityId = worldContext.CreateEntity();
+                    EntityId entityId = worldContext.CreateEntity();
 
                     IEntity entity = worldContext.GetEntityById(entityId);
 

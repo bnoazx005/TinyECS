@@ -1,5 +1,5 @@
 ﻿using System;
-
+using TinyECS.Interfaces;
 
 namespace TinyECS.Impls
 {
@@ -12,8 +12,8 @@ namespace TinyECS.Impls
 
     public class ComponentDoesntExistException: Exception
     {
-        public ComponentDoesntExistException(Type type, uint entityId):
-            base($"A component of [{type}] doesn't belong to entity with id [{entityId}]")
+        public ComponentDoesntExistException(Type type, EntityId entityId):
+            base($"A component of [{type}] doesn't belong to entity with id [{(uint)entityId}]")
         {
         }
     }
@@ -28,8 +28,8 @@ namespace TinyECS.Impls
 
     public class ComponentAlreadyExistException : Exception
     {
-        public ComponentAlreadyExistException(Type type, uint entityId) :
-            base($"A component of [{type}] already exists on entity [{entityId}]")
+        public ComponentAlreadyExistException(Type type, EntityId entityId) :
+            base($"A component of [{type}] already exists on entity [{(uint)entityId}]")
         {
         }
     }
@@ -44,8 +44,8 @@ namespace TinyECS.Impls
 
     public class EntityDoesntExistException: Exception
     {
-        public EntityDoesntExistException(uint entityId):
-            base($"An entity with the specified identifier [{entityId}] doesn't exist")
+        public EntityDoesntExistException(EntityId entityId):
+            base($"An entity with the specified identifier [{(uint)entityId}] doesn't exist")
         {
         }
     }

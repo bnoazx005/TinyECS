@@ -42,7 +42,7 @@ namespace TinyECSUnityIntegration.Impls
 
         private IEventManager   mEventManager;
 
-        protected uint          mLinkedEntityId;
+        protected EntityId      mLinkedEntityId;
 
         /// <summary>
         /// The method prepares the view for initialization step
@@ -64,7 +64,7 @@ namespace TinyECSUnityIntegration.Impls
         /// </summary>
         /// <param name="entityId">An integral identifier which represents some existing entity</param>
 
-        public virtual void Link(uint entityId)
+        public virtual void Link(EntityId entityId)
         {
             mLinkedEntityId = entityId;
 
@@ -77,7 +77,7 @@ namespace TinyECSUnityIntegration.Impls
         /// <param name="eventManager">A reference to IEventManager implementation</param>
         /// <param name="entityId">Entity's identifier</param>
 
-        public abstract void RegisterSubscriptions(IEventManager eventManager, uint entityId);
+        public abstract void RegisterSubscriptions(IEventManager eventManager, EntityId entityId);
 
         /// <summary>
         /// The property returns a reference to IWorldContext which contains the entity that's linked
@@ -90,7 +90,7 @@ namespace TinyECSUnityIntegration.Impls
         /// The property returns an identifier of the linked entity
         /// </summary>
 
-        public uint LinkedEntityId => mLinkedEntityId;
+        public EntityId LinkedEntityId => mLinkedEntityId;
 
         protected IEventManager _eventManager
         {

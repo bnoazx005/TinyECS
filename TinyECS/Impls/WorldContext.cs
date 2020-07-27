@@ -20,7 +20,7 @@ namespace TinyECS.Impls
         /// <param name="name">An optional parameter that specifies a name of the entity</param>
         /// <returns>An integer index that is an entity's identifier</returns>
 
-        public uint CreateEntity(string name = null)
+        public EntityId CreateEntity(string name = null)
         {
             IEntity newEntity = mEntityManager.CreateEntity(name);
 
@@ -33,7 +33,7 @@ namespace TinyECS.Impls
         /// <param name="entityId">An entity's identifier</param>
         /// <returns>The method returns true if the entity was successfully destroyed and false in other cases</returns>
 
-        public bool DestroyEntity(uint entityId)
+        public bool DestroyEntity(EntityId entityId)
         {
             return mEntityManager.DestroyEntity(entityId);
         }
@@ -44,7 +44,7 @@ namespace TinyECS.Impls
         /// <param name="entityId">An entity's identifier</param>
         /// <returns>A reference to IEntity's implementation</returns>
 
-        public IEntity GetEntityById(uint entityId)
+        public IEntity GetEntityById(EntityId entityId)
         {
             return mEntityManager.GetEntityById(entityId);
         }
@@ -55,7 +55,7 @@ namespace TinyECS.Impls
         /// <param name="components">A list of components that every entity should have</param>
         /// <returns>The method returns an array of entities that have all specified components attached to them</returns>
 
-        public List<uint> GetEntitiesWithAll(params Type[] components)
+        public List<EntityId> GetEntitiesWithAll(params Type[] components)
         {
             return mEntityManager.GetEntitiesWithAll(components);
         }
@@ -66,7 +66,7 @@ namespace TinyECS.Impls
         /// <param name="components">A list of components that every entity should have</param>
         /// <returns>The method returns an array of entities that have any of specified components</returns>
 
-        public List<uint> GetEntitiesWithAny(params Type[] components)
+        public List<EntityId> GetEntitiesWithAny(params Type[] components)
         {
             return mEntityManager.GetEntitiesWithAny(components);
         }

@@ -112,16 +112,18 @@ namespace TinyECS.Impls
         /// </summary>
         /// <param name="entityId">Entity's identifier</param>
 
-        public void RegisterEntity(uint entityId)
+        public void RegisterEntity(EntityId entityId)
         {
+            uint id = (uint)entityId;
+
             // check does the entity have the corresponding component already
-            if (mEntity2ComponentsHashTable.ContainsKey(entityId))
+            if (mEntity2ComponentsHashTable.ContainsKey(id))
             {
                 return;
             }
 
             // there is no an entity with corresponding id in the table
-            mEntity2ComponentsHashTable.Add(entityId, new Dictionary<Type, int>());
+            mEntity2ComponentsHashTable.Add(id, new Dictionary<Type, int>());
         }
 
         /// <summary>
@@ -131,16 +133,18 @@ namespace TinyECS.Impls
         /// <param name="componentInitializer">A type's value that is used to initialize fields of a new component</param>
         /// <typeparam name="T">A type of a component that should be attached</typeparam>
 
-        public void AddComponent<T>(uint entityId, T componentInitializer) where T : struct, IComponent
+        public void AddComponent<T>(EntityId entityId, T componentInitializer) where T : struct, IComponent
         {
+            uint id = (uint)entityId;
+
             // check does the entity have the corresponding component already
-            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            if (!mEntity2ComponentsHashTable.ContainsKey(id))
             {
                 // there is no an entity with corresponding id in the table
-                mEntity2ComponentsHashTable.Add(entityId, new Dictionary<Type, int>());
+                mEntity2ComponentsHashTable.Add(id, new Dictionary<Type, int>());
             }
 
-            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+            var entityComponentsTable = mEntity2ComponentsHashTable[id];
             
             Type cachedComponentType = typeof(T);
             
@@ -191,15 +195,17 @@ namespace TinyECS.Impls
         /// <returns>The method returns a component of a given type if it belongs to
         /// the specified entity</returns>
 
-        public T GetComponent<T>(uint entityId) where T : struct, IComponent
+        public T GetComponent<T>(EntityId entityId) where T : struct, IComponent
         {
+            uint id = (uint)entityId;
+
             /// there is no entity with the specified id
-            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            if (!mEntity2ComponentsHashTable.ContainsKey(id))
             {
                 throw new EntityDoesntExistException(entityId);
             }
 
-            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+            var entityComponentsTable = mEntity2ComponentsHashTable[id];
 
             /// there is no component with specified type that belongs to the entity
             Type cachedComponentType = typeof(T);
@@ -229,15 +235,17 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <typeparam name="T">A type of a component that should be removed</typeparam>
 
-        public void RemoveComponent<T>(uint entityId) where T : struct, IComponent
+        public void RemoveComponent<T>(EntityId entityId) where T : struct, IComponent
         {
+            uint id = (uint)entityId;
+
             /// there is no entity with the specified id
-            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            if (!mEntity2ComponentsHashTable.ContainsKey(id))
             {
                 throw new EntityDoesntExistException(entityId);
             }
 
-            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+            var entityComponentsTable = mEntity2ComponentsHashTable[id];
 
             /// there is no component with specified type that belongs to the entity
             _removeComponent(entityComponentsTable, typeof(T), entityId);
@@ -254,15 +262,17 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// </summary>
 
-        public void RemoveAllComponents(uint entityId)
+        public void RemoveAllComponents(EntityId entityId)
         {
+            uint id = (uint)entityId;
+
             /// there is no entity with the specified id
-            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            if (!mEntity2ComponentsHashTable.ContainsKey(id))
             {
                 throw new EntityDoesntExistException(entityId);
             }
 
-            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+            var entityComponentsTable = mEntity2ComponentsHashTable[id];
 
             var entityComponentsTypes = entityComponentsTable.Keys;
             
@@ -282,7 +292,7 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
 
-        public bool HasComponent<T>(uint entityId) where T : struct, IComponent
+        public bool HasComponent<T>(EntityId entityId) where T : struct, IComponent
         {
             return HasComponent(entityId, typeof(T));
         }
@@ -294,15 +304,17 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
 
-        public bool HasComponent(uint entityId, Type componentType)
+        public bool HasComponent(EntityId entityId, Type componentType)
         {
+            uint id = (uint)entityId;
+
             /// there is no entity with the specified id
-            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            if (!mEntity2ComponentsHashTable.ContainsKey(id))
             {
                 throw new EntityDoesntExistException(entityId);
             }
 
-            var entityComponentsTable = mEntity2ComponentsHashTable[entityId];
+            var entityComponentsTable = mEntity2ComponentsHashTable[id];
 
             return entityComponentsTable.ContainsKey(componentType);
         }
@@ -313,18 +325,20 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
 
-        public IComponentIterator GetComponentsIterator(uint entityId)
+        public IComponentIterator GetComponentsIterator(EntityId entityId)
         {
+            uint id = (uint)entityId;
+
             /// there is no entity with the specified id
-            if (!mEntity2ComponentsHashTable.ContainsKey(entityId))
+            if (!mEntity2ComponentsHashTable.ContainsKey(id))
             {
                 throw new EntityDoesntExistException(entityId);
             }
 
-            return new ComponentIterator(mEntity2ComponentsHashTable[entityId], mComponentTypesHashTable, mComponentsMatrix);
+            return new ComponentIterator(mEntity2ComponentsHashTable[id], mComponentTypesHashTable, mComponentsMatrix);
         }
 
-        protected void _removeComponent(IDictionary<Type, int> entityComponentsTable, Type componentType, uint entityId)
+        protected void _removeComponent(IDictionary<Type, int> entityComponentsTable, Type componentType, EntityId entityId)
         {            
             if (!entityComponentsTable.ContainsKey(componentType))
             {
@@ -336,7 +350,7 @@ namespace TinyECS.Impls
             --mNumOfActiveComponents;
         }
 
-        protected void _notifyOnComponentsChanged<T>(uint entityId, T value)
+        protected void _notifyOnComponentsChanged<T>(EntityId entityId, T value)
         {
             mEventManager.Notify(new TNewComponentAddedEvent()
             {

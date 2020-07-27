@@ -48,15 +48,15 @@ namespace TinyECSTests
             // should have increasing identifiers with a delta equals to 1
             for (uint i = 0; i < 10; ++i)
             {
-                Assert.AreEqual(i, mWorldContext.CreateEntity());
-                Assert.AreEqual(i, mWorldContext.GetEntityById(i).Id);
+                Assert.AreEqual(i, (uint)mWorldContext.CreateEntity());
+                Assert.AreEqual(i, (uint)mWorldContext.GetEntityById((EntityId)i).Id);
             }
         }
 
         [Test]
         public void TestGetEntitiesWithAll_PassNoArguments_ReturnsAllEntities()
         {
-            List<uint> expectedEntities = new List<uint>();
+            List<EntityId> expectedEntities = new List<EntityId>();
 
             for (int i = 0; i < 5; ++i)
             {
@@ -82,7 +82,7 @@ namespace TinyECSTests
         [Test]
         public void TestGetEntitiesWithAll_PassSingleArgument_ReturnsEntitiesWithGivenComponent()
         {
-            List<uint> expectedEntities = new List<uint>(); // contains only entities with TTestComponent's attached to them
+            List<EntityId> expectedEntities = new List<EntityId>(); // contains only entities with TTestComponent's attached to them
 
             Random randomGenerator = new Random();
 
@@ -117,7 +117,7 @@ namespace TinyECSTests
         [Test]
         public void TestGetEntitiesWithAll_PassFewArgument_ReturnsEntitiesThatHaveAllGivenComponents()
         {
-            List<uint> expectedEntities = new List<uint>(); // contains only entities with TTestComponent's attached to them
+            List<EntityId> expectedEntities = new List<EntityId>(); // contains only entities with TTestComponent's attached to them
 
             Random randomGenerator = new Random();
 
@@ -153,7 +153,7 @@ namespace TinyECSTests
         [Test]
         public void TestGetEntitiesWithAny_PassNoArguments_ReturnsEmptyArray()
         {
-            List<uint> expectedEntities = new List<uint>();
+            List<EntityId> expectedEntities = new List<EntityId>();
 
             // create new entities;
             for (int i = 0; i < 5; ++i)
@@ -175,7 +175,7 @@ namespace TinyECSTests
         [Test]
         public void TestGetEntitiesWithAny_PassTwoArgument_ReturnsEntitiesWithFirstOrSecondComponent()
         {
-            List<uint> expectedEntities = new List<uint>();
+            List<EntityId> expectedEntities = new List<EntityId>();
 
             // create new entities;
             for (int i = 0; i < 5; ++i)
@@ -209,7 +209,7 @@ namespace TinyECSTests
         {
             // Test to fix issue #18 https://github.com/bnoazx005/TinyECS/issues/18
 
-            uint entityId = mWorldContext.CreateEntity();
+            EntityId entityId = mWorldContext.CreateEntity();
             IEntity entity = mWorldContext.GetEntityById(entityId);
 
             Assert.IsNotNull(entity);

@@ -14,7 +14,7 @@ namespace TinyECS.Impls
 
     public class Entity: IEntity
     {
-        protected uint           mId;
+        protected EntityId       mId;
 
         protected string         mName;
 
@@ -27,7 +27,7 @@ namespace TinyECS.Impls
         /// <param name="id">An identifier of a entity (unique)</param>
         /// <param name="name">A name of an entity (two or more entities can have same name)</param>
 
-        public Entity(IEntityManager entityManager, uint id, string name = null)
+        public Entity(IEntityManager entityManager, EntityId id, string name = null)
         {
             mEntityManager = entityManager ?? throw new ArgumentNullException("entityManager");
 
@@ -130,7 +130,7 @@ namespace TinyECS.Impls
         /// The property returns an identifier of an entity
         /// </summary>
 
-        public uint Id => mId;
+        public EntityId Id => mId;
 
         /// <summary>
         /// The property returns a name of an entity

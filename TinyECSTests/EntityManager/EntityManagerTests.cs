@@ -28,7 +28,7 @@ namespace TinyECSTests
 
             Assert.NotNull(newEntity);
             Assert.AreEqual(newEntity.Name, "Entity0");
-            Assert.AreEqual(newEntity.Id, 0);
+            Assert.AreEqual(newEntity.Id, (EntityId)0);
         }
 
         [TestCase]
@@ -44,21 +44,21 @@ namespace TinyECSTests
 
                 Assert.NotNull(newEntity);
                 Assert.AreEqual(newEntity.Name, $"Entity{i}");
-                Assert.AreEqual(newEntity.Id, i);
+                Assert.AreEqual(newEntity.Id, (EntityId)i);
             }
 
             /// remove some of entities
-            Assert.IsTrue(mEntityManager.DestroyEntity(2));
-            Assert.IsTrue(mEntityManager.DestroyEntity(3));
+            Assert.IsTrue(mEntityManager.DestroyEntity((EntityId)2));
+            Assert.IsTrue(mEntityManager.DestroyEntity((EntityId)3));
 
             /// recreate them
             newEntity = mEntityManager.CreateEntity();
             Assert.NotNull(newEntity);
-            Assert.AreEqual(newEntity.Id, 2);
+            Assert.AreEqual(newEntity.Id, (EntityId)2);
 
             newEntity = mEntityManager.CreateEntity();
             Assert.NotNull(newEntity);
-            Assert.AreEqual(newEntity.Id, 3);
+            Assert.AreEqual(newEntity.Id, (EntityId)3);
         }
         
         [Test]
@@ -141,7 +141,9 @@ namespace TinyECSTests
                 // delete some entities
                 for (uint i = 0; i < expectedNumOfDeletedEntities; ++i)
                 {
-                    mEntityManager.DestroyEntity(i);
+                    EntityId id = (EntityId)i;
+
+                    mEntityManager.DestroyEntity(id);
                 }
 
                 Assert.AreEqual(expectedNumOfEntities - expectedNumOfDeletedEntities, mEntityManager.NumOfActiveEntities);
@@ -186,7 +188,7 @@ namespace TinyECSTests
 
                 for (uint i = 0; i < numOfDestroyedEntities; ++i)
                 {
-                    mEntityManager.DestroyEntity(i);
+                    mEntityManager.DestroyEntity((EntityId)i);
                 }
 
                 Assert.AreEqual(numOfDestroyedEntities, mEntityManager.NumOfReusableEntities);

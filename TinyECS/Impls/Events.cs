@@ -6,36 +6,36 @@ namespace TinyECS.Impls
 {
     public struct TNewEntityCreatedEvent: IEvent
     {
-        public uint mEntityId;
+        public EntityId mEntityId;
     }
 
     public struct TEntityDestroyedEvent: IEvent
     {
-        public uint   mEntityId;
+        public EntityId mEntityId;
 
-        public string mEntityName;
+        public string   mEntityName;
     }
 
     public struct TNewComponentAddedEvent: IEvent
     {
-        public uint mOwnerId;
+        public EntityId mOwnerId;
 
-        public Type mComponentType;
+        public Type     mComponentType;
     }
 
 
     public struct TComponentChangedEvent<T>: IEvent
     {
-        public uint mOwnerId;
+        public EntityId mOwnerId;
 
-        public T    mValue;
+        public T        mValue;
     }
 
 
     public struct TComponentRemovedEvent: IEvent
     {
-        public uint mOwnerId;
+        public EntityId mOwnerId;
 
-        public Type mComponentType;
+        public Type     mComponentType;
     }
 }

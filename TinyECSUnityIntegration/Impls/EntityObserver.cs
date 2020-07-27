@@ -14,7 +14,7 @@ namespace TinyECSUnityIntegration.Impls
 
     public class EntityObserver: MonoBehaviour
     {
-        public uint             mEntityId;
+        public EntityId         mEntityId;
 
         protected IWorldContext mWorldContext;
 
@@ -24,7 +24,7 @@ namespace TinyECSUnityIntegration.Impls
         /// <param name="worldContext">A reference to a world context from which the entity will be retrieved</param>
         /// <param name="entityId">An identifier of an entity</param>
 
-        public void Init(IWorldContext worldContext, uint entityId)
+        public void Init(IWorldContext worldContext, EntityId entityId)
         {
             mWorldContext = worldContext ?? throw new ArgumentNullException("worldContext");
 

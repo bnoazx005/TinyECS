@@ -14,7 +14,7 @@ namespace TinyECS.Impls
 
     public class EntityManager: IEntityManager
     {
-        protected delegate bool FilterPredicate(uint entityId, params Type[] componentTypes);
+        protected delegate bool FilterPredicate(EntityId entityId, params Type[] componentTypes);
 
         protected IComponentManager   mComponentManager;
 
@@ -83,11 +83,13 @@ namespace TinyECS.Impls
             }
             else
             {
-                newEntityInstance = new Entity(this, entityId, name ?? string.Format(mDefaultEntityPatternName, entityId));
+                newEntityInstance = new Entity(this, (EntityId)entityId, name ?? string.Format(mDefaultEntityPatternName, entityId));
             }
 
+            EntityId id = (EntityId)entityId;
+
             // register the entity within the components manager
-            mComponentManager.RegisterEntity(entityId);
+            mComponentManager.RegisterEntity(id);
 
             if (isEntityReused)
             {
@@ -100,7 +102,7 @@ namespace TinyECS.Impls
 
             mEventManager.Notify<TNewEntityCreatedEvent>(new TNewEntityCreatedEvent()
             {
-                mEntityId = entityId
+                mEntityId = id
             });
 
             ++mNumOfActiveEntities;
@@ -114,22 +116,24 @@ namespace TinyECS.Impls
         /// <param name="entityId">An entity's identifier</param>
         /// <returns>The method returns true if the entity was successfully destroyed and false in other cases</returns>
 
-        public bool DestroyEntity(uint entityId)
+        public bool DestroyEntity(EntityId entityId)
         {
-            if (entityId >= mEntitiesList.Count || mEntitiesList[(int)entityId] == null)
+            uint id = (uint)entityId;
+
+            if (id >= mEntitiesList.Count || mEntitiesList[(int)id] == null)
             {
                 return false;
             }
 
-            IEntity destroyedEntity = mEntitiesList[(int)entityId];
+            IEntity destroyedEntity = mEntitiesList[(int)id];
 
             RemoveAllComponents(entityId);
 
             mDestroyedEntitiesList.AddLast(destroyedEntity);
 
-            mEntitiesList[(int)entityId] = null;
+            mEntitiesList[(int)id] = null;
 
-            mNextFreeEntityId.Enqueue(entityId);
+            mNextFreeEntityId.Enqueue(id);
 
             mEventManager.Notify(new TEntityDestroyedEvent()
             {
@@ -149,7 +153,7 @@ namespace TinyECS.Impls
         /// <param name="componentInitializer">A type's value that is used to initialize fields of a new component</param>
         /// <typeparam name="T">A type of a component that should be attached</typeparam>
 
-        public void AddComponent<T>(uint entityId, T componentInitializer = default(T)) where T : struct, IComponent
+        public void AddComponent<T>(EntityId entityId, T componentInitializer = default(T)) where T : struct, IComponent
         {
             mComponentManager.AddComponent<T>(entityId, componentInitializer);
         }
@@ -160,7 +164,7 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <typeparam name="T">A type of a component that should be removed</typeparam>
 
-        public void RemoveComponent<T>(uint entityId) where T : struct, IComponent
+        public void RemoveComponent<T>(EntityId entityId) where T : struct, IComponent
         {
             mComponentManager.RemoveComponent<T>(entityId);
         }
@@ -170,7 +174,7 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// </summary>
 
-        public void RemoveAllComponents(uint entityId)
+        public void RemoveAllComponents(EntityId entityId)
         {
             mComponentManager.RemoveAllComponents(entityId);
         }
@@ -184,7 +188,7 @@ namespace TinyECS.Impls
         /// <returns>The method returns a component of a given type if it belongs to
         /// the specified entity</returns>
 
-        public T GetComponent<T>(uint entityId) 
+        public T GetComponent<T>(EntityId entityId) 
             where T : struct, IComponent
         {
             return mComponentManager.GetComponent<T>(entityId);
@@ -197,7 +201,7 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
 
-        public bool HasComponent<T>(uint entityId) 
+        public bool HasComponent<T>(EntityId entityId) 
             where T : struct, IComponent
         {
             return mComponentManager.HasComponent<T>(entityId);
@@ -210,7 +214,7 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
 
-        public bool HasComponent(uint entityId, Type componentType)
+        public bool HasComponent(EntityId entityId, Type componentType)
         {
             return mComponentManager.HasComponent(entityId, componentType);
         }
@@ -221,11 +225,13 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns a reference to an entity by its integral identifier</returns>
 
-        public IEntity GetEntityById(uint entityId)
+        public IEntity GetEntityById(EntityId entityId)
         {
             IEntity currEntity = null;
 
-            if (entityId >= mEntitiesList.Count || (currEntity = mEntitiesList[(int)entityId]) ==null)
+            uint id = (uint)entityId;
+
+            if (id >= mEntitiesList.Count || (currEntity = mEntitiesList[(int)id]) ==null)
             {
                 throw new EntityDoesntExistException(entityId);
             }
@@ -239,7 +245,7 @@ namespace TinyECS.Impls
         /// <param name="components">A list of components that every entity should have</param>
         /// <returns>The method returns an array of entities that have all specified components attached to them</returns>
 
-        public List<uint> GetEntitiesWithAll(params Type[] components)
+        public List<EntityId> GetEntitiesWithAll(params Type[] components)
         {
             return _getFilteredEntities((entityId, componentsTypes) =>
             {
@@ -261,7 +267,7 @@ namespace TinyECS.Impls
         /// <param name="components">A list of components that every entity should have</param>
         /// <returns>The method returns an array of entities that have any of specified components</returns>
 
-        public List<uint> GetEntitiesWithAny(params Type[] components)
+        public List<EntityId> GetEntitiesWithAny(params Type[] components)
         {
             return _getFilteredEntities((entityId, componentsTypes) =>
             {
@@ -283,22 +289,24 @@ namespace TinyECS.Impls
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
 
-        public IComponentIterator GetComponentsIterator(uint entityId)
+        public IComponentIterator GetComponentsIterator(EntityId entityId)
         {
             return mComponentManager.GetComponentsIterator(entityId);
         }
 
-        protected List<uint> _getFilteredEntities(FilterPredicate predicate, params Type[] components)
+        protected List<EntityId> _getFilteredEntities(FilterPredicate predicate, params Type[] components)
         {
             // TODO: should be cached somehow to decrease allocations count
-            List<uint> filteredEntities = new List<uint>();
+            List<EntityId> filteredEntities = new List<EntityId>();
 
             for (uint currEntityId = 0; currEntityId < mEntitiesList.Count; ++currEntityId)
-            {               
+            {
+                EntityId id = (EntityId)currEntityId;
+
                 // add an entity only if it passed all tests
-                if (mEntitiesList[(int)currEntityId] != null && predicate(currEntityId, components))
+                if (mEntitiesList[(int)currEntityId] != null && predicate(id, components))
                 {
-                    filteredEntities.Add(currEntityId);
+                    filteredEntities.Add(id);
                 }
             }
 

@@ -2,6 +2,12 @@
 
 namespace TinyECS.Interfaces
 {
+    public enum EntityId : uint
+    {
+        Invalid = uint.MaxValue
+    }
+
+
     /// <summary>
     /// interface IEntity
     /// 
@@ -69,7 +75,7 @@ namespace TinyECS.Interfaces
         /// The property returns an identifier of an entity
         /// </summary>
 
-        uint Id { get; }
+        EntityId Id { get; }
 
         /// <summary>
         /// The property returns a name of an entity

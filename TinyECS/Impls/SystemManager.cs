@@ -310,7 +310,7 @@ namespace TinyECS.Impls
             _addEntityToReactiveSystemsBuffer(eventData.mOwnerId);
         }
 
-        protected void _addEntityToReactiveSystemsBuffer(uint entityId)
+        protected void _addEntityToReactiveSystemsBuffer(EntityId entityId)
         {
             IEntity entity = mWorldContext.GetEntityById(entityId);
 

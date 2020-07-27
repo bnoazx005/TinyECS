@@ -37,7 +37,7 @@ namespace TinyECS.Interfaces
         /// <param name="name">An optional parameter that specifies a name of the entity</param>
         /// <returns>An integer index that is an entity's identifier</returns>
 
-        uint CreateEntity(string name = null);
+        EntityId CreateEntity(string name = null);
 
         /// <summary>
         /// The method destroy an entity with a given identifier
@@ -45,7 +45,7 @@ namespace TinyECS.Interfaces
         /// <param name="entityId">An entity's identifier</param>
         /// <returns>The method returns true if the entity was successfully destroyed and false in other cases</returns>
 
-        bool DestroyEntity(uint entityId);
+        bool DestroyEntity(EntityId entityId);
 
         /// <summary>
         /// The method returns a reference to an entity by its identifier
@@ -53,7 +53,7 @@ namespace TinyECS.Interfaces
         /// <param name="entityId">An entity's identifier</param>
         /// <returns>A reference to IEntity's implementation</returns>
 
-        IEntity GetEntityById(uint entityId);
+        IEntity GetEntityById(EntityId entityId);
 
         /// <summary>
         /// The method returns an array of entities that have all specified components attached to them
@@ -61,7 +61,7 @@ namespace TinyECS.Interfaces
         /// <param name="components">A list of components that every entity should have</param>
         /// <returns>The method returns an array of entities that have all specified components attached to them</returns>
 
-        List<uint> GetEntitiesWithAll(params Type[] components);
+        List<EntityId> GetEntitiesWithAll(params Type[] components);
 
         /// <summary>
         /// The method returns an array of entities that have any of specified components 
@@ -69,7 +69,7 @@ namespace TinyECS.Interfaces
         /// <param name="components">A list of components that every entity should have</param>
         /// <returns>The method returns an array of entities that have any of specified components</returns>
 
-        List<uint> GetEntitiesWithAny(params Type[] components);
+        List<EntityId> GetEntitiesWithAny(params Type[] components);
 
         /// <summary>
         /// The method returns an entity with specified component. Note that the component should be unique

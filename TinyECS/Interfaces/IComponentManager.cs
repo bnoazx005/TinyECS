@@ -17,7 +17,7 @@ namespace TinyECS.Interfaces
         /// </summary>
         /// <param name="entityId">Entity's identifier</param>
 
-        void RegisterEntity(uint entityId);
+        void RegisterEntity(EntityId entityId);
 
         /// <summary>
         /// The method attaches a new component to the entity
@@ -26,7 +26,7 @@ namespace TinyECS.Interfaces
         /// <param name="componentInitializer">A type's value that is used to initialize fields of a new component</param>
         /// <typeparam name="T">A type of a component that should be attached</typeparam>
 
-        void AddComponent<T>(uint entityId, T componentInitializer = default(T)) where T : struct, IComponent;
+        void AddComponent<T>(EntityId entityId, T componentInitializer = default(T)) where T : struct, IComponent;
 
         /// <summary>
         /// The method returns a component of a given type if it belongs to
@@ -37,7 +37,7 @@ namespace TinyECS.Interfaces
         /// <returns>The method returns a component of a given type if it belongs to
         /// the specified entity</returns>
 
-        T GetComponent<T>(uint entityId) where T : struct, IComponent;
+        T GetComponent<T>(EntityId entityId) where T : struct, IComponent;
         
         /// <summary>
         /// The method removes a component of a specified type
@@ -45,14 +45,14 @@ namespace TinyECS.Interfaces
         /// <param name="entityId">Entity's identifier</param>
         /// <typeparam name="T">A type of a component that should be removed</typeparam>
 
-        void RemoveComponent<T>(uint entityId) where T : struct, IComponent;
+        void RemoveComponent<T>(EntityId entityId) where T : struct, IComponent;
 
         /// <summary>
         /// The method removes all components that are attached to the entity with the specified identifier
         /// <param name="entityId">Entity's identifier</param>
         /// </summary>
 
-        void RemoveAllComponents(uint entityId);
+        void RemoveAllComponents(EntityId entityId);
 
         /// <summary>
         /// The method checks up whether a given entity has specified component or not
@@ -61,7 +61,7 @@ namespace TinyECS.Interfaces
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
 
-        bool HasComponent<T>(uint entityId) where T : struct, IComponent;
+        bool HasComponent<T>(EntityId entityId) where T : struct, IComponent;
 
         /// <summary>
         /// The method checks up whether a given entity has specified component or not
@@ -70,7 +70,7 @@ namespace TinyECS.Interfaces
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns true if the entity has the given component, false in other cases</returns>
 
-        bool HasComponent(uint entityId, Type componentType);
+        bool HasComponent(EntityId entityId, Type componentType);
 
         /// <summary>
         /// The method creates a new iterator which provides an ability to enumerate all components of a given entity
@@ -78,7 +78,7 @@ namespace TinyECS.Interfaces
         /// <param name="entityId">Entity's identifier</param>
         /// <returns>The method returns a reference to IComponentIterator that implements some iterative mechanism</returns>
 
-        IComponentIterator GetComponentsIterator(uint entityId);
+        IComponentIterator GetComponentsIterator(EntityId entityId);
 
         /// <summary>
         /// The method returns a reference to IEventManager implementation
