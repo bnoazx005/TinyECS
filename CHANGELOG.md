@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.5] - 2020-08-13
+
+### Fixed
+
+- Issue #24 : **BaseView.mLinkedEntityId** has invalid value when RegisterSubscription is invoked for **BaseStaticView**'s instances
+
 ## [0.4.3] - 2020-07-27
 
 ### Changed

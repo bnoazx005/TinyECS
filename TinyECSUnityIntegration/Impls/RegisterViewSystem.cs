@@ -40,7 +40,7 @@ namespace TinyECSUnityIntegration.Impls
 
                 currRegisterViewRequestComponent = currEntity.GetComponent<TOnViewWaitForInitEventComponent>();
 
-                currRegisterViewRequestComponent.mView?.RegisterSubscriptions(eventManager, currEntity.Id);
+                currRegisterViewRequestComponent.mView?.Link(currEntity.Id);
 
                 currEntity.AddComponent(new TViewComponent { mView = currRegisterViewRequestComponent.mView });
 
