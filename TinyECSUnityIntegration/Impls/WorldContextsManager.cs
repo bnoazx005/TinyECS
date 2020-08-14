@@ -36,7 +36,7 @@ namespace TinyECSUnityIntegration.Impls
         {
             IEntity entity = mWorldContext.GetEntityById(eventData.mEntityId);
 
-#if DEBUG
+#if false//DEBUG
             Debug.Log($"[WorldContextsManager] A new entity ({entity.Name}) was created");
 #endif
 

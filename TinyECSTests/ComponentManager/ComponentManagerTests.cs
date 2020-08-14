@@ -24,6 +24,10 @@ namespace TinyECSTests
         {
         }
 
+        protected struct TAnotherUniqueComponent: IUniqueComponent
+        {
+        }
+
         [SetUp]
         public void Init()
         {
@@ -330,6 +334,40 @@ namespace TinyECSTests
             Assert.DoesNotThrow(() =>
             {
                 mComponentManager.AddComponent<TUniqueComponent>(firstEntityId);
+            });
+        }
+
+        [Test]
+        public void TestGetComponent_CreateComponentRemoveThatAndCheckDoesItExist_ReturnsFalse()
+        {
+            EntityId testEntityId = new EntityId(0);
+
+            Assert.DoesNotThrow(() =>
+            {
+                mComponentManager.RegisterEntity(testEntityId);
+
+                mComponentManager.AddComponent<TTestComponent>(testEntityId);
+                mComponentManager.RemoveComponent<TTestComponent>(testEntityId);
+
+                Assert.IsFalse(mComponentManager.HasComponent<TTestComponent>(testEntityId));
+            });
+        }
+
+        [Test]
+        public void TestGetComponent_CreateUniqueComponentRemoveThatAndCheckDoesItExist_ReturnsFalse()
+        {
+            EntityId testEntityId = new EntityId(0);
+
+            Assert.DoesNotThrow(() =>
+            {
+                mComponentManager.RegisterEntity(testEntityId);
+
+                mComponentManager.AddComponent<TUniqueComponent>(testEntityId);
+                mComponentManager.AddComponent<TAnotherUniqueComponent>(testEntityId);
+                mComponentManager.RemoveComponent<TAnotherUniqueComponent>(testEntityId);
+
+                Assert.IsTrue(mComponentManager.HasComponent<TUniqueComponent>(testEntityId));
+                Assert.IsFalse(mComponentManager.HasComponent<TAnotherUniqueComponent>(testEntityId));
             });
         }
     }
