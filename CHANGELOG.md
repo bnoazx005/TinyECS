@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.6] - 2020-08-14
+
+### Added
+
+- The API of **IWorldContext** was extended with new public methods **GetSingleEntityWithAll** and **GetSingleEntityWithAny**
+
 ## [0.4.5] - 2020-08-13
 
 ### Fixed

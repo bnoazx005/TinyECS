@@ -240,6 +240,64 @@ namespace TinyECS.Impls
         }
 
         /// <summary>
+        /// The method returns single entity which corresponds to given list of components
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>Returns a reference to an entity or null if it doesn't exist</returns>
+
+        public IEntity GetSingleEntityWithAll(params Type[] components)
+        {
+            var entities = _getFilteredEntities((entityId, componentsTypes) =>
+            {
+                foreach (var currComponentType in componentsTypes)
+                {
+                    if (!mComponentManager.HasComponent(entityId, currComponentType))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }, true, components);
+
+            if (entities.Count < 1)
+            {
+                return null;
+            }
+
+            return GetEntityById(entities[0]);
+        }
+
+        /// <summary>
+        /// The method returns single entity which have any from given list of components
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>Returns a reference to an entity or null if it doesn't exist</returns>
+
+        public IEntity GetSingleEntityWithAny(params Type[] components)
+        {
+            var entities = _getFilteredEntities((entityId, componentsTypes) =>
+            {
+                foreach (var currComponentType in componentsTypes)
+                {
+                    if (mComponentManager.HasComponent(entityId, currComponentType))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }, true, components);
+
+            if (entities.Count < 1)
+            {
+                return null;
+            }
+
+            return GetEntityById(entities[0]);
+        }
+
+        /// <summary>
         /// The method returns an array of entities that have all specified components attached to them
         /// </summary>
         /// <param name="components">A list of components that every entity should have</param>
@@ -258,7 +316,7 @@ namespace TinyECS.Impls
                 }
 
                 return true;
-            }, components);
+            }, false, components);
         }
 
         /// <summary>
@@ -280,7 +338,7 @@ namespace TinyECS.Impls
                 }
 
                 return false;
-            }, components);
+            }, false, components);
         }
 
         /// <summary>
@@ -294,12 +352,14 @@ namespace TinyECS.Impls
             return mComponentManager.GetComponentsIterator(entityId);
         }
 
-        protected List<EntityId> _getFilteredEntities(FilterPredicate predicate, params Type[] components)
+        protected List<EntityId> _getFilteredEntities(FilterPredicate predicate, bool singleOnly, params Type[] components)
         {
             // TODO: should be cached somehow to decrease allocations count
             List<EntityId> filteredEntities = new List<EntityId>();
 
-            for (uint currEntityId = 0; currEntityId < mEntitiesList.Count; ++currEntityId)
+            int count = singleOnly ? 1 : mEntitiesList.Count;
+
+            for (uint currEntityId = 0; currEntityId < count; ++currEntityId)
             {
                 EntityId id = (EntityId)currEntityId;
 

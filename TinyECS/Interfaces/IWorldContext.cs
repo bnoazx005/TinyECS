@@ -56,6 +56,22 @@ namespace TinyECS.Interfaces
         IEntity GetEntityById(EntityId entityId);
 
         /// <summary>
+        /// The method returns single entity which corresponds to given list of components
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>Returns a reference to an entity or null if it doesn't exist</returns>
+
+        IEntity GetSingleEntityWithAll(params Type[] components);
+
+        /// <summary>
+        /// The method returns single entity which have any from given list of components
+        /// </summary>
+        /// <param name="components">A list of components that every entity should have</param>
+        /// <returns>Returns a reference to an entity or null if it doesn't exist</returns>
+
+        IEntity GetSingleEntityWithAny(params Type[] components);
+
+        /// <summary>
         /// The method returns an array of entities that have all specified components attached to them
         /// </summary>
         /// <param name="components">A list of components that every entity should have</param>
