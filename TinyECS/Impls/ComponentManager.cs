@@ -345,8 +345,17 @@ namespace TinyECS.Impls
                 throw new ComponentDoesntExistException(componentType, entityId);
             }
 
+            int entityComponentIndex = entityComponentsTable[componentType];
             entityComponentsTable.Remove(componentType);
 
+            /// TODO: May be we should make it for all types of components
+            /// If the given component is unique then remove it from the components storage
+            if (typeof(IUniqueComponent).IsAssignableFrom(componentType))
+            {
+                var componentsGroup = mComponentsMatrix[mComponentTypesHashTable[componentType]];
+                componentsGroup.RemoveAt(entityComponentIndex);
+            }
+            
             --mNumOfActiveComponents;
         }
 

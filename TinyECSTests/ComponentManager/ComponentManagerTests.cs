@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
+using System;
 using TinyECS.Impls;
 using TinyECS.Interfaces;
 
@@ -368,6 +369,32 @@ namespace TinyECSTests
 
                 Assert.IsTrue(mComponentManager.HasComponent<TUniqueComponent>(testEntityId));
                 Assert.IsFalse(mComponentManager.HasComponent<TAnotherUniqueComponent>(testEntityId));
+            });
+        }
+
+        /// Test to fix issue #25 https://github.com/bnoazx005/TinyECS/issues/25
+
+        [Test]
+        public void TestAddComponent_CreateUniqueComponentRemoveThatAndTryToAddAgain_ThrowsNoExceptions()
+        {
+            EntityId testEntityId = new EntityId(0);
+
+            Assert.DoesNotThrow(() =>
+            {
+                mComponentManager.RegisterEntity(testEntityId);
+
+                Action addUniqueComponent = () =>
+                {
+                    mComponentManager.AddComponent<TUniqueComponent>(testEntityId);
+                    Assert.IsTrue(mComponentManager.HasComponent<TUniqueComponent>(testEntityId));
+                };
+
+                addUniqueComponent();
+
+                mComponentManager.RemoveComponent<TUniqueComponent>(testEntityId);
+                Assert.IsFalse(mComponentManager.HasComponent<TUniqueComponent>(testEntityId));
+
+                addUniqueComponent();
             });
         }
     }

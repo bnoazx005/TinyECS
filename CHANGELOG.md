@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.7] - 2020-08-15
+
+### Fixed
+
+- Issue #25 : **ComponentManager.AddComponent** throws **ComponentAlreadyExistsException** for entity which even has no component of this type
+
 ## [0.4.6] - 2020-08-14
 
 ### Added
