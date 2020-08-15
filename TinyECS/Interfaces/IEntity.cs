@@ -21,6 +21,7 @@ namespace TinyECS.Interfaces
 
         public override bool Equals(object obj) => mInternalID == ((EntityId)obj).mInternalID;
         public override int GetHashCode() => mInternalID.GetHashCode();
+        public override string ToString() => $"EntityId: {mInternalID}";
     }
 
 
