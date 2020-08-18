@@ -238,5 +238,45 @@ namespace TinyECSTests
                 Assert.IsNotNull(secondEntity);
             });
         }
+
+        // The test that reproduce the issue https://github.com/bnoazx005/TinyECS/issues/26
+
+        [Test]
+        public void TestGetSingleEntityWithAll_TryToGetSingleEntity_ReturnsThatEntity()
+        {
+            for (int i = 0; i < 2; ++i)
+            {
+                mWorldContext.CreateEntity("JunkEntity");
+            }
+
+            IEntity expectedEntity = mWorldContext.GetEntityById(mWorldContext.CreateEntity());
+            expectedEntity.AddComponent<TTestComponent>();
+
+            IEntity actualEntity = mWorldContext.GetSingleEntityWithAll(typeof(TTestComponent));
+            Assert.AreSame(expectedEntity, actualEntity);
+        }
+
+        // The test that reproduce the issue https://github.com/bnoazx005/TinyECS/issues/26
+
+        [Test]
+        public void TestGetSingleEntityWithAll_TryToGetAllEntitiesWithParticularComponents_ReturnsFirstOne()
+        {
+            List<IEntity> entities = new List<IEntity>();
+
+            for (int i = 0; i < 3; ++i)
+            {
+                IEntity entity = mWorldContext.GetEntityById(mWorldContext.CreateEntity());
+                entities.Add(entity);
+
+                if (i > 0)
+                {
+                    entity.AddComponent<TTestComponent>();
+                }
+            }
+
+            IEntity actualEntity = mWorldContext.GetSingleEntityWithAll(typeof(TTestComponent));
+            Assert.IsNotNull(actualEntity);
+            Assert.AreSame(entities[1], actualEntity);
+        }
     }
 }

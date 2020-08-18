@@ -357,9 +357,7 @@ namespace TinyECS.Impls
             // TODO: should be cached somehow to decrease allocations count
             List<EntityId> filteredEntities = new List<EntityId>();
 
-            int count = singleOnly ? 1 : mEntitiesList.Count;
-
-            for (uint currEntityId = 0; currEntityId < count; ++currEntityId)
+            for (uint currEntityId = 0; currEntityId < mEntitiesList.Count; ++currEntityId)
             {
                 EntityId id = (EntityId)currEntityId;
 
@@ -367,6 +365,12 @@ namespace TinyECS.Impls
                 if (mEntitiesList[(int)currEntityId] != null && predicate(id, components))
                 {
                     filteredEntities.Add(id);
+
+                    // If we need only the first element we could interrupt the loop
+                    if (singleOnly)
+                    {
+                        break;
+                    }
                 }
             }
 

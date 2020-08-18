@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.8] - 2020-08-18
+
+### Fixed
+
+- Issue #26 : **WorldContext.GetSingleEntityWithAll** and **WorldContext.GetSingleEntityWithAny** return null in some cases
+
 ## [0.4.7] - 2020-08-15
 
 ### Fixed
