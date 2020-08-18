@@ -397,5 +397,20 @@ namespace TinyECSTests
                 addUniqueComponent();
             });
         }
+
+        [Test]
+        public void TestAddComponent_CreateUniqueComponentAndTryToUpdateItViaAddComponent_ThrowsNoExceptions()
+        {
+            EntityId testEntityId = new EntityId(0);
+
+            Assert.DoesNotThrow(() =>
+            {
+                mComponentManager.RegisterEntity(testEntityId);
+                mComponentManager.AddComponent<TUniqueComponent>(testEntityId);
+
+                // Try to update current component
+                mComponentManager.AddComponent<TUniqueComponent>(testEntityId);
+            });
+        }
     }
 }

@@ -225,5 +225,18 @@ namespace TinyECSTests
             IEntity entity = mWorldContext.GetUniqueEntity<TUniqueComponent>();
             Assert.IsNotNull(entity);
         }
+
+        [Test]
+        public void TestGetUniqueEntity_TryToGetAlreadyExistingEntity_ReturnsReferenceToThat()
+        {
+            IEntity firstEntity = mWorldContext.GetUniqueEntity<TUniqueComponent>();
+            Assert.IsNotNull(firstEntity);
+
+            Assert.DoesNotThrow(() =>
+            {
+                IEntity secondEntity = mWorldContext.GetUniqueEntity<TUniqueComponent>();
+                Assert.IsNotNull(secondEntity);
+            });
+        }
     }
 }
