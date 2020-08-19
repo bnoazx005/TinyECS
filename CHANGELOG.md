@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.9] - 2020-08-19
+
+### Fixed
+
+- Issue #27 : **RegisterViewSystem** initializes its views for a few times
+
 ## [0.4.8] - 2020-08-18
 
 ### Fixed

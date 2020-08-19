@@ -42,7 +42,7 @@ namespace TinyECSUnityIntegration.Impls
 
         private IEventManager   mEventManager;
 
-        protected EntityId      mLinkedEntityId;
+        protected EntityId      mLinkedEntityId = EntityId.Invalid;
 
         /// <summary>
         /// The method prepares the view for initialization step
@@ -66,6 +66,11 @@ namespace TinyECSUnityIntegration.Impls
 
         public virtual void Link(EntityId entityId)
         {
+            if (mLinkedEntityId != EntityId.Invalid)
+            {
+                return;
+            }
+
             mLinkedEntityId = entityId;
 
             RegisterSubscriptions(_eventManager, entityId);
