@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.10] - 2020-08-23
+
+### Fixed
+
+- Issue #29: If you try to create a new entity no matter disposable or not the application is freezed
+
 ## [0.4.9] - 2020-08-19
 
 ### Fixed

@@ -72,7 +72,7 @@ namespace TinyECS.Impls
         protected LinkedList<int>       mFreeEntries;
 
         protected List<IEntity>         mReactiveSystemsBuffer;
-
+        
         public SystemManager(IWorldContext worldContext)
         {
             mWorldContext = worldContext ?? throw new ArgumentNullException("worldContext");
@@ -248,7 +248,7 @@ namespace TinyECS.Impls
             // NOTE: for now just leave this as is, because this action should be executed after every other ones
             BuiltinSystems.DisposableEntitiesCollectorSystem(mWorldContext, dt);
 
-            mReactiveSystemsBuffer.Clear();
+            //mReactiveSystemsBuffer.Clear();
         }
 
         /// <summary>
@@ -389,12 +389,16 @@ namespace TinyECS.Impls
                 }
 
                 currReactiveSystem?.Update(filteredEntities, dt);
+            }
 
-                // NOTE: If execution of the current system has changed entities them execute all reactive systems again
-                if (cachedEntitiesCount < mReactiveSystemsBuffer.Count)
-                {
-                    _updateAllReactiveSystems(dt);
-                }
+            // NOTE: If execution of the current system has changed entities then execute all reactive systems again
+            if (cachedEntitiesCount < mReactiveSystemsBuffer.Count)
+            {
+                mReactiveSystemsBuffer.RemoveRange(0, cachedEntitiesCount); // Remove already processed enities to prevent infinite loop
+            }
+            else
+            {
+                mReactiveSystemsBuffer.Clear();
             }
         }
     }

@@ -8,9 +8,8 @@ namespace SandboxProject
 {
     public class Program
     {
-        public struct TestComponent: IComponent
-        {
-        }
+        public struct TestComponent: IComponent { }
+        public struct AnotherComponent: IComponent { }
 
         public static void Main(string[] args)
         {
@@ -37,10 +36,15 @@ namespace SandboxProject
 
             }));
 
-            systemManager.RegisterSystem(new PureReactiveSystemAdapter(worldContext, entity => true, (world, entities, dt) =>
+            systemManager.RegisterSystem(new PureReactiveSystemAdapter(worldContext, entity =>
             {
+                return entity.HasComponent<AnotherComponent>();
+            }
+            , (world, entities, dt) =>
+            {
+                worldContext.CreateDisposableEntity();
                 // worldContext's variable is available here
-                Console.WriteLine("call Update(entities, float)");
+                Console.WriteLine("call ReactiveUpdate(entities, float)");
             }));
 
             systemManager.Init();
@@ -52,12 +56,15 @@ namespace SandboxProject
 
                 entity.AddComponent<TestComponent>();
             }
+
+            worldContext.GetEntityById(worldContext.CreateEntity()).AddComponent<AnotherComponent>();
             
             for (int i = 0; i < 10; ++i)
             {
                 systemManager.Update(0.0f);
             }
 
+            Console.WriteLine("Finished");
             Console.ReadKey();
         }
     }
