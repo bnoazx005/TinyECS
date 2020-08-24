@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.12] - 2020-08-24
+
+### Added
+
+- Integration tests of TinyECSUnityIntegration library was added for Unity tests runner 
+
 ## [0.4.11]
 
 ### Changed
