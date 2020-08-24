@@ -23,6 +23,18 @@ namespace TinyECS.Impls
 
             for (int i = 0; i < disposableEntities.Count; ++i)
             {
+                IEntity currEntity = worldContext.GetEntityById(disposableEntities[i]);
+                if (currEntity.HasComponent<TEntityLifetimeComponent>())
+                {
+                    TEntityLifetimeComponent lifetimeData = currEntity.GetComponent<TEntityLifetimeComponent>();
+                    currEntity.AddComponent(new TEntityLifetimeComponent { mCounter = lifetimeData.mCounter - 1 });
+
+                    if (lifetimeData.mCounter > 0)
+                    {
+                        continue;
+                    }
+                }
+
                 worldContext.DestroyEntity(disposableEntities[i]);
             }
         }

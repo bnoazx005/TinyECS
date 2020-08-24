@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.11]
+
+### Changed
+
+- Now disposable entities can live for extra frames using a new builtin component **TEntityLifetimeComponent** 
+
 ## [0.4.10] - 2020-08-23
 
 ### Fixed

@@ -247,8 +247,6 @@ namespace TinyECS.Impls
 
             // NOTE: for now just leave this as is, because this action should be executed after every other ones
             BuiltinSystems.DisposableEntitiesCollectorSystem(mWorldContext, dt);
-
-            //mReactiveSystemsBuffer.Clear();
         }
 
         /// <summary>
@@ -395,6 +393,13 @@ namespace TinyECS.Impls
             if (cachedEntitiesCount < mReactiveSystemsBuffer.Count)
             {
                 mReactiveSystemsBuffer.RemoveRange(0, cachedEntitiesCount); // Remove already processed enities to prevent infinite loop
+                mReactiveSystemsBuffer.ForEach(entity =>
+                {
+                    if (entity.HasComponent<TDisposableComponent>())
+                    {
+                        entity.AddComponent(new TEntityLifetimeComponent { mCounter = 1 });
+                    }
+                });
             }
             else
             {

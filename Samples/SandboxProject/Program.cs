@@ -42,7 +42,7 @@ namespace SandboxProject
             }
             , (world, entities, dt) =>
             {
-                worldContext.CreateDisposableEntity();
+                worldContext.CreateDisposableEntity("TestDisposableEntity");
                 // worldContext's variable is available here
                 Console.WriteLine("call ReactiveUpdate(entities, float)");
             }));
