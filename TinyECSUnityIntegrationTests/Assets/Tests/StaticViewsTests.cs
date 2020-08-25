@@ -81,7 +81,7 @@ public class StaticViewsTests
         yield return new WaitForFixedUpdate();
         yield return new WaitForFixedUpdate();
 
-        Assert.IsNotNull(worldContext.GetSingleEntityWithAll(typeof(TOnViewWaitForInitEventComponent)));
+        Assert.IsNull(worldContext.GetSingleEntityWithAll(typeof(TOnViewWaitForInitEventComponent)));
 
         var viewEntity = worldContext.GetSingleEntityWithAll(typeof(TViewComponent));
         Assert.IsNotNull(viewEntity);
