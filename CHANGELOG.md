@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.13] - 2020-08-25
+
+### Added
+
+- New integration tests were added for TinyECSUnityIntegration library
+
+### Fixed
+
+- Issue #30 : DependencyInjector class doesn't work correctly for nested views
+
 ## [0.4.12] - 2020-08-24
 
 ### Added

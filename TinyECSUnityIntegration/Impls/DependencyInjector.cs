@@ -50,7 +50,7 @@ namespace TinyECSUnityIntegration.Impls
             {
                 if (mParentViews == null)
                 {
-                    mParentViews = GetComponentsInParent<BaseView>();
+                    mParentViews = GetComponentsInChildren<BaseView>();
                 }
 
                 return mParentViews;
