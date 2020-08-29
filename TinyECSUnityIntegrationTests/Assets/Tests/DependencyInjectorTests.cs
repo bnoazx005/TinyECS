@@ -79,4 +79,26 @@ public class DependencyInjectorTests
 
         Assert.AreEqual(expectedCounter, actualCounter);
     }
+
+    // https://github.com/bnoazx005/TinyECS/issues/31
+
+    [UnityTest]
+    public IEnumerator TestInit_CreateNewInstanceButWorldContextIsNotInitialized_DoNothing()
+    {
+        bool isInitialized = false;
+
+        GameObject viewGO = new GameObject("TestStaticView");
+
+        viewGO.AddComponent<TestStaticView>().OnRegister = () =>
+        {
+            isInitialized = true;
+        };
+
+        var dependencyInjector = viewGO.AddComponent<DependencyInjector>();
+        dependencyInjector.Init();
+
+        yield return null;
+
+        Assert.IsFalse(isInitialized);
+    }
 }

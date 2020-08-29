@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.14] - 2020-08-29
+
+### Fixed
+
+- Issue #31 : **DependencyInjector** throws **NullReferenceException** when **DependencyInjector.Init** is called before **WorldContext**'s instance is created
+
 ## [0.4.13] - 2020-08-25
 
 ### Added

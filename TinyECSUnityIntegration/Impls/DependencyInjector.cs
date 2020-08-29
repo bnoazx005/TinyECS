@@ -21,12 +21,14 @@ namespace TinyECSUnityIntegration.Impls
 
         public void Init()
         {
-            if (mIsInitialized)
+            var worldContext = _worldContextsManager?.WorldContext;
+
+            if (mIsInitialized || worldContext == null)
             {
                 return;
             }
-
-            Array.ForEach(_parentViews, entity => entity?.PreInit(_worldContextsManager?.WorldContext));
+            
+            Array.ForEach(_parentViews, entity => entity?.PreInit(worldContext));
             
             mIsInitialized = true;
         }
