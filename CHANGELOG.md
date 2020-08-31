@@ -11,6 +11,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.15] - 2020-08-31
+
+### Added
+
+- New integration tests were added for TinyECSUnityIntegration library
+
+- Integration tests of TinyECSUnityIntegration library was added for Unity tests runner 
+
+- The API of **IWorldContext** was extended with new public methods **GetSingleEntityWithAll** and **GetSingleEntityWithAny**
+
+- A new method IWorldContext.GetUniqueEntity was added.
+
+### Changed
+
+- Now disposable entities can live for extra frames using a new builtin component **TEntityLifetimeComponent** 
+
+- Two new types which are **EntityId** and **SystemId** were introduced as strongly typed versions of identifiers.
+
+### Fixed
+
+- Issue #31 : **DependencyInjector** throws **NullReferenceException** when **DependencyInjector.Init** is called before **WorldContext**'s instance is created
+
+- Issue #30 : DependencyInjector class doesn't work correctly for nested views
+
+- Issue #29: If you try to create a new entity no matter disposable or not the application is freezed
+
+- Issue #27 : **RegisterViewSystem** initializes its views for a few times
+
+- Issue #26 : **WorldContext.GetSingleEntityWithAll** and **WorldContext.GetSingleEntityWithAny** return null in some cases
+
+- Issue #25 : **ComponentManager.AddComponent** throws **ComponentAlreadyExistsException** for entity which even has no component of this type
+
+- Issue #24 : **BaseView.mLinkedEntityId** has invalid value when RegisterSubscription is invoked for **BaseStaticView**'s instances
+
 ## [0.4.14] - 2020-08-29
 
 ### Fixed
