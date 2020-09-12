@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Now only a single world's context is supported. In later builds there should be multiple worlds supported.
 
+## [0.4.16] - 2020-09-12
+
+### Added
+
+- Feature #32: A new custom editor for all classed based on **BaseView** was introduced. The main purpose of that is to provide
+navigation between views and their entities.
+
 ## [0.4.15] - 2020-08-31
 
 ### Added
