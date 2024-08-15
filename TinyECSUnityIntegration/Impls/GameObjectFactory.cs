@@ -35,19 +35,22 @@ namespace TinyECSUnityIntegration.Impls
         {
             GameObject gameObjectInstance = GameObject.Instantiate(prefab, position, rotation, parent);
 
-            IView viewComponent = gameObjectInstance.GetComponent<IView>() ?? throw new NullReferenceException();
+            IView[] views = gameObjectInstance.GetComponentsInChildren<IView>();
+            for (int i = 0; i < views.Length; ++i)
+            {
+                IView viewComponent = views[i];
 
-            EntityId linkedEntityId = mWorldContext.CreateEntity(/*gameObjectInstance.name*/);
+                EntityId linkedEntityId = mWorldContext.CreateEntity(/*gameObjectInstance.name*/);
+                IEntity linkedEntity = mWorldContext.GetEntityById(linkedEntityId);
 
-            IEntity linkedEntity = mWorldContext.GetEntityById(linkedEntityId);
+                viewComponent.WorldContext = mWorldContext;
 
-            viewComponent.WorldContext = mWorldContext;
+                linkedEntity.AddComponent(new TViewComponent { mView = viewComponent as BaseView });
 
-            linkedEntity.AddComponent(new TViewComponent { mView = viewComponent as BaseView });
+                viewComponent.Link(linkedEntityId);
+            }
 
-            viewComponent.Link(linkedEntityId);
-            
-            return linkedEntity;
+            return views.Length > 0 ? mWorldContext.GetEntityById(views[0].LinkedEntityId) : null;
         }
     }
 }
