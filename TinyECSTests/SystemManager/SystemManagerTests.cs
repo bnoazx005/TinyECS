@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using NSubstitute.Extensions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,39 @@ namespace TinyECSTests
                 SystemId registeredSystemId = mSystemManager.RegisterSystem(systemMock);
 
                 mSystemManager.UnregisterSystem(registeredSystemId);
+            });
+        }
+
+        [Test]
+        public void TestUnregisterSystemForUpdateSystem_InvokesSingleUpdate_UnregisteredSystemShouldNotBeUpdated()
+        {
+            var systemMock = Substitute.For<IUpdateSystem>();
+
+            Assert.DoesNotThrow(() =>
+            {
+                SystemId registeredSystemId = mSystemManager.RegisterSystem(systemMock);
+                mSystemManager.UnregisterSystem(registeredSystemId);
+
+                mSystemManager.Update(0.0f);
+
+                systemMock.DidNotReceiveWithAnyArgs().Update(default);
+            });
+        }
+
+        [Test]
+        public void TestUnregisterSystemForReactiveSystem_InvokesSingleUpdate_UnregisteredSystemShouldNotBeUpdated()
+        {
+            var systemMock = Substitute.For<IReactiveSystem>();
+            systemMock.Filter(default).ReturnsForAnyArgs(true);
+
+            Assert.DoesNotThrow(() =>
+            {
+                SystemId registeredSystemId = mSystemManager.RegisterSystem(systemMock);
+                mSystemManager.UnregisterSystem(registeredSystemId);
+
+                mSystemManager.Update(0.0f);
+
+                systemMock.DidNotReceiveWithAnyArgs().Update(default, default);
             });
         }
 

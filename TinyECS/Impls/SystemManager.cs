@@ -138,11 +138,25 @@ namespace TinyECS.Impls
 
         public void UnregisterSystem(SystemId systemId)
         {
-            uint commonSystemId = (uint)systemId & 0xFFFF; /* extract 2 low bytes*/
+            uint systemType       = ((uint)systemId >> 29) & 0xF;
+            uint specificSystemId = ((uint)systemId >> 16) & 0x1FFF;
+            uint commonSystemId   = (uint)systemId & 0xFFFF; /* extract 2 low bytes*/
 
             ISystem system = _getSystemById(mActiveSystems, commonSystemId);
 
             mActiveSystems[(int)commonSystemId] = null;
+
+            switch ((E_SYSTEM_TYPE)systemType)
+            {
+                case E_SYSTEM_TYPE.ST_UPDATE:
+                    mActiveUpdateSystems[(int)specificSystemId] = null;
+                    break;
+                case E_SYSTEM_TYPE.ST_REACTIVE:
+                    mActiveReactiveSystems[(int)specificSystemId] = null;
+                    break;
+                default:
+                    break;
+            }
 
             mFreeEntries.AddLast((int)commonSystemId);
         }
@@ -379,6 +393,11 @@ namespace TinyECS.Impls
 
             foreach (var currReactiveSystem in mActiveReactiveSystems)
             {
+                if (currReactiveSystem == null)
+                {
+                    continue;
+                }
+
                 filteredEntities = mReactiveSystemsBuffer.FindAll(currReactiveSystem.Filter);
 
                 if (filteredEntities.Count < 1)
